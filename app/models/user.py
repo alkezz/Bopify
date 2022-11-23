@@ -69,7 +69,7 @@ class User(db.Model, UserMixin):
             'email': self.email
         }
         if playlist:
-            user["Playlists"] = [playlistList.to_dict() for playlistList in self.playlists]
+            user["Playlists"] = [playlistList.to_dict() for playlistList in self.playlist_users]
 
         if followed_playlists:
             user["followedPlaylists"] = [playlist.to_dict() for playlist in self.playlist_following]

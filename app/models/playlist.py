@@ -55,7 +55,7 @@ class Playlist(db.Model):
             playlist["image"] = self.playlist_img
 
         if user:
-            playlist["User"] = self.users.to_dict()
+            playlist["User"] = self.user_playlists.to_dict()
 
         if songs:
             playlist["Songs"] = [song.to_dict() for song in self.playlist_song_list]
