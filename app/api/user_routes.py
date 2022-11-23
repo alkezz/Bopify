@@ -14,6 +14,14 @@ def users():
     users = User.query.all()
     return {'users': [user.to_dict() for user in users]}
 
+@user_routes.route("/<int:id>/playlists")
+def user_playlist(id):
+    """
+    Return a user's playlist
+    /api/users/:id/playlists
+    """
+    user = User.query.get(id)
+    return user.to_dict(playlist=True)
 
 @user_routes.route('/<int:id>')
 @login_required
