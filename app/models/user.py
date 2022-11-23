@@ -42,7 +42,7 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
     #relationships
-    playlists = db.relationship("Playlist", back_populates="users")
+    playlist_users = db.relationship("Playlist", back_populates="user_playlists")
     playlist_following = db.relationship(
         "Playlist",
         secondary="playlist_followers",

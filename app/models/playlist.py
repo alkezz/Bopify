@@ -33,7 +33,7 @@ class Playlist(db.Model):
     playlist_img = db.Column(db.Text)
 
     #relationships
-    users = db.relationship("User", back_populates="playlists")
+    user_playlists = db.relationship("User", back_populates="playlist_users")
     playlist_song_list = db.relationship(
         "Song",
         secondary=playlist_songs,
