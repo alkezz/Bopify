@@ -17,7 +17,7 @@ def users():
 @user_routes.route("/<int:id>/playlists")
 def user_playlist(id):
     """
-    Return a user's playlist
+    Return a user's playlists with images attached
     /api/users/:id/playlists
     """
     user = User.query.get(id)
