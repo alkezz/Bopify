@@ -7,16 +7,33 @@ const PlaylistPage = () => {
     const dispatch = useDispatch()
     let { playlistId } = useParams()
     const [playlist, setPlaylist] = useState([])
+    let i = 0
     console.log("PLAYLISTID", playlistId)
-    useEffect(async () => {
-        const onePlaylist = await fetch(`/api/playlists/${playlistId}/`)
-        const data = await onePlaylist.json()
-        setPlaylist(data)
+    useEffect(() => {
+        if (!playlistId) {
+            return
+        }
+        if (!playlist) {
+            return
+        }
+        (async () => {
+            if (playlistId) {
+                const onePlaylist = await fetch(`/api/playlists/${playlistId}/`)
+                const data = await onePlaylist.json()
+                setPlaylist(data)
+            }
+        })();
     }, [setPlaylist])
     console.log(playlist)
+    if (!playlistId) return null
+    const incrementSongNumber = () => {
+        i = i + 1
+        console.log('yo')
+        return i
+    }
     return (
         <>
-            {playlist.length > 0 && (
+            {!!playlist.User && (
                 <div className='playlist-container' style={{ color: "white" }}>
                     <div className='playlist-header-container'>
                         <div id='picture-container'>
@@ -68,6 +85,11 @@ const PlaylistPage = () => {
                         <div>
                             CLOCK SYMBOL
                         </div>
+                    </div>
+                    <div>
+                        {playlist.Songs.map((song) => {
+                            return <li style={{ listStyle: "none" }}>{incrementSongNumber()} <Link to={{ pathname: song.song_url }}>{song.name}</Link> {song.album.name}</li>
+                        })}
                     </div>
                 </div>
             )}
