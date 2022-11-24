@@ -46,7 +46,19 @@ const NavBar = () => {
         </div>
       </nav>
     )
-
+    bottomnav = (
+      <div className='logged-out-bottom-div-container'>
+        <div className='logged-out-text'>
+          <div>
+            Preview of Spotify
+          </div>
+          <div>
+            Sign up to get unlimited songs and podcasts with occasional ads. No credit card needed.
+          </div>
+        </div>
+        <button>Sign up free</button>
+      </div>
+    )
   } else if (sessionUser && location.pathname !== "/sign-up" && location.pathname !== "/login") {
     sidenav = (
       <div className='side-nav' style={{ color: "#adb3b3" }}>
@@ -90,7 +102,6 @@ const NavBar = () => {
     )
     bottomnav = (
       <div className='bottom-div-container'>
-        <audio></audio>
       </div>
     )
   } else if (location.pathname === "/login") {
