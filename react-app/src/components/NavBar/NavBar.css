@@ -24,3 +24,26 @@
     height: 55px;
     padding-top: 15px;
 }
+
+#login-nav-button{
+    background-color: white;
+    font-weight: 750;
+    border: none;
+    border-radius: 25px;
+    padding: 14px 32px
+}
+
+#signup-nav-button{
+    border: none;
+    background-color: #111111;
+    color: #808080;
+}
+
+#signup-nav-button:hover{
+    color: white;
+}
+
+.login-signup{
+    padding-top: 5px;
+    margin-right: 10px;
+}

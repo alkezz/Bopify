@@ -11,17 +11,15 @@ const NavBar = () => {
   const history = useHistory()
   const location = useLocation()
   const sessionUser = useSelector((state) => state.session.user)
-  console.log("SESSIONUSER", sessionUser)
-  console.log("HISTORY", location.pathname)
   let navbar
   if (location.pathname !== "/sign-up" && location.pathname !== "/login" && !sessionUser) {
     navbar = (
       <nav id="top-navbar">
         <div className='login-signup'>
-          <button onClick={(e) => history.push("/sign-up")}>
+          <button id='signup-nav-button' onClick={(e) => history.push("/sign-up")}>
             Sign Up
           </button>
-          <button onClick={(e) => history.push("/login")}>
+          <button id='login-nav-button' onClick={(e) => history.push("/login")}>
             Log In
           </button>
         </div>
