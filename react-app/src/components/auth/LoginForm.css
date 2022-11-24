@@ -1,0 +1,178 @@
+body{
+    font-family: Arial, Helvetica, sans-serif
+}
+
+.form-container{
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label{
+    font-weight: bolder;
+    font-size: 14px;
+}
+
+.input-div{
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+input{
+    width: 400px;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 15px;
+    padding-left: 10px;
+}
+
+input:hover{
+    border-color: black;
+}
+
+#continue{
+    margin-top: 40px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+#demo-user-div{
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+#demo-button{
+    background-color: #3b5998;
+    border: none;
+    border-radius: 1000px;
+    width: 415px;
+    height: 50px;
+    color: white;
+    font-weight: bolder;
+}
+
+#demo-button:hover{
+    border: 1px black solid;
+}
+
+#marnie-button{
+    background-color: black;
+    border: none;
+    border-radius: 1000px;
+    width: 415px;
+    height: 50px;
+    color: white;
+    font-weight: bolder;
+}
+
+#bobbie-button{
+    background-color: white;
+    border: black 1px solid;
+    border-radius: 1000px;
+    width: 415px;
+    height: 50px;
+    color: #6a6a6a;
+    font-weight: bolder;
+}
+
+h3{
+    width: 29.5%;
+   text-align: center;
+   border-top: 1px solid #eeeeee;
+   margin: 10px 0 20px;
+   line-height: 0.1em;
+   font-size: 12px;
+   font-weight: bold;
+}
+h3 span {
+    background:#fff;
+    padding: 0 10px;
+}
+
+#login-button-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eeee;
+}
+
+#login-button{
+    background-color: #1ed760;
+    font-weight: bolder;
+    border: none;
+    border-radius: 25px;
+    padding: 14px 32px
+}
+
+#login-button:hover{
+    padding: 16px 34px;
+    background-color: #1ed750;
+}
+
+.errors{
+    background-color: #e91429;
+    width: 415px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    visibility: visible;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#one-error{
+    padding-left: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.fa-solid{
+    color: white;
+    margin-left: 20px;
+}
+ .icon{
+    width: fit-content;
+ }
+
+#apple{
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+#google{
+    margin-right: 10px;
+    font-size: 15px;
+}
+
+#facebook{
+    margin-right: 10px;
+    font-size: 15px;
+}
+
+#no-account{
+    padding-top: 40px;
+    font-weight: 700;
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#signup-button-container{
+    padding-top: 30px;
+}
+
+#signup-button{
+    width: 415px;
+    height: 50px;
+    border: 1px solid;
+    border-color: #b5b5b5;
+    border-radius: 1000px;
+    background-color: white;
+    color: #b5b5b5;
+    font-weight: 700;
+}
