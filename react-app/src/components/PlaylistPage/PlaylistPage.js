@@ -8,7 +8,6 @@ const PlaylistPage = () => {
     let { playlistId } = useParams()
     const [playlist, setPlaylist] = useState([])
     let i = 0
-    console.log("PLAYLISTID", playlistId)
     useEffect(() => {
         if (!playlistId) {
             return
