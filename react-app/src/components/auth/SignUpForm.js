@@ -14,7 +14,7 @@ const SignUpForm = () => {
   const [repeatPassword, setRepeatPassword] = useState('');
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
-
+  document.body.style = 'background: white';
   const onSignUp = async (e) => {
     e.preventDefault();
     if (password === repeatPassword) {
@@ -142,8 +142,10 @@ const SignUpForm = () => {
             value={username}
           ></input>
         </div>
+        <div id="signup-button-container">
+          <button id="signup-submit" type='submit'>Sign Up</button>
+        </div>
       </form>
-      <button id="signup-submit" type='submit'>Sign Up</button>
       <div id="already-have-account">
         Have an account?
         &nbsp;

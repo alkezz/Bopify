@@ -1,0 +1,13 @@
+.profile-dropdown-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #282828;
+}
+.drop-down{
+    width: 150px;
+}
+
+#drop-down-button{
+    background-color: #282828;
+}

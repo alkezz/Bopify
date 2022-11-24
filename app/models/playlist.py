@@ -49,7 +49,8 @@ class Playlist(db.Model):
         playlist = {
             "id": self.id,
             "name": self.name,
-            "description": self.description
+            "description": self.description,
+            "playlist_img": self.playlist_img
         }
         if image:
             playlist["image"] = self.playlist_img

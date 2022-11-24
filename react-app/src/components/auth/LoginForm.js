@@ -11,7 +11,7 @@ const LoginForm = () => {
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
   const history = useHistory()
-
+  document.body.style = 'background: white';
   const onLogin = async (e) => {
     e.preventDefault();
     const data = await dispatch(login(email, password));
@@ -47,45 +47,48 @@ const LoginForm = () => {
   if (errors.length) {
     return (
       <div className='form-container'>
-        <div id='continue'>
-          To continue, log in to Bopify.
-        </div>
-        {
-          errorDiv
-        }
-        <div id='demo-user-div'>
-          <button id='demo-button'
-            type="submit"
-            onClick={() => {
-              setEmail("demo@aa.io");
-              setPassword("password");
-            }}>
-            <i id='facebook' class="fa-brands fa-facebook"></i>
-            CONTINUE WITH DEMO USER
-          </button>
-          <br />
-          <button id='marnie-button' type="submit"
-            onClick={() => {
-              setEmail("marnie@aa.io");
-              setPassword("password");
-            }}>
-            <i id="apple" class="fa-brands fa-apple"></i>
-            CONTINUE WITH MARNIE
-          </button>
-          <br />
-          <button id='bobbie-button'
-            type="submit"
-            onClick={() => {
-              setEmail("bobbie@aa.io");
-              setPassword("password");
-            }}>
-            <i id="google" class="fa-brands fa-google"></i>
-            CONTINUE WITH BOBBIE
-          </button>
-        </div>
-        <h3><span>OR</span></h3>
-        <br />
         <form onSubmit={onLogin}>
+          <div id='continue'>
+            To continue, log in to Bopify.
+          </div>
+          {
+            errorDiv
+          }
+          <div id='demo-user-div'>
+            <button id='demo-button'
+              type="submit"
+              onClick={(e) => {
+                setEmail("demo@aa.io");
+                setPassword("password");
+                onLogin(e);
+              }}>
+              <i id='facebook' class="fa-brands fa-facebook"></i>
+              CONTINUE WITH DEMO USER
+            </button>
+            <br />
+            <button id='marnie-button' type="submit"
+              onClick={(e) => {
+                setEmail("marnie@aa.io");
+                setPassword("password");
+                onLogin(e);
+              }}>
+              <i id="apple" class="fa-brands fa-apple"></i>
+              CONTINUE WITH MARNIE
+            </button>
+            <br />
+            <button id='bobbie-button'
+              type="submit"
+              onClick={(e) => {
+                setEmail("bobbie@aa.io");
+                setPassword("password");
+                onLogin(e);
+              }}>
+              <i id="google" class="fa-brands fa-google"></i>
+              CONTINUE WITH BOBBIE
+            </button>
+          </div>
+          <h3><span>OR</span></h3>
+          <br />
           <label htmlFor='email'>Email address or username</label>
           <div className='input-div'>
             <input
@@ -127,7 +130,7 @@ const LoginForm = () => {
         <div id='demo-user-div'>
           <button id='demo-button'
             type="submit"
-            onClick={() => {
+            onClick={(e) => {
               setEmail("demo@aa.io");
               setPassword("password");
             }}>
@@ -137,7 +140,7 @@ const LoginForm = () => {
           <br />
           <button id='marnie-button'
             type="submit"
-            onClick={() => {
+            onClick={(e) => {
               setEmail("marnie@aa.io");
               setPassword("password");
             }}>
@@ -147,7 +150,7 @@ const LoginForm = () => {
           <br />
           <button id='bobbie-button'
             type="submit"
-            onClick={() => {
+            onClick={(e) => {
               setEmail("bobbie@aa.io");
               setPassword("password");
             }}>

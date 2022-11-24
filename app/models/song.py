@@ -24,14 +24,15 @@ class Song(db.Model):
     #     back_populates="user_likes"
     # )
 
-    def to_dict(self, albums=False):
+    def to_dict(self, album=False):
         song = {
             "id": self.id,
             "name": self.name,
-            "song_url": self.song_url
+            "song_url": self.song_url,
+            "album": self.albums.to_dict()
         }
 
-        if albums:
+        if album:
             song["Album"] = self.albums
 
         return song
