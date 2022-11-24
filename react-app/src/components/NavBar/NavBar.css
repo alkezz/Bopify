@@ -1,10 +1,14 @@
+body{
+    margin-left: 190px;
+}
+
 #top-navbar{
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    margin-left: -8px;
     position: relative;
     height: 50px;
-    margin-left: 8%;
     top: -8.5px;
     right: -7.5px;
     background-color: #111111;
@@ -46,4 +50,27 @@
 .login-signup{
     padding-top: 5px;
     margin-right: 10px;
+}
+
+#signup-button-container{
+    display: flex;
+    justify-content: center;
+}
+
+.side-nav{
+    height: 100%;
+    width: 190px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+    overflow-x: hidden;
+    padding-top: 60px;
+}
+
+.side-nav a{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
 }
