@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { signUp } from '../../store/session';
+import "./SignupForm.css"
+import logo from "../../assets/black_bopify_logo-removebg-preview.png"
 
 const SignUpForm = () => {
   const [errors, setErrors] = useState([]);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [repeatEmail, setRepeatEmail] = useState("")
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const user = useSelector(state => state.session.user);
@@ -30,6 +33,10 @@ const SignUpForm = () => {
     setEmail(e.target.value);
   };
 
+  const updateRepeatedEmail = (e) => {
+    setRepeatEmail(e.target.value)
+  }
+
   const updatePassword = (e) => {
     setPassword(e.target.value);
   };
@@ -43,51 +50,109 @@ const SignUpForm = () => {
   }
 
   return (
-    <form onSubmit={onSignUp}>
-      <div>
-        {errors.map((error, ind) => (
-          <div key={ind}>{error}</div>
-        ))}
+    <div className='signup-form-container'>
+      <div className='logo-container' style={{ paddingTop: "10px" }}>
+        <Link to="/">
+          <img id='logo-image' src={logo} />
+        </Link>
       </div>
+      <br />
       <div>
-        <label>User Name</label>
-        <input
-          type='text'
-          name='username'
-          onChange={updateUsername}
-          value={username}
-        ></input>
+        <h2 style={{ fontSize: "25px" }}>Sign up for free to start listening.</h2>
       </div>
-      <div>
-        <label>Email</label>
-        <input
-          type='text'
-          name='email'
-          onChange={updateEmail}
-          value={email}
-        ></input>
+      <div id='demo-user-div'>
+        <button id='demo-button'
+          type="submit"
+          onClick={() => {
+            setEmail("demo@aa.io");
+            setPassword("password");
+          }}>
+          <i id='facebook' class="fa-brands fa-facebook"></i>
+          CONTINUE WITH DEMO USER
+        </button>
+        <br />
+        <button id='bobbie-button'
+          type="submit"
+          onClick={() => {
+            setEmail("bobbie@aa.io");
+            setPassword("password");
+          }}>
+          <i id="google" class="fa-brands fa-google"></i>
+          CONTINUE WITH BOBBIE
+        </button>
       </div>
-      <div>
-        <label>Password</label>
-        <input
-          type='password'
-          name='password'
-          onChange={updatePassword}
-          value={password}
-        ></input>
+      <h3><span>OR</span></h3>
+      <div style={{ paddingBottom: "15px", fontWeight: "700", fontSize: "18px" }}>
+        Sign up with your email address
       </div>
-      <div>
-        <label>Repeat Password</label>
-        <input
-          type='password'
-          name='repeat_password'
-          onChange={updateRepeatPassword}
-          value={repeatPassword}
-          required={true}
-        ></input>
+      <form onSubmit={onSignUp}>
+        <div>
+          {errors.map((error, ind) => (
+            <div key={ind}>{error}</div>
+          ))}
+        </div>
+        <label>What's your email?</label>
+        <div id="input-div">
+          <input
+            type='text'
+            name='email'
+            placeholder='Enter your email'
+            onChange={updateEmail}
+            value={email}
+          ></input>
+        </div>
+        <label>Confirm your email</label>
+        <div id="input-div">
+          <input
+            type='text'
+            name='email'
+            placeholder='Enter your email again'
+            onChange={updateRepeatedEmail}
+            value={repeatEmail}
+          ></input>
+        </div>
+        <label>Create a password</label>
+        <div id="input-div">
+          <input
+            type='password'
+            name='password'
+            placeholder='Create a password'
+            onChange={updatePassword}
+            value={password}
+          ></input>
+        </div>
+        <label>Confirm password</label>
+        <div id="input-div">
+          <input
+            type='password'
+            name='repeat_password'
+            placeholder='Enter your password again'
+            onChange={updateRepeatPassword}
+            value={repeatPassword}
+            required={true}
+          ></input>
+        </div>
+        <label>What should we call you?</label>
+        <div id="input-div">
+          <input
+            type='text'
+            name='username'
+            placeholder='Enter a profile name'
+            onChange={updateUsername}
+            value={username}
+          ></input>
+        </div>
+      </form>
+      <button id="signup-submit" type='submit'>Sign Up</button>
+      <div id="already-have-account">
+        Have an account?
+        &nbsp;
+        <span>
+          <Link id="login-link" to="/login">Log in</Link>
+          .
+        </span>
       </div>
-      <button type='submit'>Sign Up</button>
-    </form>
+    </div>
   );
 };
 

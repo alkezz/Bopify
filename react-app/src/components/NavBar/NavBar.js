@@ -4,14 +4,17 @@ import { Link, NavLink, useHistory, useParams, useLocation } from 'react-router-
 import LogoutButton from '../auth/LogoutButton';
 import logo from "../../assets/black_bopify_logo-removebg-preview.png"
 import "./NavBar.css"
+import { useSelector } from 'react-redux';
 
 const NavBar = () => {
   const [page, setPage] = useState("")
   const history = useHistory()
   const location = useLocation()
+  const sessionUser = useSelector((state) => state.session.user)
+  console.log("SESSIONUSER", sessionUser)
   console.log("HISTORY", location.pathname)
   let navbar
-  if (location.pathname !== "/sign-up" && location.pathname !== "/login") {
+  if (location.pathname !== "/sign-up" && location.pathname !== "/login" && !sessionUser) {
     navbar = (
       <nav id="top-navbar">
         <div className='login-signup'>
@@ -24,7 +27,16 @@ const NavBar = () => {
         </div>
       </nav>
     )
-  } else {
+
+  } else if (sessionUser && location.pathname !== "/sign-up" && location.pathname !== "/login") {
+    navbar = (
+      <nav id="top-navbar">
+        <div className='login-signup'>
+          <LogoutButton />
+        </div>
+      </nav>
+    )
+  } else if (location.pathname === "/login") {
     navbar = (
       <nav id='logging-in-signing-up-nav'>
         <div id="login-signup-page">
