@@ -60,6 +60,7 @@ const LoginForm = () => {
               setEmail("demo@aa.io");
               setPassword("password");
             }}>
+            <i id='facebook' class="fa-brands fa-facebook"></i>
             CONTINUE WITH DEMO USER
           </button>
           <br />
