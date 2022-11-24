@@ -14,8 +14,8 @@ const NavBar = () => {
   const location = useLocation()
   const sessionUser = useSelector((state) => state.session.user)
   let sidenav
-
   let navbar
+  let bottomnav
   if (location.pathname !== "/sign-up" && location.pathname !== "/login" && !sessionUser) {
     sidenav = (
       <div className='side-nav' style={{ color: "#adb3b3" }}>
@@ -46,22 +46,49 @@ const NavBar = () => {
         </div>
       </nav>
     )
-
+    bottomnav = (
+      <div className='logged-out-bottom-div-container'>
+        <div className='logged-out-text'>
+          <div>
+            Preview of Spotify
+          </div>
+          <div>
+            Sign up to get unlimited songs and podcasts with occasional ads. No credit card needed.
+          </div>
+        </div>
+        <button>Sign up free</button>
+      </div>
+    )
   } else if (sessionUser && location.pathname !== "/sign-up" && location.pathname !== "/login") {
     sidenav = (
       <div className='side-nav' style={{ color: "#adb3b3" }}>
         <div id='logo'>
           IMAGE GOES HERE
         </div>
-        <Link to="/" style={{ textDecoration: "none", color: "white" }}>Home</Link>
-        <a href='#'>Search</a>
-        <a href='#'>Your Library</a>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <i class="fa-solid fa-house" style={{ color: "#b3b3b3" }}></i>
+          &nbsp;
+          Home</Link>
+        <Link to="/search">
+          <i class="fa-solid fa-magnifying-glass" style={{ color: "#b3b3b3" }}></i>
+          &nbsp;
+          Search</Link>
+        <Link to="/library">
+          <i class="fa-solid fa-lines-leaning" style={{ color: "#b3b3b3" }}></i>
+          &nbsp;
+          Your Library</Link>
         <br />
-        <Link to="/create-playlist">Create playlist</Link>
-        <a href='#'>Liked Songs</a>
-        <div style={{ borderBottom: "1px solid white" }}>PLAYLISTS GO AFTER THIS</div>
+        <Link to="/create-playlist">
+          <i class="fa-solid fa-square-plus"></i>
+          &nbsp;
+          Create playlist</Link>
+        <Link to="/liked">
+          <i class="fa-solid fa-heart"></i>
+          &nbsp;
+          Liked Songs</Link>
+        <div style={{ borderBottom: "1px solid white" }}><br /></div>
         <br />
-        <div>
+        <div className='user-playlist-div'>
           <UserPlaylist />
         </div>
       </div>
@@ -72,6 +99,10 @@ const NavBar = () => {
           <DropDown />
         </div>
       </nav>
+    )
+    bottomnav = (
+      <div className='bottom-div-container'>
+      </div>
     )
   } else if (location.pathname === "/login") {
     navbar = (
@@ -88,6 +119,7 @@ const NavBar = () => {
     <>
       {navbar}
       {sidenav}
+      {bottomnav}
     </>
   );
 }

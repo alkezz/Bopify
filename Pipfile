@@ -25,7 +25,11 @@ python-dateutil = "==2.8.1"
 python-editor = "==1.0.4"
 greenlet = "==1.1.0"
 Mako = "==1.1.4"
-boto3 = "*"
+boto3 = "==1.26.15"
+botocore = "==1.29.15"
+jmespath = "==1.0.1"
+s3transfer = "==0.6.0"
+urllib3 = "==1.26.12"
 
 [dev-packages]
 
