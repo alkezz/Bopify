@@ -1,0 +1,26 @@
+#top-navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    position: relative;
+    height: 50px;
+    margin-left: 8%;
+    top: -8.5px;
+    right: -7.5px;
+    background-color: #111111;
+}
+
+#logging-in-signing-up-nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+    height: 80px;
+    border-bottom: 1px #d9dadc solid;
+}
+
+.logo-img{
+    width: 200px;
+    height: 55px;
+    padding-top: 15px;
+}
