@@ -87,7 +87,7 @@ const PlaylistPage = () => {
                     </div>
                     <div>
                         {playlist.Songs.map((song) => {
-                            return <li style={{ listStyle: "none" }}>{incrementSongNumber()} <Link to={{ pathname: song.song_url }}>{song.name}</Link> {song.album.name}</li>
+                            return <div style={{ listStyle: "none" }}>{incrementSongNumber()} <Link to={{ pathname: song.song_url }}>{song.name}</Link> {song.album.name}</div>
                         })}
                     </div>
                 </div>
