@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useHistory, useParams, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import * as playlistActions from "../../store/playlist"
+import EditPlaylistModal from "./EditPlaylistModal"
 import "./PlaylistPage.css"
 
 const PlaylistPage = () => {
     const dispatch = useDispatch()
+    const history = useHistory()
     let { playlistId } = useParams()
     const [playlist, setPlaylist] = useState([])
     let i = 0
@@ -22,8 +25,15 @@ const PlaylistPage = () => {
                 setPlaylist(data)
             }
         })();
-    }, [setPlaylist])
-    console.log(playlist)
+    }, [playlistId])
+    const deletePlaylist = async (e) => {
+        e.preventDefault()
+        const deleted = await dispatch(playlistActions.deletePlaylist(playlistId))
+        if (deleted) {
+            await dispatch(playlistActions.getAllPlaylists())
+            history.push("/")
+        }
+    }
     if (!playlistId) return null
     const incrementSongNumber = () => {
         i = i + 1
@@ -36,17 +46,19 @@ const PlaylistPage = () => {
                 <div className='playlist-container' style={{ color: "white" }}>
                     <div className='playlist-header-container'>
                         <div id='picture-container'>
-                            PLAYLIST IMAGE
+                            <EditPlaylistModal playlistId={playlistId} playlist={playlist} />
                         </div>
                         <div id='playlist-info-container'>
                             <div id='playlist-word-container' style={{ fontSize: "12px" }}>
                                 PLAYLIST
                             </div>
-                            <div id='playlist-name' style={{ fontSize: "55px", fontWeight: "700" }}>
+                            <Link id='playlist-name' to="/" style={{ fontSize: "55px", fontWeight: "700", textDecoration: "none" }}>
                                 {playlist.name}
-                            </div>
+                            </Link>
                             <div id='playlist-description'>
-                                {playlist.description}
+                                <Link to="/">
+                                    {playlist.description}
+                                </Link>
                             </div>
                             <div>
                                 {playlist.User.username}
@@ -65,6 +77,15 @@ const PlaylistPage = () => {
                         &nbsp;
                         <div>
                             LIKE BUTTON GOES HERE
+                        </div>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <div>
+                            <button onClick={deletePlaylist}>DELETE</button>
                         </div>
                     </div>
                     <br />

@@ -114,3 +114,15 @@ body{
     flex-direction: row;
     justify-content: space-between;
 }
+
+.create-playlist-button{
+    display: flex;
+    padding-bottom: 10px;
+    border: none;
+    background-color: #000000;
+    color: #b3b3b3;
+}
+.create-playlist-button:hover{
+    color: white;
+    cursor: pointer;
+}
