@@ -22,7 +22,7 @@ const UserPlaylist = () => {
         playlistComponent = (
             userPlaylistList.map((playlist) => {
                 return <Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link>
-            })
+            }).reverse()
         )
     }
     if (sessionUser) {

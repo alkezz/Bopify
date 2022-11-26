@@ -17,16 +17,19 @@ const NavBar = () => {
   const sessionUser = useSelector((state) => state.session.user)
   const playlistState = useSelector((state) => state.playlist)
   const [userPlaylists, setUserPlaylists] = useState([])
-  useEffect(() => {
-    dispatch(playlistActions.getAllPlaylists())
+  useEffect(async () => {
+    await dispatch(playlistActions.getAllPlaylists())
   }, [dispatch])
   const playlistArray = Object.values(playlistState)
-  const userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
-  const userPlaylistLength = userPlaylistList.length + 1
+  let userPlaylistList
+  let userPlaylistLength
+  if (sessionUser) {
+    userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
+    userPlaylistLength = userPlaylistList.length + 1
+  }
   let sidenav
   let navbar
   let bottomnav
-
   const createPlaylist = async (e) => {
     e.preventDefault()
     const newPlaylist = {
@@ -35,7 +38,6 @@ const NavBar = () => {
       "user_id": sessionUser.id
     }
     let new_playlist = await dispatch(playlistActions.createPlaylist(newPlaylist))
-    console.log(newPlaylist)
     if (new_playlist) {
       const allPlaylists = await dispatch(playlistActions.getAllPlaylists())
       history.push(`/playlist/${allPlaylists[allPlaylists.length - 1].id}`)
