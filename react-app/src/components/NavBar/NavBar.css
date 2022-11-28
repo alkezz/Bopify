@@ -7,9 +7,9 @@ body{
     flex-direction: row;
     justify-content: flex-end;
     margin-left: -8px;
-    position: relative;
+    position: sticky;
     height: 50px;
-    top: -8.5px;
+    top: 0px;
     right: -7.5px;
     background-color: #111111;
 }

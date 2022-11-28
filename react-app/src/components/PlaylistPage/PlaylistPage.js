@@ -9,29 +9,37 @@ const PlaylistPage = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     let { playlistId } = useParams()
-    const [playlist, setPlaylist] = useState([])
+    const [onePlaylist, setOnePlaylist] = useState([])
+    const playlistState = useSelector((state) => state.playlist)
+    console.log("STATE", playlistState)
     let i = 0
-    useEffect(() => {
+    useEffect(async () => {
         if (!playlistId) {
-            return
+            return null
         }
-        if (!playlist) {
-            return
+        if (!playlistState) {
+            return null
         }
-        (async () => {
-            if (playlistId) {
-                const onePlaylist = await fetch(`/api/playlists/${playlistId}/`)
-                const data = await onePlaylist.json()
-                setPlaylist(data)
-            }
-        })();
-    }, [playlistId])
+        // (async () => {
+        //     if (playlistId) {
+        //         const onePlaylist = await fetch(`/api/playlists/${playlistId}/`)
+        //         const data = await onePlaylist.json()
+        //         setPlaylist(data)
+        //     }
+        // })();
+        setOnePlaylist(await dispatch(playlistActions.getOnePlaylist(playlistId)))
+        await dispatch(playlistActions.getAllPlaylists())
+    }, [dispatch, playlistId])
+    console.log("ONEPLATLIST", onePlaylist)
+    const playlistArray = Object.values(playlistState)
+    const playlist = playlistArray.filter(playlist => Number(playlist.id) === Number(playlistId))[0]
+    console.log(playlist)
     const deletePlaylist = async (e) => {
         e.preventDefault()
         const deleted = await dispatch(playlistActions.deletePlaylist(playlistId))
         if (deleted) {
-            await dispatch(playlistActions.getAllPlaylists())
             history.push("/")
+            await dispatch(playlistActions.getAllPlaylists())
         }
     }
     if (!playlistId) return null
@@ -42,7 +50,7 @@ const PlaylistPage = () => {
     }
     return (
         <>
-            {!!playlist.User && (
+            {!!onePlaylist.User && (
                 <div className='playlist-container' style={{ color: "white" }}>
                     <div className='playlist-header-container'>
                         <div id='picture-container'>
@@ -61,7 +69,7 @@ const PlaylistPage = () => {
                                 </Link>
                             </div>
                             <div>
-                                {playlist.User.username}
+                                {onePlaylist.User.username}
                             </div>
                         </div>
                     </div>
@@ -103,14 +111,22 @@ const PlaylistPage = () => {
                             ALBUM
                         </div>
                         <div>
-                            CLOCK SYMBOL
+                            time
                         </div>
                     </div>
-                    <div>
-                        {playlist.Songs.map((song) => {
-                            return <div style={{ listStyle: "none" }}>{incrementSongNumber()} <Link to={{ pathname: song.song_url }}>{song.name}</Link> {song.album.name}</div>
-                        })}
-                    </div>
+                    {onePlaylist.Songs && (
+                        <div>
+                            {onePlaylist.Songs.map((song) => {
+                                return <div style={{ listStyle: "none", display: "flex" }}>
+                                    <div>
+                                        {incrementSongNumber()} <Link to={{ pathname: song.song_url }}>{song.name}</Link>
+                                    </div>
+                                    {song.album.name}
+                                    time
+                                </div>
+                            })}
+                        </div>
+                    )}
                 </div>
             )}
         </>

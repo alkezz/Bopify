@@ -1,3 +1,60 @@
 .landing-page-container{
     color: white;
+    padding-left: 30px;
+    height: 1500px;
+}
+
+.artist-container{
+    /* display: flex;
+    flex-direction: row;
+    justify-content: space-evenly; */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 270px);
+    padding-left: 30px;
+}
+
+.artist-image-container{
+    box-shadow: 5px 5px 12px 5px black;
+    width: 200px;
+    height: 200px;
+    padding-bottom: 35px;
+}
+.landing-page-image{
+    width: 200px;
+    height: 200px;
+ }
+
+.album-container{
+    /* display: flex;
+    flex-direction: row;
+    justify-content: space-evenly; */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 270px);
+    padding-left: 30px;
+ }
+
+.album-image-container{
+    padding-bottom: 30px;
+}
+
+img{
+    box-shadow: 5px 5px 12px 5px black;
+    width: 200px;
+    height: 200px;
+}
+
+.landing-page-playlist-container{
+    /* display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-flow: wrap; */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 270px);
+    padding-left: 30px;
+}
+.playlist-image-container{
+    box-shadow: 5px 5px 12px 5px black;
+    padding-bottom: 30px;
+    width: 200px;
+    height: 200px;
 }

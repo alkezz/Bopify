@@ -12,6 +12,7 @@ const EditPlaylistForm = ({ playlistId }) => {
     const [errors, setErrors] = useState([])
     const formData = new FormData()
     useEffect(async () => {
+        await dispatch(playlistActions.getOnePlaylist(playlistId))
         await dispatch(playlistActions.getAllPlaylists())
     }, [dispatch])
     const playlistArray = Object.values(playlistToEdit)
@@ -37,15 +38,22 @@ const EditPlaylistForm = ({ playlistId }) => {
         //     return
         // }
         let img = imageInput.files[0]
-        console.log("IMG", img)
         formData.append('file', img)
-        console.log("FORMDATA", formData)
         const picture = await fetch("/api/playlists/images/upload", {
             method: "POST",
             body: formData
         })
         const imageURL = await picture.json()
-
+        const editedPlaylist = {
+            name,
+            description,
+            playlist_img: imageURL.image
+        }
+        const newPlaylist = await dispatch(playlistActions.editPlaylist(editedPlaylist, playlistId))
+        if (newPlaylist) {
+            await dispatch(playlistActions.getOnePlaylist(playlistId))
+            await dispatch(playlistActions.getAllPlaylists())
+        }
     }
 
     return (
