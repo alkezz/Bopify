@@ -7,9 +7,9 @@ body{
     flex-direction: row;
     justify-content: flex-end;
     margin-left: -8px;
-    position: relative;
+    position: sticky;
     height: 50px;
-    top: -8.5px;
+    top: 0px;
     right: -7.5px;
     background-color: #111111;
 }
@@ -113,4 +113,16 @@ body{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.create-playlist-button{
+    display: flex;
+    padding-bottom: 10px;
+    border: none;
+    background-color: #000000;
+    color: #b3b3b3;
+}
+.create-playlist-button:hover{
+    color: white;
+    cursor: pointer;
 }

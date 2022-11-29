@@ -5,21 +5,24 @@ import * as playlistActions from "../../store/playlist"
 
 const UserPlaylist = () => {
     const sessionUser = useSelector((state) => state.session.user)
-    const allPlaylistsObj = useSelector((state) => state.playlist)
+    const playlistState = useSelector((state) => state.playlist)
     const [userPlaylists, setUserPlaylists] = useState([])
     const dispatch = useDispatch()
-    useEffect(async () => {
-        const playlists = await fetch(`/api/users/${sessionUser.id}/playlists`)
-        const data = await playlists.json()
-        setUserPlaylists(data)
-    }, [setUserPlaylists])
-    const playlistArray = userPlaylists.Playlists
+    useEffect(() => {
+        // const playlists = await fetch(`/api/users/${sessionUser.id}/playlists`)
+        // const data = await playlists.json()
+        // setUserPlaylists(data)
+        dispatch(playlistActions.getAllPlaylists())
+    }, [sessionUser.id, dispatch])
+    const playlistArray = Object.values(playlistState)
+    // const playlistArray = userPlaylists.Playlists
+    const userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
     let playlistComponent
     if (playlistArray && sessionUser) {
         playlistComponent = (
-            playlistArray.map((playlist) => {
+            userPlaylistList.map((playlist) => {
                 return <Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link>
-            })
+            }).reverse()
         )
     }
     if (sessionUser) {

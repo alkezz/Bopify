@@ -19,10 +19,11 @@ class Artist(db.Model):
         artist = {
             "id": self.id,
             "name": self.name,
-            "bio": self.bio
+            "bio": self.bio,
+            "artist_img": self.artist_img
         }
-        if images:
-            artist["Artist_Pic"] = self.artist_img
+        # if images:
+        #     artist["Artist_Pic"] = self.artist_img
 
         if albums:
             artist["Albums"] = [album.to_dict() for album in self.albums]

@@ -29,7 +29,7 @@ const DropDown = () => {
                 <div className='drop-down'>
                     <div className='user-info'>
                         <div className='profile-button'>
-                            <Link to="/">Profile</Link>
+                            <Link to={`/user/${sessionUser.id}`}>Profile</Link>
                         </div>
                         <div className='logout-button-dropdown'><LogoutButton /></div>
                     </div>

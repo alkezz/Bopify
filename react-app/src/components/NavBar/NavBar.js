@@ -6,16 +6,44 @@ import DropDown from '../AccountDropDown/AccounDropDown';
 import UserPlaylist from '../UserPlaylists/UserPlaylists';
 import logo from "../../assets/black_bopify_logo-removebg-preview.png"
 import "./NavBar.css"
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import greenLogo from "../../assets/new_bopify_logo-removebg-preview.png"
+import * as playlistActions from "../../store/playlist"
 
 const NavBar = () => {
   const history = useHistory()
   const location = useLocation()
+  const dispatch = useDispatch()
   const sessionUser = useSelector((state) => state.session.user)
+  const playlistState = useSelector((state) => state.playlist)
+  const [userPlaylists, setUserPlaylists] = useState([])
+  useEffect(async () => {
+    await dispatch(playlistActions.getAllPlaylists())
+  }, [dispatch])
+  const playlistArray = Object.values(playlistState)
+  let userPlaylistList
+  let userPlaylistLength
+  if (sessionUser) {
+    userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
+    userPlaylistLength = userPlaylistList.length + 1
+  }
   let sidenav
   let navbar
   let bottomnav
+  const createPlaylist = async (e) => {
+    e.preventDefault()
+    const newPlaylist = {
+      "name": `My Playlist #${userPlaylistLength}`,
+      "playlist_img": "https://ali-practice-aws-bucket.s3.amazonaws.com/playlistDefaultImage.png",
+      "user_id": sessionUser.id
+    }
+    let new_playlist = await dispatch(playlistActions.createPlaylist(newPlaylist))
+    if (new_playlist) {
+      const allPlaylists = await dispatch(playlistActions.getAllPlaylists())
+      history.push(`/playlist/${allPlaylists[allPlaylists.length - 1].id}`)
+    }
+  }
+
   if (location.pathname !== "/sign-up" && location.pathname !== "/login" && !sessionUser) {
     sidenav = (
       <div className='side-nav' style={{ color: "#adb3b3" }}>
@@ -78,10 +106,10 @@ const NavBar = () => {
           &nbsp;
           Your Library</Link>
         <br />
-        <Link to="/create-playlist">
+        <button onClick={createPlaylist} className='create-playlist-button'>
           <i class="fa-solid fa-square-plus"></i>
           &nbsp;
-          Create playlist</Link>
+          Create playlist</button>
         <Link to="/liked">
           <i class="fa-solid fa-heart"></i>
           &nbsp;

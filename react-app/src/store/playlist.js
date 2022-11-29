@@ -64,10 +64,52 @@ export const getOnePlaylist = (id) => async (dispatch) => {
     }
 }
 
-// export const createPlaylist = () => {
+export const createPlaylist = (playlist) => async (dispatch) => {
+    const response = await fetch("/api/playlists/", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(playlist)
+    })
+    if (response.ok) {
+        const data = await response.json()
+        dispatch(actionCreatePlaylist(data))
+        return data
+    } else {
+        return response
+    }
+}
 
-// }
+export const editPlaylist = (playlist, id) => async (dispatch) => {
+    const response = await fetch(`/api/playlists/${id}/`, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(playlist)
+    })
+    if (response.ok) {
+        const data = await response.json()
+        dispatch(actionEditPlaylist(data))
+        return data
+    } else {
+        return response
+    }
+}
 
+export const deletePlaylist = (id) => async (dispatch) => {
+    const response = await fetch(`/api/playlists/${id}/`, {
+        method: "DELETE"
+    })
+    if (response.ok) {
+        const data = await response.json()
+        dispatch(actionDeletePlaylist(id))
+        return data
+    } else {
+        return response
+    }
+}
 
 const initialState = {}
 
@@ -75,10 +117,24 @@ export default function playlistReducer(state = initialState, action) {
     let newState = {}
     switch (action.type) {
         case GET_PLAYLISTS:
-            console.log("IN REDUCER", action.playlists)
             action.playlists.forEach((playlist) => {
                 newState[playlist.id] = playlist
             })
+            return newState
+        case GET_ONE_PLAYLIST:
+            newState[action.playlist.id] = action.playlist
+            return newState
+        case CREATE_PLAYLIST:
+            newState = { ...state }
+            newState[action.playlist.id] = action.playlist
+            return newState
+        case EDIT_PLAYLIST:
+            newState = { ...state }
+            newState[action.playlist.id] = action.playlist
+            return newState
+        case DELETE_PLAYLIST:
+            newState = { ...state }
+            delete newState[action.playlist.id]
             return newState
         default:
             return state
