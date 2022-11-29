@@ -1,7 +1,7 @@
 .landing-page-container{
     color: white;
     padding-left: 30px;
-    height: 1500px;
+    height: 2000px;
 }
 
 .artist-container{
@@ -14,7 +14,6 @@
 }
 
 .artist-image-container{
-    box-shadow: 5px 5px 12px 5px black;
     width: 200px;
     height: 200px;
     padding-bottom: 35px;
@@ -22,6 +21,7 @@
 .landing-page-image{
     width: 200px;
     height: 200px;
+    /* box-shadow: 5px 5px 12px 5px black; */
  }
 
 .album-container{
@@ -37,11 +37,11 @@
     padding-bottom: 30px;
 }
 
-img{
+/* img{
     box-shadow: 5px 5px 12px 5px black;
     width: 200px;
     height: 200px;
-}
+} */
 
 .landing-page-playlist-container{
     /* display: flex;
@@ -53,7 +53,6 @@ img{
     padding-left: 30px;
 }
 .playlist-image-container{
-    box-shadow: 5px 5px 12px 5px black;
     padding-bottom: 30px;
     width: 200px;
     height: 200px;

@@ -55,7 +55,6 @@ const EditPlaylistForm = ({ playlistId }) => {
             await dispatch(playlistActions.getAllPlaylists())
         }
     }
-
     return (
         <div className='edit-project-container'>
             <form className='edit-project-form' onSubmit={handleSubmit}>

@@ -1,0 +1,44 @@
+.artist-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.header-container{
+    height: 250px;
+    margin-left: -30px;
+    margin-right: -10px;
+}
+
+.one-song{
+    padding-bottom: 10px;
+}
+
+.one-song:hover{
+    background-color: gray;
+}
+
+#song-dropdown{
+    color: white;
+    border: none;
+    background-color: #1e1e1e;
+    cursor: pointer;
+}
+
+.active-song-dropdown{
+    position: absolute;
+    z-index: 99999;
+    background-color: black;
+    width: 150px;
+    left: 90%;
+}
+.add-song-dropdown{
+    z-index: 99999;
+    left: -30%;
+    background-color: black;
+    list-style: none;
+    bottom: -90%;
+}
+
+.add-song-dropdown > li {
+    padding-right: 40px;
+}

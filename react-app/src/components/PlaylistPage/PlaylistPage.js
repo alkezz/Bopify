@@ -69,7 +69,9 @@ const PlaylistPage = () => {
                                 </Link>
                             </div>
                             <div>
-                                {onePlaylist.User.username}
+                                <Link to={`/user/${onePlaylist.User.id}`}>
+                                    {onePlaylist.User.username}
+                                </Link>
                             </div>
                         </div>
                     </div>

@@ -31,7 +31,6 @@ const LandingPage = () => {
         return null
     }
     console.log(playlists)
-    document.body.style = 'background: #1e1e1e;';
     return (
         <div className='landing-page-container'>
             <h1>WELCOME TO BOPIFY</h1>
@@ -39,7 +38,9 @@ const LandingPage = () => {
             <div className='artist-container'>
                 {artists.map((artist) => {
                     return <div className='artist-image-container'>
-                        <img className='landing-page-image' src={artist.artist_img} />
+                        <Link to={`/artist/${artist.id}`}>
+                            <img className='landing-page-image' src={artist.artist_img} />
+                        </Link>
                         <div>{artist.name}</div>
                     </div>
                 })}

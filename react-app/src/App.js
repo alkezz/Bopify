@@ -6,6 +6,8 @@ import SignUpForm from './components/auth/SignUpForm';
 import NavBar from './components/NavBar/NavBar';
 import LandingPage from './components/LandingPage/LandingPage';
 import PlaylistPage from './components/PlaylistPage/PlaylistPage';
+import ArtistPage from './components/ArtistPage/ArtistPage';
+import AccountPage from './components/AccountPage/AccountPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
@@ -36,15 +38,18 @@ function App() {
         <Route path='/sign-up' exact={true}>
           <SignUpForm />
         </Route>
+        <Route path='/artist/:artistId' exact={true}>
+          <ArtistPage />
+        </Route>
         <Route path='/playlist/:playlistId' exact={true}>
           <PlaylistPage />
         </Route>
         <ProtectedRoute path='/users' exact={true} >
           <UsersList />
         </ProtectedRoute>
-        <ProtectedRoute path='/users/:userId' exact={true} >
-          <User />
-        </ProtectedRoute>
+        <Route path='/user/:userId' exact={true} >
+          <AccountPage />
+        </Route>
         <Route path='/' exact={true} >
           <LandingPage />
         </Route>
