@@ -8,6 +8,7 @@ const LandingPage = () => {
     const [albums, setAlbums] = useState([])
     const [playlists, setPlaylists] = useState([])
     const dispatch = useDispatch()
+    document.body.style = 'background: #1e1e1e';
     useEffect(() => {
         (async () => {
             const allArtistsRes = await fetch("/api/artists/")
@@ -30,12 +31,15 @@ const LandingPage = () => {
     if (!albums) {
         return null
     }
-    console.log(playlists)
+    if (!playlists) {
+        return null
+    }
+    console.log("PLAYLISTS", playlists)
     return (
         <div className='landing-page-container'>
             <h1>WELCOME TO BOPIFY</h1>
             <h2>Artists</h2>
-            <div className='artist-container'>
+            <div className='artist-landing-container'>
                 {artists.map((artist) => {
                     return <div className='artist-image-container'>
                         <Link to={`/artist/${artist.id}`}>
@@ -64,14 +68,16 @@ const LandingPage = () => {
             <br />
             <h2>Playlists</h2>
             <div className='landing-page-playlist-container'>
-                {playlists.map((playlist) => {
-                    return <div className='playlist-image-container'>
-                        <Link to={`/playlist/${playlist.id}`}>
-                            <img className='landing-page-image' src={playlist.playlist_img} />
-                        </Link>
-                        <div>{playlist.name}</div>
-                    </div>
-                })}
+                {playlists && (
+                    playlists.map((playlist) => {
+                        return <div className='playlist-image-container'>
+                            <Link to={`/playlist/${playlist.id}`}>
+                                <img className='landing-page-image' src={playlist.playlist_img} />
+                            </Link>
+                            <div>{playlist.name}</div>
+                        </div>
+                    })
+                )}
             </div>
         </div>
     )

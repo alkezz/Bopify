@@ -1,6 +1,7 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from flask_login import login_required
-from app.models import User
+from app.models import User, db
+from app.models.user import follows
 
 user_routes = Blueprint('users', __name__)
 
@@ -22,6 +23,39 @@ def user_playlist(id):
     """
     user = User.query.get(id)
     return user.to_dict(playlist=True)
+
+
+@user_routes.route("/<int:id>/follow/<int:id2>", methods=["POST", "DELETE"])
+def follow(id, id2):
+    """
+    Route to add or remove a follow for user with id1 to user with id2
+    Syntax: user id 1 will follow/unfollow user id 2
+    """
+    current_user = User.query.get(id)
+    other_user = User.query.get(id2)
+    if request.method == "POST":
+        current_user.followers.append(other_user)
+        db.session.commit()
+        user_followers = User.query.filter(User.followers.any(id=id2)).all()
+        return {"followers": [follower.to_dict() for follower in user_followers]}
+    elif request.method == "DELETE":
+        current_user.followers.remove(other_user)
+        db.session.commit()
+        user_followers = User.query.filter(User.followers.any(id=id2)).all()
+        return {"followers": [follower.to_dict() for follower in user_followers]}
+
+@user_routes.route("/<int:id>/follow-list")
+def userFollows(id):
+    user_following_list = db.session.query(follows).filter_by(follower_id = id).all()
+    user_followed_list = db.session.query(follows).filter_by(followed_id = id).all()
+    follow_info = {"userFollowing": [], "userFollowers": []}
+    for following_ids, follower_ids in user_following_list:
+        if following_ids == id:
+            follow_info["userFollowing"].append(following_ids)
+    for following_ids, follower_ids in user_followed_list:
+        if follower_ids == id:
+            follow_info["userFollowers"].append(follower_ids)
+    return follow_info
 
 @user_routes.route('/<int:id>')
 def user(id):

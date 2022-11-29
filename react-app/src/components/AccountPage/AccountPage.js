@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
+import * as followActions from "../../store/follower"
 import "./AccountPage.css"
 
 const AccountPage = () => {
     const sessionUser = useSelector((state) => state.session.user)
     const playlistState = useSelector((state) => state.playlist)
+    const dispatch = useDispatch()
     let { userId } = useParams()
     const [user, setUser] = useState([])
     useEffect(() => {
@@ -29,6 +31,11 @@ const AccountPage = () => {
     } else {
         userPlaylistLength = <span>{userPlaylistList.length} public playlists</span>
     }
+    const followUser = async () => {
+        const response = await dispatch(followActions.userFollowList(sessionUser.id))
+        const data = await response.json()
+        console.log("DATA", data)
+    }
     return (
         <div className="profile-container">
             <div className="profile-header-container" style={{ display: "flex", flexDirection: "row" }}>
@@ -44,7 +51,7 @@ const AccountPage = () => {
                 </div>
             </div>
             <div className="follow-user-container">
-                <button>Follow</button>
+                <button onClick={followUser}>Follow</button>
             </div>
             <div className="profile-content">
                 <h2>Playlists</h2>
