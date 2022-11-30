@@ -1,6 +1,6 @@
-# Flask React Project
+# Bopify - A Spotify clone
 
-This is the starter for the Flask React project.
+Bopify is a Spotify clone created with love and adoration for Spotify. A place where music nerds can share playlists and listen to music in the comfort of their own home.
 
 ## Getting started
 1. Clone this repository (only this branch)
