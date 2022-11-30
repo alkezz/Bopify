@@ -1,22 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, Link, useHistory } from "react-router-dom";
+import * as followActions from "../../store/follower"
 import "./AccountPage.css"
 
 const AccountPage = () => {
     const sessionUser = useSelector((state) => state.session.user)
     const playlistState = useSelector((state) => state.playlist)
+    const followState = useSelector((state) => state.follows)
+    const dispatch = useDispatch()
     let { userId } = useParams()
+    const history = useHistory()
     const [user, setUser] = useState([])
+    const [currentUserFollowers, setCurrentUserFollowers] = useState([])
+    const [profileFollowers, setProfileFollowers] = useState([])
+    const [isFollowing, setIsFollowing] = useState()
+    const [update, setUpdate] = useState(true)
     useEffect(() => {
         (async () => {
             const userRes = await fetch(`/api/users/${userId}`)
             const user = await userRes.json()
             setUser(user)
         })();
-    }, [setUser])
+        (async () => {
+            const followData = await dispatch(followActions.userFollowList(sessionUser.id))
+            setCurrentUserFollowers(followData)
+        })();
+        (async () => {
+            const followData = await dispatch(followActions.userFollowList(userId))
+            setProfileFollowers(followData)
+        })();
+    }, [setUser, dispatch, setCurrentUserFollowers, setProfileFollowers, update])
     let profilePic
-    if (!sessionUser.profile_pic) {
+    console.log(currentUserFollowers, "CURRENT USER FOLLOWERS")
+    console.log(profileFollowers, "PROFILE FOLLOWERS")
+    console.log("USER", user)
+    if (!user.profile_pic) {
         profilePic = <i class="fa-solid fa-user fa-4x"></i>
     } else {
         profilePic = <img src={sessionUser.profile_pic} />
@@ -29,44 +48,128 @@ const AccountPage = () => {
     } else {
         userPlaylistLength = <span>{userPlaylistList.length} public playlists</span>
     }
-    return (
-        <div className="profile-container">
-            <div className="profile-header-container" style={{ display: "flex", flexDirection: "row" }}>
-                <div className="user-profile-pic">
-                    {profilePic}
+    let followButton
+    if (sessionUser !== null) {
+        if (currentUserFollowers?.current_followed_user_ids?.includes(user.id)) {
+            followButton = (
+                <button hidden={sessionUser.id === Number(userId)} onClick={(e) => { unFollow(e); setUpdate(!update) }}>Unfollow</button>
+            )
+        } else {
+            followButton = (
+                <button hidden={sessionUser.id === Number(userId)} onClick={(e) => { follow(e); setUpdate(!update) }}>Follow</button>
+            )
+        }
+    } else {
+        followButton = (
+            <button hidden={sessionUser.id === Number(userId)} onClick={() => history.push("/login")}>Follow</button>
+        )
+    }
+    const follow = (e) => {
+        setUpdate(true)
+        e.preventDefault()
+        console.log('follow')
+        dispatch(followActions.followUser(sessionUser.id, user.id))
+    }
+    const unFollow = (e) => {
+        setUpdate(true)
+        e.preventDefault()
+        dispatch(followActions.unfollowUser(sessionUser.id, user.id))
+        console.log("unfollow")
+    }
+    if (sessionUser.id === Number(userId)) {
+        return (
+            <div className="profile-container">
+                <div className="profile-header-container" style={{ display: "flex", flexDirection: "row" }}>
+                    <div className="user-profile-pic">
+                        {profilePic}
+                    </div>
+                    <div className="user-info">
+                        Profile
+                        <h1 className="user-name" style={{ color: "white" }}>
+                            {sessionUser.username}
+                        </h1>
+                        {userPlaylistLength}
+                        &nbsp;
+                        <span style={{ fontSize: "20px" }}>·</span>
+                        &nbsp;
+                        {currentUserFollowers?.followed_by_user_ids?.length} Followers
+                        &nbsp;
+                        <span style={{ fontSize: "20px" }}>·</span>
+                        &nbsp;
+                        {currentUserFollowers?.current_followed_user_ids?.length} Following
+                    </div>
                 </div>
-                <div className="user-info">
-                    Profile
-                    <h1 className="user-name" style={{ color: "white" }}>
-                        {user.username}
-                    </h1>
-                    {userPlaylistLength}
+                <div className="follow-user-container">
+                    {followButton}
                 </div>
-            </div>
-            <div className="follow-user-container">
-                <button>Follow</button>
-            </div>
-            <div className="profile-content">
-                <h2>Playlists</h2>
-                <div className="profile-playlists-container">
-                    {userPlaylistList && (
-                        userPlaylistList.map((playlist) => {
-                            return <div>
-                                <div className="playlist-image">
-                                    <Link to={`/playlist/${playlist.id}`}>
-                                        <img className="playlist-image-profile" src={playlist.playlist_img} />
-                                    </Link>
+                <div className="profile-content">
+                    <h2>Playlists</h2>
+                    <div className="profile-playlists-container">
+                        {userPlaylistList && (
+                            userPlaylistList.map((playlist) => {
+                                return <div>
+                                    <div className="playlist-image">
+                                        <Link to={`/playlist/${playlist.id}`}>
+                                            <img className="playlist-image-profile" src={playlist.playlist_img} />
+                                        </Link>
+                                    </div>
+                                    <div className="playlist-name">
+                                        {playlist.name}
+                                    </div>
                                 </div>
-                                <div className="playlist-name">
-                                    {playlist.name}
+                            })
+                        )}
+                    </div>
+                </div>
+            </div>)
+    } else {
+        return (
+            <div className="profile-container">
+                <div className="profile-header-container" style={{ display: "flex", flexDirection: "row" }}>
+                    <div className="user-profile-pic">
+                        {profilePic}
+                    </div>
+                    <div className="user-info">
+                        Profile
+                        <h1 className="user-name" style={{ color: "white" }}>
+                            {user.username}
+                        </h1>
+                        {userPlaylistLength}
+                        &nbsp;
+                        <span style={{ fontSize: "20px" }}>·</span>
+                        &nbsp;
+                        {profileFollowers?.followed_by_user_ids?.length} Followers
+                        &nbsp;
+                        <span style={{ fontSize: "20px" }}>·</span>
+                        &nbsp;
+                        {profileFollowers?.current_followed_user_ids?.length} Following
+                    </div>
+                </div>
+                <div className="follow-user-container">
+                    {followButton}
+                </div>
+                <div className="profile-content">
+                    <h2>Playlists</h2>
+                    <div className="profile-playlists-container">
+                        {userPlaylistList && (
+                            userPlaylistList.map((playlist) => {
+                                return <div>
+                                    <div className="playlist-image">
+                                        <Link to={`/playlist/${playlist.id}`}>
+                                            <img className="playlist-image-profile" src={playlist.playlist_img} />
+                                        </Link>
+                                    </div>
+                                    <div className="playlist-name">
+                                        {playlist.name}
+                                    </div>
                                 </div>
-                            </div>
-                        })
-                    )}
+                            })
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
 
 export default AccountPage
