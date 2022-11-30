@@ -38,7 +38,7 @@ def follow(id, id2):
         db.session.commit()
         user_followers = User.query.filter(User.followers.any(id=id2)).all()
         return {"followers": [follower.to_dict() for follower in user_followers]}
-    elif request.method == "DELETE":
+    if request.method == "DELETE":
         current_user.followers.remove(other_user)
         db.session.commit()
         user_followers = User.query.filter(User.followers.any(id=id2)).all()
@@ -46,16 +46,27 @@ def follow(id, id2):
 
 @user_routes.route("/<int:id>/follow-list")
 def userFollows(id):
-    user_following_list = db.session.query(follows).filter_by(follower_id = id).all()
-    user_followed_list = db.session.query(follows).filter_by(followed_id = id).all()
-    follow_info = {"userFollowing": [], "userFollowers": []}
-    for following_ids, follower_ids in user_following_list:
-        if following_ids == id:
-            follow_info["userFollowing"].append(following_ids)
-    for following_ids, follower_ids in user_followed_list:
-        if follower_ids == id:
-            follow_info["userFollowers"].append(follower_ids)
-    return follow_info
+    # user_following_list = db.session.query(follows).filter_by(follower_id = id).all()
+    # user_followed_list = db.session.query(follows).filter_by(followed_id = id).all()
+    # follow_info = {"userFollowing": [], "userFollowers": []}
+    # for following_ids, follower_ids in user_following_list:
+    #     if following_ids == id:
+    #         follow_info["userFollowers"].append(follower_ids)
+    # for following_ids, follower_ids in user_followed_list:
+    #     if follower_ids == id:
+    #         follow_info["userFollowing"].append(following_ids)
+    # return follow_info
+    user_followinfo = db.session.query(follows).filter_by(follower_id = id).all()
+    user_followedinfo = db.session.query(follows).filter_by(followed_id = id).all()
+    newObj = { "current_followed_user_ids": [], "followed_by_user_ids": []}
+    for x,z in user_followinfo:
+        if x == id:
+            newObj["current_followed_user_ids"].append(z)
+
+    for x,z in user_followedinfo:
+        if z == id:
+            newObj["followed_by_user_ids"].append(x)
+    return newObj
 
 @user_routes.route('/<int:id>')
 def user(id):

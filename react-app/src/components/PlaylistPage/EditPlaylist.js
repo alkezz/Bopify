@@ -39,11 +39,13 @@ const EditPlaylistForm = ({ playlistId }) => {
         // }
         let img = imageInput.files[0]
         formData.append('file', img)
+        console.log("FORMDATA", formData.file)
         const picture = await fetch("/api/playlists/images/upload", {
             method: "POST",
             body: formData
         })
         const imageURL = await picture.json()
+        console.log("IMAGE URL", imageURL)
         const editedPlaylist = {
             name,
             description,

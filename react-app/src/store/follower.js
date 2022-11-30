@@ -59,20 +59,20 @@ export const unfollowUser = (id, id2) => async (dispatch) => {
         dispatch(removeFollow(id2))
         return data
     } else {
-        return response
+        return await response.json()
     }
 }
 
-const initalState = { "userFollowing": [], "userFollowers": [] }
+const initalState = { "current_followed_user_ids": [], "followed_by_user_ids": [] }
 
 const followReducer = (state = initalState, action) => {
     switch (action.type) {
         case GET_FOLLOWS:
-            return { ...state, ...action.data }
+            return { ...state, ...action.followers }
         case ADD_FOLLOW:
-            return { ...state, userFollowing: [...state.userFollowing, action.user] }
+            return { ...state, current_followed_user_ids: [...state.current_followed_user_ids, action.user] }
         case REMOVE_FOLLOW:
-            return { ...state, userFollowing: state.userFollowing.filter((e) => e !== action.user) }
+            return { ...state, current_followed_user_ids: state.current_followed_user_ids.filter((e) => e !== action.user) }
         default:
             return state
     }

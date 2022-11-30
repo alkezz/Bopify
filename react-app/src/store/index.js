@@ -2,12 +2,12 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import session from './session'
 import playlist from './playlist';
-import followReducer from './follower';
+import follows from './follower';
 
 const rootReducer = combineReducers({
   session,
   playlist,
-  followReducer
+  follows
 });
 
 
