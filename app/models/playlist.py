@@ -45,7 +45,7 @@ class Playlist(db.Model):
         back_populates="playlist_following"
     )
 
-    def to_dict(self, user=False, image=False, songs=False):
+    def to_dict(self, playlist_followers=False, user=False, image=False, songs=False):
         playlist = {
             "id": self.id,
             "name": self.name,
@@ -60,5 +60,8 @@ class Playlist(db.Model):
 
         if songs:
             playlist["Songs"] = [song.to_dict() for song in self.playlist_song_list]
+
+        if playlist_followers:
+            playlist["Followers"] = [user.to_dict() for user in self.playlist_follower]
 
         return playlist

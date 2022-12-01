@@ -38,3 +38,13 @@
     width: 200px;
     height: 200px;
 }
+
+.profile-followed-playlists-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 250px);
+    padding-left: 30px;
+}
+
+.profile-container{
+    padding-bottom: 80px;
+}

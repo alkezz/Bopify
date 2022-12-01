@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useHistory, useParams, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as playlistActions from "../../store/playlist"
+import * as audioActions from "../../store/audioplayer"
 import "./LandingPage.css"
 const LandingPage = () => {
     const [artists, setArtists] = useState([])
     const [albums, setAlbums] = useState([])
     const [playlists, setPlaylists] = useState([])
     const dispatch = useDispatch()
+    const songState = useSelector((state) => state)
     document.body.style = 'background: #1e1e1e';
+    console.log("SONGSTATE: ", songState)
     useEffect(() => {
         (async () => {
             const allArtistsRes = await fetch("/api/artists/")
@@ -24,7 +27,7 @@ const LandingPage = () => {
             const allPlaylists = await dispatch(playlistActions.getAllPlaylists())
             setPlaylists(allPlaylists)
         })();
-    }, [setArtists, setAlbums, setPlaylists])
+    }, [setArtists, setAlbums, setPlaylists, dispatch])
     if (!artists) {
         return null
     }
@@ -57,7 +60,9 @@ const LandingPage = () => {
             <div className='album-container'>
                 {albums.map((album) => {
                     return <div className='album-image-container'>
-                        <img className='landing-page-image' src={album.albumPic} />
+                        <Link to={`/album/${album.id}`}>
+                            <img className='landing-page-image' src={album.albumPic} />
+                        </Link>
                         <div>{album.name}</div>
                     </div>
                 })}
@@ -67,7 +72,7 @@ const LandingPage = () => {
             <br />
             <br />
             <h2>Playlists</h2>
-            <div className='landing-page-playlist-container'>
+            <div className='landing-page-playlist-container' style={{ paddingBottom: "80px" }}>
                 {playlists && (
                     playlists.map((playlist) => {
                         return <div className='playlist-image-container'>

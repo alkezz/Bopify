@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
-from app.models import User, db
+from app.models import User, db, Playlist
 from app.models.user import follows
 
 user_routes = Blueprint('users', __name__)
@@ -24,8 +24,39 @@ def user_playlist(id):
     user = User.query.get(id)
     return user.to_dict(playlist=True)
 
+@user_routes.route("/<int:id>/followed-playlists")
+@login_required
+def user_followed_playlists(id):
+    user = User.query.get(id)
+    if user:
+        return user.to_dict(followed_playlists=True)
+    else:
+        return {"message": f"User with id of {id} not found"}
+
+@user_routes.route("/<int:id>/follow-playlist/<int:id2>", methods=["POST", "DELETE"])
+@login_required
+def follow_playlist(id, id2):
+    user = User.query.get(id)
+    playlist = Playlist.query.get(id2)
+
+    if user:
+        if playlist:
+            if request.method == "POST":
+                user.playlist_following.append(playlist)
+                db.session.commit()
+                return user.to_dict(followed_playlists=True)
+            else:
+                user.playlist_following.remove(playlist)
+                db.session.commit()
+                return user.to_dict(followed_playlists=True)
+        else:
+            return {"message": f"Playlist with id of {id2} not found"}
+    else:
+        return {"message": f"User with id of {id} not found"}
+
 
 @user_routes.route("/<int:id>/follow/<int:id2>", methods=["POST", "DELETE"])
+@login_required
 def follow(id, id2):
     """
     Route to add or remove a follow for user with id1 to user with id2
@@ -45,6 +76,7 @@ def follow(id, id2):
         return {"followers": [follower.to_dict() for follower in user_followers]}
 
 @user_routes.route("/<int:id>/follow-list")
+@login_required
 def userFollows(id):
     # user_following_list = db.session.query(follows).filter_by(follower_id = id).all()
     # user_followed_list = db.session.query(follows).filter_by(followed_id = id).all()

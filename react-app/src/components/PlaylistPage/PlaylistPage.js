@@ -12,6 +12,8 @@ const PlaylistPage = () => {
     const [onePlaylist, setOnePlaylist] = useState([])
     const [showMenu, setShowMenu] = useState(false)
     const [activeMenu, setActiveMenu] = useState()
+    const [update, setUpdate] = useState(true)
+    const [followingPlaylists, setFollowingPlaylists] = useState([])
     const playlistState = useSelector((state) => state.playlist)
     const sessionUser = useSelector((state) => state.session.user)
     console.log("STATE", playlistState)
@@ -30,9 +32,14 @@ const PlaylistPage = () => {
         //         setPlaylist(data)
         //     }
         // })();
+        (async () => {
+            const playlistFollowRes = await fetch(`/api/users/${sessionUser.id}/followed-playlists`)
+            const playlistFollowsData = await playlistFollowRes.json()
+            setFollowingPlaylists(playlistFollowsData.followedPlaylists)
+        })();
         setOnePlaylist(await dispatch(playlistActions.getOnePlaylist(playlistId)))
         await dispatch(playlistActions.getAllPlaylists())
-    }, [dispatch, playlistId])
+    }, [dispatch, playlistId, setFollowingPlaylists, update, setOnePlaylist])
     useEffect(() => {
         if (!showMenu) return;
 
@@ -45,12 +52,14 @@ const PlaylistPage = () => {
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
     console.log("ONEPLATLIST", onePlaylist)
+    console.log("FOLLOWED PLATLIST CURRENT USER:", followingPlaylists)
     const playlistArray = Object.values(playlistState)
     const playlist = playlistArray.filter(playlist => Number(playlist.id) === Number(playlistId))[0]
     let userPlaylistList
     if (sessionUser) {
         userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
     }
+    let heartButton
     console.log(playlist)
     const deletePlaylist = async (e) => {
         e.preventDefault()
@@ -70,6 +79,49 @@ const PlaylistPage = () => {
         if (showMenu) return
         setShowMenu(true)
     }
+    if (!!onePlaylist.User) {
+        heartButton = (
+            <button hidden={sessionUser.id === onePlaylist.User.id} onClick={(e) => { followPlaylist(e); setUpdate(!update) }} style={{ backgroundColor: "#1e1e1e", border: "none", cursor: "pointer" }}>
+                <i style={{ color: "#babbbb" }} class="fa-regular fa-heart fa-2x"></i>
+            </button>
+        )
+    }
+    if (followingPlaylists.length >= 1) {
+        if (!!onePlaylist.User) {
+            for (let i = 0; i < followingPlaylists.length; i++) {
+                if (followingPlaylists[i].id === Number(playlistId)) {
+                    heartButton = (
+                        <button hidden={sessionUser.id === onePlaylist.User.id} onClick={(e) => { unfollowPlaylist(e); setUpdate(!update) }} style={{ backgroundColor: "#1e1e1e", border: "none", cursor: "pointer" }}>
+                            <i style={{ color: "#1ed760" }} class="fa-solid fa-heart fa-2x"></i>
+                        </button>
+                    )
+                    break
+                }
+            }
+        }
+    }
+    const followPlaylist = async (e) => {
+        e.preventDefault()
+        setUpdate(true)
+        await fetch(`/api/users/${sessionUser.id}/follow-playlist/${playlistId}`, {
+            method: "POST"
+        })
+    }
+    const unfollowPlaylist = async (e) => {
+        e.preventDefault()
+        setUpdate(true)
+        await fetch(`/api/users/${sessionUser.id}/follow-playlist/${playlistId}`, {
+            method: "DELETE"
+        })
+    }
+
+    const deleteSong = async (e, id) => {
+        setUpdate(true)
+        e.preventDefault()
+        await fetch(`/api/playlists/${playlist.id}/delete_song/${id}`, {
+            method: "DELETE"
+        });
+    }
     return (
         <>
             {!!onePlaylist.User && (
@@ -85,7 +137,7 @@ const PlaylistPage = () => {
                         &nbsp;
                         &nbsp;
                         <div style={{ marginTop: "12px" }}>
-                            <i style={{ color: "#babbbb" }} class="fa-regular fa-heart fa-2x"></i>
+                            {heartButton}
                         </div>
                         &nbsp;
                         &nbsp;
@@ -94,7 +146,7 @@ const PlaylistPage = () => {
                         &nbsp;
                         &nbsp;
                         <div>
-                            <button onClick={deletePlaylist}>DELETE</button>
+                            <button hidden={sessionUser.id !== onePlaylist?.User?.id} onClick={deletePlaylist}>DELETE</button>
                         </div>
                     </div>
                     <br />
@@ -149,10 +201,8 @@ const PlaylistPage = () => {
                                                 </div>
                                                 <button onClick={async (e) => {
                                                     {
-                                                        await fetch(`/api/playlists/${playlist.id}/delete_song/${song.id}`, {
-                                                            method: "DELETE"
-                                                        });
-                                                        await dispatch(playlistActions.getAllPlaylists());
+                                                        deleteSong(e, song.id);
+                                                        setUpdate(!update);
                                                     }
                                                 }}>Remove song</button>
                                                 <div>
