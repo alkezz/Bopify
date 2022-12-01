@@ -51,14 +51,29 @@ const NavBar = () => {
           IMAGE GOES HERE
         </div>
         <div>
-          <Link to="/">Home</Link>
-          <a href='#'>Search</a>
-          <a href='#'>Your Library</a>
+          <Link to="/">
+            <i class="fa-solid fa-house" style={{ color: "#b3b3b3" }}></i>
+            &nbsp;
+            Home</Link>
+          <Link to="/login">
+            <i class="fa-solid fa-magnifying-glass" style={{ color: "#b3b3b3" }}></i>
+            &nbsp;
+            Search</Link>
+          <Link to="/login">
+            <i class="fa-solid fa-lines-leaning" style={{ color: "#b3b3b3" }}></i>
+            &nbsp;
+            Your Library</Link>
         </div>
         <br />
         <div>
-          <Link to="/create-playlist">Create Playlist</Link>
-          <a href='#'>Liked Songs</a>
+          <Link to="/login">
+            <i class="fa-solid fa-square-plus"></i>
+            &nbsp;
+            Create Playlist</Link>
+          <Link to="/login">
+            <i class="fa-solid fa-heart"></i>
+            &nbsp;
+            Liked Songs</Link>
         </div>
       </div>
     )
@@ -84,7 +99,7 @@ const NavBar = () => {
             Sign up to get unlimited songs and podcasts with occasional ads. No credit card needed.
           </div>
         </div>
-        <button>Sign up free</button>
+        <button onClick={(e) => history.push("/sign-up")}>Sign up free</button>
       </div>
     )
   } else if (sessionUser && location.pathname !== "/sign-up" && location.pathname !== "/login") {

@@ -25,7 +25,6 @@ def user_playlist(id):
     return user.to_dict(playlist=True)
 
 @user_routes.route("/<int:id>/followed-playlists")
-@login_required
 def user_followed_playlists(id):
     user = User.query.get(id)
     if user:
@@ -76,7 +75,6 @@ def follow(id, id2):
         return {"followers": [follower.to_dict() for follower in user_followers]}
 
 @user_routes.route("/<int:id>/follow-list")
-@login_required
 def userFollows(id):
     # user_following_list = db.session.query(follows).filter_by(follower_id = id).all()
     # user_followed_list = db.session.query(follows).filter_by(followed_id = id).all()

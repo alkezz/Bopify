@@ -33,9 +33,11 @@ const PlaylistPage = () => {
         //     }
         // })();
         (async () => {
-            const playlistFollowRes = await fetch(`/api/users/${sessionUser.id}/followed-playlists`)
-            const playlistFollowsData = await playlistFollowRes.json()
-            setFollowingPlaylists(playlistFollowsData.followedPlaylists)
+            if (sessionUser) {
+                const playlistFollowRes = await fetch(`/api/users/${sessionUser.id}/followed-playlists`)
+                const playlistFollowsData = await playlistFollowRes.json()
+                setFollowingPlaylists(playlistFollowsData.followedPlaylists)
+            }
         })();
         setOnePlaylist(await dispatch(playlistActions.getOnePlaylist(playlistId)))
         await dispatch(playlistActions.getAllPlaylists())
@@ -60,7 +62,6 @@ const PlaylistPage = () => {
         userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
     }
     let heartButton
-    console.log(playlist)
     const deletePlaylist = async (e) => {
         e.preventDefault()
         const deleted = await dispatch(playlistActions.deletePlaylist(playlistId))
@@ -79,7 +80,7 @@ const PlaylistPage = () => {
         if (showMenu) return
         setShowMenu(true)
     }
-    if (!!onePlaylist.User) {
+    if (!!onePlaylist.User && sessionUser) {
         heartButton = (
             <button hidden={sessionUser.id === onePlaylist.User.id} onClick={(e) => { followPlaylist(e); setUpdate(!update) }} style={{ backgroundColor: "#1e1e1e", border: "none", cursor: "pointer" }}>
                 <i style={{ color: "#babbbb" }} class="fa-regular fa-heart fa-2x"></i>
@@ -146,7 +147,9 @@ const PlaylistPage = () => {
                         &nbsp;
                         &nbsp;
                         <div>
-                            <button hidden={sessionUser.id !== onePlaylist?.User?.id} onClick={deletePlaylist}>DELETE</button>
+                            {sessionUser && (
+                                <button hidden={sessionUser.id !== onePlaylist?.User?.id} onClick={deletePlaylist}>DELETE</button>
+                            )}
                         </div>
                     </div>
                     <br />

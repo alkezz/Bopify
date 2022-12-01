@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom';
-import { signUp } from '../../store/session';
+import { signUp, login } from '../../store/session';
 import "./SignupForm.css"
 import logo from "../../assets/black_bopify_logo-removebg-preview.png"
 
@@ -17,12 +17,28 @@ const SignUpForm = () => {
   document.body.style = 'background: white';
   const onSignUp = async (e) => {
     e.preventDefault();
-    if (password === repeatPassword) {
-      const data = await dispatch(signUp(username, email, password));
-      if (data) {
-        setErrors(data)
-      }
+    // if (password === repeatPassword) {
+    //   const data = await dispatch(signUp(username, email, password));
+    //   if (data) {
+    //     setErrors(data)
+    //   }
+    // }
+    const errorList = []
+    if (username.length > 15 || username.length < 2) errorList.push("Username must be between 2 and 15 characters")
+    if (email.includes("@") === false) errorList.push("Invalid Email")
+    if (email.includes(".com") === false) {
+      errorList.push("Emails must end with .com")
     }
+    if (email !== repeatEmail) errorList.push("Emails must match!")
+    if (password !== repeatPassword) errorList.push("Passwords must match!")
+    setErrors(errorList)
+    if (errorList.length) return
+    const data = await dispatch(signUp(username, email, password));
+    console.log("DATA", data)
+    if (data) {
+      setErrors(data)
+    }
+    if (errors.length) return
   };
 
   const updateUsername = (e) => {
@@ -63,9 +79,10 @@ const SignUpForm = () => {
       <div id='demo-user-div'>
         <button id='demo-button'
           type="submit"
-          onClick={() => {
-            setEmail("demo@aa.io");
-            setPassword("password");
+          onClick={async () => {
+            // setEmail("demo@aa.io");
+            // setPassword("password");
+            await dispatch(login("demo@aa.io", "password"))
           }}>
           <i id='facebook' class="fa-brands fa-facebook"></i>
           CONTINUE WITH DEMO USER
@@ -73,9 +90,10 @@ const SignUpForm = () => {
         <br />
         <button id='bobbie-button'
           type="submit"
-          onClick={() => {
+          onClick={async () => {
             setEmail("bobbie@aa.io");
             setPassword("password");
+            await dispatch(login("bobbie.io", "password"))
           }}>
           <i id="google" class="fa-brands fa-google"></i>
           CONTINUE WITH BOBBIE
