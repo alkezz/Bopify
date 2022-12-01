@@ -14,6 +14,7 @@ const AccountPage = () => {
     const [user, setUser] = useState([])
     const [currentUserFollowers, setCurrentUserFollowers] = useState([])
     const [profileFollowers, setProfileFollowers] = useState([])
+    const [followingPlaylists, setFollowingPlaylists] = useState([])
     const [isFollowing, setIsFollowing] = useState()
     const [update, setUpdate] = useState(true)
     useEffect(() => {
@@ -30,8 +31,17 @@ const AccountPage = () => {
             const followData = await dispatch(followActions.userFollowList(userId))
             setProfileFollowers(followData)
         })();
-    }, [setUser, dispatch, setCurrentUserFollowers, setProfileFollowers, update])
+        (async () => {
+            const playlistFollowRes = await fetch(`/api/users/${userId}/followed-playlists`)
+            const playlistFollowsData = await playlistFollowRes.json()
+            setFollowingPlaylists(playlistFollowsData.followedPlaylists)
+        })();
+    }, [setUser, dispatch, setCurrentUserFollowers, setProfileFollowers, update, setFollowingPlaylists])
+    console.log("FOLLOWED PLAYLISTS: ", followingPlaylists)
     let profilePic
+    if (!currentUserFollowers) {
+        return null
+    }
     console.log(currentUserFollowers, "CURRENT USER FOLLOWERS")
     console.log(profileFollowers, "PROFILE FOLLOWERS")
     console.log("USER", user)
@@ -107,6 +117,23 @@ const AccountPage = () => {
                     <div className="profile-playlists-container">
                         {userPlaylistList && (
                             userPlaylistList.map((playlist) => {
+                                return <div>
+                                    <div className="playlist-image">
+                                        <Link to={`/playlist/${playlist.id}`}>
+                                            <img className="playlist-image-profile" src={playlist.playlist_img} />
+                                        </Link>
+                                    </div>
+                                    <div className="playlist-name">
+                                        {playlist.name}
+                                    </div>
+                                </div>
+                            })
+                        )}
+                    </div>
+                    <h2>Followed Playlists</h2>
+                    <div className="profile-followed-playlists-container">
+                        {followingPlaylists && (
+                            followingPlaylists.map((playlist) => {
                                 return <div>
                                     <div className="playlist-image">
                                         <Link to={`/playlist/${playlist.id}`}>

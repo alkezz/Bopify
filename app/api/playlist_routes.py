@@ -106,6 +106,15 @@ def remove_song_from_playlist(id, id2):
     else:
         return {"message": f"Could not find playlist with id of {id}"}
 
+@playlist_routes.route("/<int:id>/playlist-follows")
+def playlist_follows(id):
+    playlist = Playlist.query.get(id)
+
+    if playlist:
+        return playlist.to_dict(playlist_followers=True)
+    else:
+        return {"message": f"Playlist with id of {id} not found"}
+
 @playlist_routes.route("/<int:id>/")
 def one_playlist(id):
     playlist = Playlist.query.get(id)

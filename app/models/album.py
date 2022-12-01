@@ -20,7 +20,8 @@ class Album(db.Model):
         album = {
             "id": self.id,
             "name": self.name,
-            "year": self.year
+            "year": self.year,
+            "artist": self.artist.to_dict()
         }
 
         if images:

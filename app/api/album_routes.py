@@ -18,4 +18,4 @@ def one_album_songs(id):
 @album_routes.route("/<int:id>/")
 def oneAlbum(id):
     album = Album.query.get(id)
-    return album.to_dict(images=True)
+    return album.to_dict(images=True, songs=True)

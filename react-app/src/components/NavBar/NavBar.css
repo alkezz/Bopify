@@ -1,5 +1,7 @@
 body{
     margin-left: 190px;
+    /* padding-bottom: 400px; */
+    /* overflow-y: scroll; */
 }
 
 #top-navbar{
@@ -65,7 +67,6 @@ body{
     top: 0;
     left: 0;
     background-color: #000000;
-    overflow-x: hidden;
     padding-top: 60px;
 }
 

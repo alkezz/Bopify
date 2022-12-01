@@ -7,6 +7,7 @@ import NavBar from './components/NavBar/NavBar';
 import LandingPage from './components/LandingPage/LandingPage';
 import PlaylistPage from './components/PlaylistPage/PlaylistPage';
 import ArtistPage from './components/ArtistPage/ArtistPage';
+import AlbumPage from './components/AlbumPage/AlbumPage';
 import AccountPage from './components/AccountPage/AccountPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
@@ -43,6 +44,9 @@ function App() {
         </Route>
         <Route path='/playlist/:playlistId' exact={true}>
           <PlaylistPage />
+        </Route>
+        <Route path='/album/:albumId' exact={true}>
+          <AlbumPage />
         </Route>
         <ProtectedRoute path='/users' exact={true} >
           <UsersList />
