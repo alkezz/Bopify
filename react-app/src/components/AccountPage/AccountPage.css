@@ -47,4 +47,19 @@
 
 .profile-container{
     padding-bottom: 80px;
+    margin-left: 20px;
+}
+
+.follow-button{
+    margin-top: 10px;
+    background: none;
+    color: white;
+    border: 1px solid gray;
+    border-radius: 5px;
+    width: 90px;
+    height: 30px;
+    font-weight: 700;
+}
+.follow-button:hover{
+    border-color: white;
 }

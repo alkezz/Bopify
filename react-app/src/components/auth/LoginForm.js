@@ -31,6 +31,10 @@ const LoginForm = () => {
   if (user) {
     return <Redirect to='/' />;
   }
+  const demoLogin = async (e) => {
+    e.preventDefault()
+    await dispatch(login("demo@aa.io", "password"))
+  }
   let errorDiv
   if (errors) {
     errorDiv = (
@@ -124,9 +128,8 @@ const LoginForm = () => {
         <div id='demo-user-div'>
           <button id='demo-button'
             type="submit"
-            onClick={(e) => {
-              setEmail("demo@aa.io");
-              setPassword("password");
+            onClick={async () => {
+              await dispatch(login("demo@aa.io", "password"))
             }}>
             <i id='facebook' class="fa-brands fa-facebook"></i>
             CONTINUE WITH DEMO USER
@@ -134,9 +137,8 @@ const LoginForm = () => {
           <br />
           <button id='marnie-button'
             type="submit"
-            onClick={(e) => {
-              setEmail("marnie@aa.io");
-              setPassword("password");
+            onClick={async () => {
+              await dispatch(login("marnie@aa.io", "password"))
             }}>
             <i id="apple" class="fa-brands fa-apple"></i>
             CONTINUE WITH MARNIE
@@ -144,9 +146,8 @@ const LoginForm = () => {
           <br />
           <button id='bobbie-button'
             type="submit"
-            onClick={(e) => {
-              setEmail("bobbie@aa.io");
-              setPassword("password");
+            onClick={async () => {
+              await dispatch(login("bobbie@aa.io", "password"))
             }}>
             <i id="google" class="fa-brands fa-google"></i>
             CONTINUE WITH BOBBIE

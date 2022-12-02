@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useHistory, useParams, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as playlistActions from "../../store/playlist"
+import * as audioActions from "../../store/audioplayer"
 import EditPlaylistModal from "./EditPlaylistModal"
 import "./PlaylistPage.css"
 
@@ -16,7 +17,9 @@ const PlaylistPage = () => {
     const [followingPlaylists, setFollowingPlaylists] = useState([])
     const playlistState = useSelector((state) => state.playlist)
     const sessionUser = useSelector((state) => state.session.user)
-    console.log("STATE", playlistState)
+    const songState = useSelector((state) => state)
+    document.body.style = 'background: #1e1e1e';
+    console.log("STATE", songState)
     let i = 0
     useEffect(async () => {
         if (!playlistId) {
@@ -58,8 +61,10 @@ const PlaylistPage = () => {
     const playlistArray = Object.values(playlistState)
     const playlist = playlistArray.filter(playlist => Number(playlist.id) === Number(playlistId))[0]
     let userPlaylistList
+    let userPlaylistLength
     if (sessionUser) {
         userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
+        userPlaylistLength = userPlaylistList.length + 1
     }
     let heartButton
     const deletePlaylist = async (e) => {
@@ -101,6 +106,20 @@ const PlaylistPage = () => {
             }
         }
     }
+    const createPlaylist = async (e) => {
+        e.preventDefault()
+        const newPlaylist = {
+            "name": `My Playlist #${userPlaylistLength}`,
+            "playlist_img": "https://ali-practice-aws-bucket.s3.amazonaws.com/playlistDefaultImage.png",
+            "user_id": sessionUser.id
+        }
+        let new_playlist = await dispatch(playlistActions.createPlaylist(newPlaylist))
+        console.log(new_playlist)
+        if (new_playlist) {
+            history.push(`/playlist/${new_playlist.id}`)
+        }
+    }
+
     const followPlaylist = async (e) => {
         e.preventDefault()
         setUpdate(true)
@@ -123,14 +142,50 @@ const PlaylistPage = () => {
             method: "DELETE"
         });
     }
+
+    const listenToPlaylist = async (e) => {
+        e.preventDefault()
+        await dispatch(audioActions.addPlaylist(playlistId))
+    }
+
     return (
         <>
             {!!onePlaylist.User && (
                 <div className='playlist-container' style={{ color: "white" }}>
-                    <EditPlaylistModal playlistId={playlistId} playlist={playlist} onePlaylist={onePlaylist} />
+                    {sessionUser?.id === onePlaylist?.User?.id && (
+                        <EditPlaylistModal playlistId={playlistId} playlist={playlist} onePlaylist={onePlaylist} />
+                    )}
+                    {sessionUser?.id !== onePlaylist?.User?.id && (
+                        <div className='playlist-header-container'>
+                            <div id='picture-container'>
+                                <img src={playlist.playlist_img} />
+                                {/* <EditPlaylistModal playlistId={playlistId} playlist={playlist} /> */}
+                            </div>
+                            <div id='playlist-info-container'>
+                                <div id='playlist-word-container' style={{ fontSize: "12px" }}>
+                                    PLAYLIST
+                                </div>
+                                <div id='playlist-name' style={{ fontSize: "70px", fontWeight: "700", textDecoration: "none" }}>
+                                    {playlist.name}
+                                </div>
+                                <div id='playlist-description'>
+                                    {playlist.description}
+                                </div>
+                                <div>
+                                    <Link style={{ textDecoration: "none", color: "white" }} to={`/user/${onePlaylist?.User?.id}`}>
+                                        {onePlaylist?.User?.username}
+                                    </Link>
+                                    <span style={{ fontSize: "20px" }}>·</span>
+                                    {onePlaylist?.Songs && (
+                                        <span>{onePlaylist?.Songs?.length} songs</span>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     <div className='play-like-container'>
                         <div>
-                            <button style={{ backgroundColor: "#1e1e1e", border: "none" }}>
+                            <button onClick={listenToPlaylist} style={{ backgroundColor: "#1e1e1e", border: "none" }}>
                                 <i style={{ color: "#1ed760" }} class="fa-solid fa-circle-play fa-4x"></i>
                             </button>
                         </div>
@@ -188,9 +243,9 @@ const PlaylistPage = () => {
                             {onePlaylist.Songs.map((song) => {
                                 return <div style={{ paddingBottom: "10px", listStyle: "none", display: "flex", justifyContent: "space-between" }}>
                                     <div style={{ width: "300px" }}>
-                                        {incrementSongNumber()} <Link to={{ pathname: song.song_url }}>{song.name}</Link>
+                                        {incrementSongNumber()} <Link style={{ textDecoration: "none", color: "white" }} to={{ pathname: song.song_url }}>{song.name}</Link>
                                     </div>
-                                    <div style={{ marginLeft: "-60px" }}>{song.album.name}</div>
+                                    <div style={{ marginLeft: "-60px" }}><Link style={{ textDecoration: "none", color: "white" }} to={`/album/${song.album.id}`}>{song.album.name}</Link></div>
                                     <div>
                                         <i style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-regular fa-heart"></i>
                                         time
@@ -200,9 +255,9 @@ const PlaylistPage = () => {
                                         {activeMenu === song.id && (
                                             <div className='active-song-dropdown'>
                                                 <div>
-                                                    <Link to={`/album/${song.album.id}`}>Album Page</Link>
+                                                    <Link style={{ textDecoration: "none", color: "gray" }} to={`/album/${song.album.id}`}>Album Page</Link>
                                                 </div>
-                                                <button onClick={async (e) => {
+                                                <button style={{ background: 'none', color: "gray", cursor: "pointer" }} onClick={async (e) => {
                                                     {
                                                         deleteSong(e, song.id);
                                                         setUpdate(!update);
@@ -210,14 +265,14 @@ const PlaylistPage = () => {
                                                 }}>Remove song</button>
                                                 <div>
                                                     {sessionUser && (
-                                                        <button style={{ border: "none" }} onClick={openMenu}>Add song to playlist</button>
+                                                        <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={openMenu}>Add song to playlist</button>
                                                     )}
                                                     {showMenu && (
                                                         <div className='add-song-dropdown'>
-                                                            <div>Create Playlist</div>
+                                                            <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={createPlaylist}>Create Playlist</button>
                                                             <div style={{ borderBottom: "1px solid white" }}></div>
                                                             {userPlaylistList.map((playlist) => {
-                                                                return <button onClick={async (e) => {
+                                                                return <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={async (e) => {
                                                                     await fetch(`/api/playlists/${playlist.id}/add_song/${song.id}`, {
                                                                         method: "POST"
                                                                     })

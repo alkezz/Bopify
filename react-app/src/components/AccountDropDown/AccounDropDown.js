@@ -27,12 +27,8 @@ const DropDown = () => {
             <button id="drop-down-button" onClick={openMenu}>{sessionUser.username}</button>
             {showMenu && (
                 <div className='drop-down'>
-                    <div className='user-info'>
-                        <div className='profile-button'>
-                            <Link onClick={async (e) => await fetch(`/api/users/${sessionUser.id}`)} to={`/user/${sessionUser.id}`}>Profile</Link>
-                        </div>
-                        <div className='logout-button-dropdown'><LogoutButton /></div>
-                    </div>
+                    <Link style={{ textDecoration: "none", color: "gray", fontSize: "12px" }} onClick={async (e) => await fetch(`/api/users/${sessionUser.id}`)} to={`/user/${sessionUser.id}`}>Profile</Link>
+                    <div className='logout-button-dropdown'><LogoutButton /></div>
                 </div>
             )}
         </div>

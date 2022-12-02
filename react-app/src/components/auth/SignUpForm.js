@@ -91,9 +91,7 @@ const SignUpForm = () => {
         <button id='bobbie-button'
           type="submit"
           onClick={async () => {
-            setEmail("bobbie@aa.io");
-            setPassword("password");
-            await dispatch(login("bobbie.io", "password"))
+            await dispatch(login("bobbie@aa.io", "password"))
           }}>
           <i id="google" class="fa-brands fa-google"></i>
           CONTINUE WITH BOBBIE

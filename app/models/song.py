@@ -29,7 +29,7 @@ class Song(db.Model):
             "id": self.id,
             "name": self.name,
             "song_url": self.song_url,
-            "album": self.albums.to_dict()
+            "album": self.albums.to_dict(images=True)
         }
 
         if album:
