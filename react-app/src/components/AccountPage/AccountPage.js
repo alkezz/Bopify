@@ -7,7 +7,7 @@ import "./AccountPage.css"
 const AccountPage = () => {
     const sessionUser = useSelector((state) => state.session.user)
     const playlistState = useSelector((state) => state.playlist)
-    const followState = useSelector((state) => state.follows)
+    const followState = useSelector((state) => state.follows.current_followed_user_ids)
     const dispatch = useDispatch()
     let { userId } = useParams()
     const history = useHistory()
@@ -15,8 +15,12 @@ const AccountPage = () => {
     const [currentUserFollowers, setCurrentUserFollowers] = useState([])
     const [profileFollowers, setProfileFollowers] = useState([])
     const [followingPlaylists, setFollowingPlaylists] = useState([])
+    const [following, setFollowing] = useState([])
     const [isFollowing, setIsFollowing] = useState()
     const [update, setUpdate] = useState(true)
+    document.body.style = 'background: #1e1e1e';
+    console.log("FOLLOWSTATE", followState)
+    const userFollowing = []
     useEffect(() => {
         (async () => {
             const userRes = await fetch(`/api/users/${userId}`)
@@ -38,8 +42,15 @@ const AccountPage = () => {
             const playlistFollowsData = await playlistFollowRes.json()
             setFollowingPlaylists(playlistFollowsData.followedPlaylists)
         })();
+        followState.forEach(async (id) => {
+            const response = await fetch(`/api/users/${id}`)
+            const data = await response.json()
+            userFollowing.push(data.username)
+        })
     }, [setUser, dispatch, setCurrentUserFollowers, setProfileFollowers, update, setFollowingPlaylists])
     console.log("FOLLOWED PLAYLISTS: ", followingPlaylists)
+    // setFollowing(userFollowing)
+    console.log("USERFOLLOWING", userFollowing)
     let profilePic
     if (!currentUserFollowers) {
         return null
@@ -62,18 +73,18 @@ const AccountPage = () => {
     }
     let followButton
     if (sessionUser !== null) {
-        if (currentUserFollowers?.current_followed_user_ids?.includes(user.id)) {
+        if (followState.includes(user?.id)) {
             followButton = (
-                <button hidden={sessionUser.id === Number(userId)} onClick={(e) => { unFollow(e); setUpdate(!update) }}>Unfollow</button>
+                <button className="follow-button" hidden={sessionUser?.id === Number(userId)} onClick={(e) => { unFollow(e); setUpdate(!update) }}>UNFOLLOW</button>
             )
         } else {
             followButton = (
-                <button hidden={sessionUser.id === Number(userId)} onClick={(e) => { follow(e); setUpdate(!update) }}>Follow</button>
+                <button className="follow-button" hidden={sessionUser?.id === Number(userId)} onClick={(e) => { follow(e); setUpdate(!update) }}>FOLLOW</button>
             )
         }
     } else {
         followButton = (
-            <button onClick={() => history.push("/login")}>Follow</button>
+            <button className="follow-button" onClick={() => history.push("/login")}>FOLLOW</button>
         )
     }
     const follow = (e) => {
@@ -150,6 +161,17 @@ const AccountPage = () => {
                                 })
                             )}
                         </div>
+                    </div>
+                    <div className="followed-users-container">
+                        <h2 style={{ color: "white" }}>Followed Users</h2>
+                        {/* {profileFollowers?.current_followed_user_ids?.map(async (follower) => {
+                            const user = await fetch(`/api/users/${follower}`)
+                            const userData = await user.json()
+                            console.log("USERDATA", userData)
+                            return <div>
+                                {userData.username}
+                            </div>
+                        })} */}
                     </div>
                 </div>)
         } else {

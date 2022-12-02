@@ -9,6 +9,9 @@ import PlaylistPage from './components/PlaylistPage/PlaylistPage';
 import ArtistPage from './components/ArtistPage/ArtistPage';
 import AlbumPage from './components/AlbumPage/AlbumPage';
 import AccountPage from './components/AccountPage/AccountPage';
+import LikedSongs from './components/LikedSongs/LikedSongs';
+import Search from './components/Search/Search';
+import Library from './components/Library/Library';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
@@ -38,6 +41,15 @@ function App() {
         </Route>
         <Route path='/sign-up' exact={true}>
           <SignUpForm />
+        </Route>
+        <Route path='/likes'>
+          <LikedSongs />
+        </Route>
+        <Route path='/library'>
+          <Library />
+        </Route>
+        <Route path='/search'>
+          <Search />
         </Route>
         <Route path='/artist/:artistId' exact={true}>
           <ArtistPage />

@@ -3,6 +3,24 @@ body{
     /* padding-bottom: 400px; */
     /* overflow-y: scroll; */
 }
+::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #1e1e1e;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 
 #top-navbar{
     display: flex;
@@ -126,4 +144,21 @@ body{
 .create-playlist-button:hover{
     color: white;
     cursor: pointer;
+}
+
+#bottom-nav-album-link{
+    text-decoration: none;
+    color: white;
+}
+#bottom-nav-album-link:hover{
+    text-decoration: underline;
+}
+#bottom-nav-artist-link{
+    text-decoration: none;
+    color: gray;
+}
+
+#bottom-nav-artist-link:hover{
+    text-decoration: underline;
+    color: white;
 }

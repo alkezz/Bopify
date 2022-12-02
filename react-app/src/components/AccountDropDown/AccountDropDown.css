@@ -5,7 +5,9 @@
     background-color: #282828;
 }
 .drop-down{
-    width: 150px;
+    /* width: 100px; */
+    height: 40px;
+    /* margin-left: 45px; */
 }
 
 #drop-down-button{

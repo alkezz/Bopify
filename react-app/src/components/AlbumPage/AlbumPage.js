@@ -12,6 +12,7 @@ const AlbumPage = () => {
     const [activeMenu, setActiveMenu] = useState()
     const sessionUser = useSelector((state) => state.session.user)
     const playlistState = useSelector((state) => state.playlist)
+    document.body.style = 'background: #1e1e1e';
     useEffect(() => {
         (async () => {
             const albumResponse = await fetch(`/api/albums/${albumId}`)
