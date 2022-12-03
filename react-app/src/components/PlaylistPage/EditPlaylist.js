@@ -8,17 +8,22 @@ const EditPlaylistForm = ({ playlistId }) => {
     const dispatch = useDispatch()
     const sessionUser = useSelector((state) => state.session.user)
     const playlistToEdit = useSelector((state) => state.playlist)
+    const playlistArray = Object.values(playlistToEdit)
+    const userPlaylist = playlistArray.filter(playlist => Number(playlist.id) === Number(playlistId))
     const [image, setImage] = useState("")
     const [errors, setErrors] = useState([])
+    const [name, setName] = useState(userPlaylist[0].name)
+    const [description, setDescription] = useState(userPlaylist[0].description)
     const formData = new FormData()
     useEffect(async () => {
         await dispatch(playlistActions.getOnePlaylist(playlistId))
         await dispatch(playlistActions.getAllPlaylists())
     }, [dispatch])
-    const playlistArray = Object.values(playlistToEdit)
-    const userPlaylist = playlistArray.filter(playlist => Number(playlist.id) === Number(playlistId))
-    const [name, setName] = useState(userPlaylist[0].name)
-    const [description, setDescription] = useState(userPlaylist[0].description)
+    useEffect(() => {
+        const errorList = []
+        if (name.length <= 0) errorList.push("Playlist name is required")
+        setErrors(errorList)
+    }, [name.length])
     console.log(userPlaylist)
     if (!sessionUser) {
         return null
@@ -26,45 +31,76 @@ const EditPlaylistForm = ({ playlistId }) => {
     if (!playlistId) {
         return null
     }
+    let correctFile = true
     const handleSubmit = async (e) => {
         e.preventDefault()
+        if (errors.length) return
         setErrors([])
         setImage("")
         const errorList = []
-        if (name.length > 20) errorList.push("Name of playlist should be 20 characters or less!")
+        if (name.length > 15) errorList.push("Name of playlist should be 15 characters or less!")
+        if (description.length > 80) errorList.push("Description should be 80 characters or less!")
         let imageInput = document.querySelector("#file-input")
         setErrors(errorList)
         // if(errorList.length){
         //     return
         // }
+        for (let i = 0; i < imageInput.files.length; i++) {
+            let img = imageInput.files[i]
+            if (img.type !== "image/gif" && img.type !== "image/jpeg" && img.type !== "image/png") {
+                correctFile = false
+            }
+            formData.append('file', img)
+        }
+        if (correctFile === false) errorList.push("You may only upload .GIF, .JPEG/.JPG, and .PNG files!")
+        setErrors(errorList)
+        if (errorList.length) return
         let img = imageInput.files[0]
         formData.append('file', img)
-        console.log("FORMDATA", formData.file)
-        const picture = await fetch("/api/playlists/images/upload", {
-            method: "POST",
-            body: formData
-        })
-        const imageURL = await picture.json()
-        console.log("IMAGE URL", imageURL)
-        const editedPlaylist = {
-            name,
-            description,
-            playlist_img: imageURL.image
-        }
-        const newPlaylist = await dispatch(playlistActions.editPlaylist(editedPlaylist, playlistId))
-        if (newPlaylist) {
-            await dispatch(playlistActions.getOnePlaylist(playlistId))
-            await dispatch(playlistActions.getAllPlaylists())
+        console.log("FORMDATA", img === undefined)
+        if (img === undefined) {
+            const editedPlaylist = {
+                name,
+                description,
+                playlist_img: ""
+            }
+            const newPlaylist = await dispatch(playlistActions.editPlaylist(editedPlaylist, playlistId))
+            if (newPlaylist) {
+                await dispatch(playlistActions.getOnePlaylist(playlistId))
+                await dispatch(playlistActions.getAllPlaylists())
+            }
+        } else {
+            const picture = await fetch("/api/playlists/images/upload", {
+                method: "POST",
+                body: formData
+            })
+            const imageURL = await picture.json()
+            const editedPlaylist = {
+                name,
+                description,
+                playlist_img: imageURL.image
+            }
+            const newPlaylist = await dispatch(playlistActions.editPlaylist(editedPlaylist, playlistId))
+            if (newPlaylist) {
+                await dispatch(playlistActions.getOnePlaylist(playlistId))
+                await dispatch(playlistActions.getAllPlaylists())
+            }
         }
     }
     return (
         <div className='edit-project-container'>
             <form className='edit-project-form' onSubmit={handleSubmit}>
                 <h2>Edit details</h2>
+                <div>
+                    {errors.map((error) => {
+                        return <span>{error}</span>
+                    })}
+                </div>
+                <br />
                 <div className='edit-project-componenets'>
-                    <div className='edit-image-container'>
+                    <div style={{ width: "200px", height: "200px" }} className='edit-image-container'>
                         <label htmlFor='file-input'>
-                            <img src={userPlaylist[0].playlist_img} />
+                            <img style={{ width: "200px", height: "210px" }} src={userPlaylist[0].playlist_img} />
                         </label>
                         <input id='file-input' type='file' name='file' encType="multipart/form-data" />
                     </div>

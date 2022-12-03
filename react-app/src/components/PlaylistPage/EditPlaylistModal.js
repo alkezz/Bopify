@@ -10,8 +10,8 @@ const EditPlaylistModal = ({ playlistId, playlist, onePlaylist }) => {
         <>
             <div onClick={() => setShowModal(true)}>
                 <div className='playlist-header-container'>
-                    <div id='picture-container'>
-                        <img src={playlist.playlist_img} />
+                    <div style={{ width: "250px", height: "250px" }} id='picture-container'>
+                        <img style={{ width: "250px", height: "250px" }} src={playlist.playlist_img} />
                         {/* <EditPlaylistModal playlistId={playlistId} playlist={playlist} /> */}
                     </div>
                     <div id='playlist-info-container'>

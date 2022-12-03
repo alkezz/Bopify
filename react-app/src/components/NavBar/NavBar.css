@@ -79,13 +79,13 @@ body{
 
 .side-nav{
     height: 100%;
-    width: 190px;
+    width: 200px;
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
     background-color: #000000;
-    padding-top: 60px;
+    padding-top: 30px;
 }
 
 .side-nav a{

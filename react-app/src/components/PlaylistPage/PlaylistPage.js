@@ -113,11 +113,7 @@ const PlaylistPage = () => {
             "playlist_img": "https://ali-practice-aws-bucket.s3.amazonaws.com/playlistDefaultImage.png",
             "user_id": sessionUser.id
         }
-        let new_playlist = await dispatch(playlistActions.createPlaylist(newPlaylist))
-        console.log(new_playlist)
-        if (new_playlist) {
-            history.push(`/playlist/${new_playlist.id}`)
-        }
+        await dispatch(playlistActions.createPlaylist(newPlaylist))
     }
 
     const followPlaylist = async (e) => {
@@ -203,7 +199,7 @@ const PlaylistPage = () => {
                         &nbsp;
                         <div>
                             {sessionUser && (
-                                <button hidden={sessionUser.id !== onePlaylist?.User?.id} onClick={deletePlaylist}>DELETE</button>
+                                <button className='delete-playlist-button' hidden={sessionUser.id !== onePlaylist?.User?.id} onClick={deletePlaylist}>DELETE</button>
                             )}
                         </div>
                     </div>

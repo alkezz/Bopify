@@ -11,6 +11,8 @@ const AlbumPage = () => {
     const [showMenu, setShowMenu] = useState(false)
     const [activeMenu, setActiveMenu] = useState()
     const sessionUser = useSelector((state) => state.session.user)
+    const dispatch = useDispatch()
+    const history = useHistory()
     const playlistState = useSelector((state) => state.playlist)
     document.body.style = 'background: #1e1e1e';
     useEffect(() => {
@@ -33,9 +35,11 @@ const AlbumPage = () => {
     }, [showMenu]);
     console.log("ALBUM", album)
     let userPlaylistList
+    let userPlaylistLength
     if (sessionUser) {
         const playlistArray = Object.values(playlistState)
         userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
+        userPlaylistLength = userPlaylistList.length + 1
     }
     const incrementSongNumber = () => {
         i = i + 1
@@ -46,21 +50,30 @@ const AlbumPage = () => {
         if (showMenu) return
         setShowMenu(true)
     }
+    const createPlaylist = async (e) => {
+        e.preventDefault()
+        const newPlaylist = {
+            "name": `My Playlist #${userPlaylistLength}`,
+            "playlist_img": "https://ali-practice-aws-bucket.s3.amazonaws.com/playlistDefaultImage.png",
+            "user_id": sessionUser.id
+        }
+        await dispatch(playlistActions.createPlaylist(newPlaylist))
+    }
     return (
         <>
             {!!album && (
                 <div className='album-page-container' style={{ color: "white", paddingBottom: "80px", marginLeft: "30px", marginRight: "30px" }}>
-                    <div className='album-top-header' style={{ backgroundColor: "#393939", display: "flex", flexDirection: "row" }}>
-                        <div className='album-image'>
-                            <img src={album?.albumPic}></img>
+                    <div className='album-top-header' style={{ backgroundColor: "#393939", display: "flex", flexDirection: "row", width: "100%" }}>
+                        <div style={{ width: "250px", height: "250px" }} className='album-image'>
+                            <img style={{ width: "250px", height: "250px" }} src={album?.albumPic}></img>
                         </div>
-                        <div className='album-info'>
+                        <div className='album-info' style={{ marginTop: "130px", marginLeft: "20px", display: "flex", flexDirection: "column" }}>
                             ALBUM
                             <div className='album-name' style={{ fontSize: "60px", fontWeight: "700" }}>
                                 {album?.name}
                             </div>
                             <div className='album-artist'>
-                                <Link to={`/artist/${album?.artist?.id}`}>{album?.artist?.name}</Link><span>.</span> {album?.year} <span>.</span> {album?.Songs?.length} songs
+                                <Link style={{ textDecoration: "none", color: "white" }} to={`/artist/${album?.artist?.id}`}>{album?.artist?.name}</Link><span>.</span> {album?.year} <span>.</span> {album?.Songs?.length} songs
                             </div>
                         </div>
                     </div>
@@ -116,18 +129,18 @@ const AlbumPage = () => {
                                         {activeMenu === song.id && (
                                             <div className='active-song-dropdown'>
                                                 <div>
-                                                    <Link to={`/album/${song.album.id}`}>Album Page</Link>
+                                                    <Link style={{ textDecoration: "none", color: "gray" }} to={`/album/${song.album.id}`}>Album Page</Link>
                                                 </div>
                                                 <div>
                                                     {sessionUser && (
-                                                        <button style={{ border: "none" }} onClick={openMenu}>Add song to playlist</button>
+                                                        <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={openMenu}>Add song to playlist</button>
                                                     )}
                                                     {showMenu && (
                                                         <div className='add-song-dropdown'>
-                                                            <div>Create Playlist</div>
+                                                            <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={createPlaylist}>Create Playlist</button>
                                                             <div style={{ borderBottom: "1px solid white" }}></div>
                                                             {userPlaylistList.map((playlist) => {
-                                                                return <button onClick={async (e) => {
+                                                                return <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={async (e) => {
                                                                     await fetch(`/api/playlists/${playlist.id}/add_song/${song.id}`, {
                                                                         method: "POST"
                                                                     })

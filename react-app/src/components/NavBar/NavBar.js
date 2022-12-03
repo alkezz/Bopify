@@ -1,15 +1,17 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useHistory, useParams, useLocation } from 'react-router-dom';
 import LogoutButton from '../auth/LogoutButton';
 import DropDown from '../AccountDropDown/AccounDropDown';
 import UserPlaylist from '../UserPlaylists/UserPlaylists';
 import logo from "../../assets/black_bopify_logo-removebg-preview.png"
+import whiteLogo from "../../assets/bopify-white-logo.png"
 import "./NavBar.css"
 import { useDispatch, useSelector } from 'react-redux';
 import greenLogo from "../../assets/new_bopify_logo-removebg-preview.png"
 import * as playlistActions from "../../store/playlist"
 import * as audioActions from "../../store/audioplayer"
+import ReactAudioPlayer from 'react-audio-player';
 
 const NavBar = () => {
   const history = useHistory()
@@ -19,11 +21,27 @@ const NavBar = () => {
   const playlistState = useSelector((state) => state.playlist)
   const audioState = useSelector((state) => state.audioPlayer)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
   const [userPlaylists, setUserPlaylists] = useState([])
   let allPlaylists
+  const progress = useRef()
+  const audioPlayer = useRef()
+  const progressBar = useRef()
+  const timerRef = useRef()
+  // const progressBar = document.querySelector(".progress-bar")
   useEffect(async () => {
     allPlaylists = await dispatch(playlistActions.getAllPlaylists())
   }, [dispatch])
+  useEffect(() => {
+    if (isPlaying === true) {
+      const seconds = Math.floor(audioPlayer?.current?.duration)
+      if (!isNaN(seconds)) {
+        setDuration(seconds)
+        progressBar.current.max = seconds
+      }
+    }
+  }, [isPlaying, audioPlayer?.current?.loadedmetadata, audioPlayer?.current?.readyState])
   const playlistArray = Object.values(playlistState)
   console.log("AUDIO STATE", audioState)
   let userPlaylistList
@@ -50,28 +68,72 @@ const NavBar = () => {
     }
   }
 
+  const calculateTime = (secs) => {
+    const minutes = Math.floor(secs / 60);
+    const returnedMins = minutes < 10 ? `0${minutes}` : `${minutes}`;
+    const seconds = Math.floor(secs % 60)
+    const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`
+    return `${returnedMins}:${returnedSeconds}`;
+  }
 
+  // const audioElement = document.getElementById("audio-player")
+  // if (audioElement) {
+  //   audioElement.addEventListener('loadedmetadata', () => {
+  //     // displayAudioDuration(audioElement.duration)
+  //   })
+  // }
+
+  // const updateProgressBar = () => {
+  //   const audioElement = document.getElementById("audio-player")
+  //   const position = (100 * audioElement.currentTime) / audioElement.duration
+  //   if (progressBar) {
+  //     progressBar.style.backgroundSize = `${position}% 100%`
+  //     progressBar.value = position
+  //   }
+  // }
+
+  const moveSlider = () => {
+    audioPlayer.current.currentTime = progressBar.current.value
+    progressBar.current.style.setProperty('--seek-before-width', `${progressBar.current.value / duration * 100}%`)
+    setCurrentTime(progressBar.current.value)
+  }
+
+  const updateTime = () => {
+    if (audioPlayer.current.currentTime) {
+      progressBar.current.value = audioPlayer?.current?.currentTime
+      progressBar?.current?.style.setProperty('--seek-before-width', `${progressBar?.current?.value / duration * 100}%`)
+      setCurrentTime(progressBar?.current?.value)
+      timerRef.current = requestAnimationFrame(updateTime)
+    }
+  }
 
   const playAudio = () => {
     const audioElement = document.getElementById("audio-player")
+    timerRef.current = requestAnimationFrame(updateTime)
     audioElement.play()
   }
   const pauseAudio = () => {
     const audioElement = document.getElementById("audio-player")
+    cancelAnimationFrame(timerRef.current)
     audioElement.pause()
   }
   const skipAudio = async () => {
+    await setIsPlaying(false)
+    // setDuration(0)
+    await setCurrentTime(0)
     await dispatch(audioActions.skipSong())
-    const audioElement = document.getElementById("audio-player")
-    audioElement.play()
+    // const audioElement = document.getElementById("audio-player")
+    // audioElement.play()
   }
   if (sessionUser) {
     if (audioState.current_song_playing.length > 0) {
       let volume = document.getElementById("volume-slider")
-      volume.addEventListener("change", (e) => {
-        const audioElement = document.getElementById("audio-player")
-        audioElement.volume = e.currentTarget.value / 100
-      })
+      if (volume) {
+        volume.addEventListener("change", (e) => {
+          const audioElement = document.getElementById("audio-player")
+          audioElement.volume = e.currentTarget.value / 100
+        })
+      }
     }
   }
   if (isPlaying === true) {
@@ -92,7 +154,7 @@ const NavBar = () => {
     sidenav = (
       <div className='side-nav' style={{ color: "#adb3b3" }}>
         <div id='logo'>
-          IMAGE GOES HERE
+          <img src={whiteLogo} />
         </div>
         <div>
           <Link to="/">
@@ -149,8 +211,8 @@ const NavBar = () => {
   } else if (sessionUser && location.pathname !== "/sign-up" && location.pathname !== "/login") {
     sidenav = (
       <div className='side-nav' style={{ color: "#adb3b3" }}>
-        <div id='logo'>
-          IMAGE GOES HERE
+        <div style={{ marginBottom: "20px" }} id='logo'>
+          <img onClick={(e) => history.push("/")} style={{ width: "155px", height: "45px", cursor: "pointer" }} src={whiteLogo} />
         </div>
         <Link to="/" style={{ textDecoration: "none" }}>
           <i class="fa-solid fa-house" style={{ color: "#b3b3b3" }}></i>
@@ -203,9 +265,19 @@ const NavBar = () => {
               <div className='audio-controls'>
                 {playPauseButton}
                 <button onClick={skipAudio}>SKIP</button>
-                <input style={{ width: "30%" }} type='range' id='volume-slider' />
               </div>
-              <audio id='audio-player' src={audioState.current_song_playing[0].song_url}></audio>
+              <span id='current-time'>{calculateTime(currentTime)}</span>
+              <input
+                type='range'
+                defaultValue='0'
+                className='progress-bar'
+                ref={progressBar}
+                onChange={moveSlider}
+              />
+              <span id='song-duration'>{calculateTime(duration)}</span>
+              <input style={{ width: "30%" }} type='range' id='volume-slider' max='100' value='5' />
+              <audio ref={audioPlayer} preload='auto' id='audio-player' src={audioState.current_song_playing[0].song_url}></audio>
+              {/* <ReactAudioPlayer src={audioState.current_song_playing[0].song_url} /> */}
             </div>
           </div>
         )
@@ -217,7 +289,8 @@ const NavBar = () => {
           <button onClick={pauseAudio}>PAUSE</button>
           <button onClick={skipAudio}>SKIP</button>
           <input style={{ width: "10%" }} type='range' id='volume-slider' />
-          <audio id='audio-player'></audio>
+          <progress id='progress' value="0" min="0"><span id='progress-bar'></span></progress>
+          <audio preload='metadata' id='audio-player'></audio>
         </div>
       )
     }
