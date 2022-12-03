@@ -16,10 +16,10 @@ const actionfollowPlaylist = (playlist) => {
     }
 }
 
-const actionUnfollowPlaylist = (playlist) => {
+const actionUnfollowPlaylist = (playlistId) => {
     return {
         type: UNFOLLOW_PLAYLIST,
-        playlist
+        playlistId
     }
 }
 
@@ -52,7 +52,7 @@ export const unfollowPlaylist = (userId, playlistId) => async (dispatch) => {
     })
     if (response.ok) {
         const data = await response.json()
-        dispatch(actionUnfollowPlaylist(data.followedPlaylists))
+        dispatch(actionUnfollowPlaylist(playlistId))
         return data
     }
     return response
@@ -60,22 +60,48 @@ export const unfollowPlaylist = (userId, playlistId) => async (dispatch) => {
 
 const initialState = {}
 
+// export default function followedPlaylistReducer(state = initialState, action) {
+//     let newState = {}
+//     switch (action.type) {
+//         case GET_FOLLOWED_PLAYLISTS:
+//             newState = { ...state }
+//             action.playlists.forEach((playlist) => {
+//                 newState[playlist.id] = playlist
+//             })
+//             return newState
+//         case FOLLOW_PLAYLIST:
+//             return { ...state, ...action.playlist }
+//         case UNFOLLOW_PLAYLIST:
+//             console.log(action, "ACTION IN FOLLWOEPD:ALTS STORE")
+//             let newState = { ...state }
+//             delete newState[action.playlist.id]
+//             return newState
+//         default:
+//             return state
+//     }
+// }
+
 export default function followedPlaylistReducer(state = initialState, action) {
     let newState = {}
     switch (action.type) {
-        case GET_FOLLOWED_PLAYLISTS:
-            newState = { ...state }
+        case GET_FOLLOWED_PLAYLISTS: {
+            let newState = { ...state }
             action.playlists.forEach((playlist) => {
                 newState[playlist.id] = playlist
             })
             return newState
-        case FOLLOW_PLAYLIST:
-            return { ...state, ...action.playlist }
-        case UNFOLLOW_PLAYLIST:
+        }
+        case FOLLOW_PLAYLIST: {
+            let newState = { ...state }
+            newState[action.playlists.id] = action.playlist
+            return newState
+        }
+        case UNFOLLOW_PLAYLIST: {
             console.log(action, "ACTION IN FOLLWOEPD:ALTS STORE")
             let newState = { ...state }
-            delete newState[action.playlist.id]
+            delete newState[action.playlistId]
             return newState
+        }
         default:
             return state
     }
