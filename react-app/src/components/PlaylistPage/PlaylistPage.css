@@ -31,3 +31,15 @@
     display: flex;
     flex-direction: row;
 }
+.delete-playlist-button{
+    background-color: #1ed760;
+    color: white;
+    border-radius: 20px;
+    margin-top: 20px;
+    width: 100px;
+    height: 35px;
+}
+.delete-playlist-button:hover{
+    width: 110px;
+    height: 40px;
+}
