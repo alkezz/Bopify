@@ -4,12 +4,14 @@ import session from './session'
 import playlist from './playlist';
 import follows from './follower';
 import audioPlayer from './audioplayer'
+import followedPlaylists from './followedplaylists'
 
 const rootReducer = combineReducers({
   session,
   playlist,
   follows,
-  audioPlayer
+  audioPlayer,
+  followedPlaylists
 });
 
 

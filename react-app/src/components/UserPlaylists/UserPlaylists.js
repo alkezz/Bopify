@@ -13,10 +13,10 @@ const UserPlaylist = () => {
         // const data = await playlists.json()
         // setUserPlaylists(data)
         dispatch(playlistActions.getAllPlaylists())
-    }, [sessionUser.id, dispatch])
+    }, [sessionUser?.id, dispatch])
     const playlistArray = Object.values(playlistState)
     // const playlistArray = userPlaylists.Playlists
-    const userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
+    const userPlaylistList = playlistArray.filter(playlist => playlist?.User?.id === sessionUser.id)
     let playlistComponent
     if (playlistArray && sessionUser) {
         playlistComponent = (

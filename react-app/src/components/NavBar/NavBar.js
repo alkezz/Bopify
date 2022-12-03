@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import greenLogo from "../../assets/new_bopify_logo-removebg-preview.png"
 import * as playlistActions from "../../store/playlist"
 import * as audioActions from "../../store/audioplayer"
+import * as followedPlaylistActions from "../../store/followedplaylists"
 import ReactAudioPlayer from 'react-audio-player';
 
 const NavBar = () => {
@@ -20,12 +21,15 @@ const NavBar = () => {
   const sessionUser = useSelector((state) => state.session.user)
   const playlistState = useSelector((state) => state.playlist)
   const audioState = useSelector((state) => state.audioPlayer)
+  const followedPlaylistState = useSelector((state) => state)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
   const [userPlaylists, setUserPlaylists] = useState([])
   const [followingPlaylists, setFollowingPlaylists] = useState([])
   let allPlaylists
+  let followedPlaylists
+  console.log(followedPlaylistState, "FOLLOWED PLAY:LI+TSTATE")
   const progress = useRef()
   const audioPlayer = useRef()
   const progressBar = useRef()
@@ -33,7 +37,10 @@ const NavBar = () => {
   // const progressBar = document.querySelector(".progress-bar")
   useEffect(async () => {
     allPlaylists = await dispatch(playlistActions.getAllPlaylists())
-  }, [dispatch])
+    if (sessionUser) {
+      followedPlaylists = await dispatch(followedPlaylistActions.getFollowedPlaylists(sessionUser.id))
+    }
+  }, [dispatch, sessionUser, followedPlaylists])
   useEffect(() => {
     const seconds = Math.floor(audioPlayer?.current?.duration)
     if (!isNaN(seconds)) {
@@ -53,13 +60,14 @@ const NavBar = () => {
   let userPlaylistList
   let userPlaylistLength
   if (sessionUser) {
-    userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
+    userPlaylistList = playlistArray.filter(playlist => playlist?.User?.id === sessionUser?.id)
     userPlaylistLength = userPlaylistList.length + 1
   }
   let sidenav
   let navbar
   let bottomnav
   let playPauseButton
+  console.log(followedPlaylists, "FOLLOWEDPLATYSLITS")
   const createPlaylist = async (e) => {
     e.preventDefault()
     const newPlaylist = {

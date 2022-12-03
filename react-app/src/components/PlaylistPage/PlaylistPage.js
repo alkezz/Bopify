@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useHistory, useParams, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as playlistActions from "../../store/playlist"
+import * as followedPlaylistActions from "../../store/followedplaylists"
 import * as audioActions from "../../store/audioplayer"
 import EditPlaylistModal from "./EditPlaylistModal"
 import "./PlaylistPage.css"
@@ -61,7 +62,7 @@ const PlaylistPage = () => {
     let userPlaylistList
     let userPlaylistLength
     if (sessionUser) {
-        userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
+        userPlaylistList = playlistArray.filter(playlist => playlist?.User?.id === sessionUser.id)
         userPlaylistLength = userPlaylistList.length + 1
     }
     let heartButton
@@ -117,16 +118,20 @@ const PlaylistPage = () => {
     const followPlaylist = async (e) => {
         e.preventDefault()
         setUpdate(true)
-        await fetch(`/api/users/${sessionUser.id}/follow-playlist/${playlistId}`, {
-            method: "POST"
-        })
+        // await fetch(`/api/users/${sessionUser.id}/follow-playlist/${playlistId}`, {
+        //     method: "POST"
+        // })
+        await dispatch(followedPlaylistActions.followPlaylist(sessionUser.id, playlistId))
+        await dispatch(followedPlaylistActions.getFollowedPlaylists(sessionUser.id))
     }
     const unfollowPlaylist = async (e) => {
         e.preventDefault()
         setUpdate(true)
-        await fetch(`/api/users/${sessionUser.id}/follow-playlist/${playlistId}`, {
-            method: "DELETE"
-        })
+        // await fetch(`/api/users/${sessionUser.id}/follow-playlist/${playlistId}`, {
+        //     method: "DELETE"
+        // })
+        await dispatch(followedPlaylistActions.unfollowPlaylist(sessionUser.id, Number(playlistId)))
+        await dispatch(followedPlaylistActions.getFollowedPlaylists(sessionUser.id))
     }
 
     const deleteSong = async (e, id) => {
