@@ -29,12 +29,20 @@ const AccountPage = () => {
         })();
         (async () => {
             if (sessionUser) {
+                const userFollowersArray = []
                 const followData = await dispatch(followActions.userFollowList(sessionUser.id))
                 setCurrentUserFollowers(followData)
+                followData.current_followed_user_ids.forEach(async (id) => {
+                    const user = await fetch(`/api/users/${id}`)
+                    const data = await user.json()
+                    await userFollowersArray.push(data.username)
+                    setFollowing(userFollowersArray)
+                })
             }
         })();
         (async () => {
             const followData = await dispatch(followActions.userFollowList(userId))
+            console.log("FOLWLOWDATY", followData)
             setProfileFollowers(followData)
         })();
         (async () => {
@@ -55,9 +63,6 @@ const AccountPage = () => {
     if (!currentUserFollowers) {
         return null
     }
-    console.log(currentUserFollowers, "CURRENT USER FOLLOWERS")
-    console.log(profileFollowers, "PROFILE FOLLOWERS")
-    console.log("USER", user)
     if (!user.profile_pic) {
         profilePic = <i class="fa-solid fa-user fa-4x"></i>
     } else {
@@ -164,14 +169,12 @@ const AccountPage = () => {
                     </div>
                     <div className="followed-users-container">
                         <h2 style={{ color: "white" }}>Followed Users</h2>
-                        {/* {profileFollowers?.current_followed_user_ids?.map(async (follower) => {
-                            const user = await fetch(`/api/users/${follower}`)
-                            const userData = await user.json()
-                            console.log("USERDATA", userData)
+                        {following?.map((follower) => {
+                            console.log("MAP", follower)
                             return <div>
-                                {userData.username}
+                                y
                             </div>
-                        })} */}
+                        })}
                     </div>
                 </div>)
         } else {

@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useHistory, useParams, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as playlistActions from "../../store/playlist"
+import * as audioActions from "../../store/audioplayer"
 import "./ArtistPage.css"
+
 
 const ArtistPage = () => {
     const { artistId } = useParams()
     const history = useHistory()
+    const dispatch = useDispatch()
     const [artist, setArtist] = useState([])
     const [songs, setSongs] = useState([])
     const [showMenu, setShowMenu] = useState(false)
@@ -39,9 +42,20 @@ const ArtistPage = () => {
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
     let userPlaylistList
+    let userPlaylistLength
     if (sessionUser) {
         const playlistArray = Object.values(playlistState)
         userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
+        userPlaylistLength = userPlaylistList.length + 1
+    }
+    const createPlaylist = async (e) => {
+        e.preventDefault()
+        const newPlaylist = {
+            "name": `My Playlist #${userPlaylistLength}`,
+            "playlist_img": "https://ali-practice-aws-bucket.s3.amazonaws.com/playlistDefaultImage.png",
+            "user_id": sessionUser.id
+        }
+        await dispatch(playlistActions.createPlaylist(newPlaylist))
     }
     console.log(userPlaylistList)
     const topFive = songs.slice(0, 5)
@@ -67,7 +81,7 @@ const ArtistPage = () => {
                         topFive.map((song) => {
                             return <div className='one-song' style={{ color: 'white', display: "flex", justifyContent: "space-between", marginLeft: "20px" }}>
                                 <div>
-                                    {incrementSongNumber()}&nbsp;<img style={{ width: "40px" }} src={song.album.albumPic} />&nbsp;<button style={{ background: "none", border: "none", color: "white" }}>{song.name}</button>
+                                    {incrementSongNumber()}&nbsp;<img style={{ width: "40px" }} src={song.album.albumPic} />&nbsp;<button onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ background: "none", border: "none", color: "white" }}>{song.name}</button>
                                 </div>
                                 &nbsp;
                                 &nbsp;
@@ -78,18 +92,21 @@ const ArtistPage = () => {
                                         {activeMenu === song.id && (
                                             <div className='active-song-dropdown'>
                                                 <div>
-                                                    <Link to={`/album/${song.album.id}`}>Album Page</Link>
+                                                    <Link style={{ textDecoration: "none", color: "gray" }} to={`/album/${song.album.id}`}>Album Page</Link>
+                                                    {sessionUser && (
+                                                        <button onClick={async (e) => await dispatch(audioActions.nextSong(song.id))} style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }}>Add to queue</button>
+                                                    )}
                                                 </div>
                                                 <div>
                                                     {sessionUser && (
-                                                        <button style={{ border: "none" }} onClick={openMenu}>Add song to playlist</button>
+                                                        <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={openMenu}>Add song to playlist</button>
                                                     )}
                                                     {showMenu && (
                                                         <div className='add-song-dropdown'>
-                                                            <div>Create Playlist</div>
+                                                            <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={createPlaylist}>Create Playlist</button>
                                                             <div style={{ borderBottom: "1px solid white" }}></div>
                                                             {userPlaylistList.map((playlist) => {
-                                                                return <button onClick={async (e) => {
+                                                                return <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={async (e) => {
                                                                     await fetch(`/api/playlists/${playlist.id}/add_song/${song.id}`, {
                                                                         method: "POST"
                                                                     })

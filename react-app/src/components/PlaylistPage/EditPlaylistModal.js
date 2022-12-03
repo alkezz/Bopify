@@ -25,7 +25,7 @@ const EditPlaylistModal = ({ playlistId, playlist, onePlaylist }) => {
                             {playlist.description}
                         </div>
                         <div>
-                            <Link to={`/user/${onePlaylist.User.id}`}>
+                            <Link style={{ textDecoration: "none", color: "white" }} to={`/user/${onePlaylist.User.id}`}>
                                 {onePlaylist.User.username}
                             </Link>
                             <span style={{ fontSize: "20px" }}>·</span>

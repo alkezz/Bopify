@@ -56,8 +56,6 @@ const PlaylistPage = () => {
 
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
-    console.log("ONEPLATLIST", onePlaylist)
-    console.log("FOLLOWED PLATLIST CURRENT USER:", followingPlaylists)
     const playlistArray = Object.values(playlistState)
     const playlist = playlistArray.filter(playlist => Number(playlist.id) === Number(playlistId))[0]
     let userPlaylistList
@@ -239,7 +237,7 @@ const PlaylistPage = () => {
                             {onePlaylist.Songs.map((song) => {
                                 return <div style={{ paddingBottom: "10px", listStyle: "none", display: "flex", justifyContent: "space-between" }}>
                                     <div style={{ width: "300px" }}>
-                                        {incrementSongNumber()} <Link style={{ textDecoration: "none", color: "white" }} to={{ pathname: song.song_url }}>{song.name}</Link>
+                                        {incrementSongNumber()} <Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
                                     </div>
                                     <div style={{ marginLeft: "-60px" }}><Link style={{ textDecoration: "none", color: "white" }} to={`/album/${song.album.id}`}>{song.album.name}</Link></div>
                                     <div>

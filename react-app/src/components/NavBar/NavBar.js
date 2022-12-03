@@ -24,6 +24,7 @@ const NavBar = () => {
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
   const [userPlaylists, setUserPlaylists] = useState([])
+  const [followingPlaylists, setFollowingPlaylists] = useState([])
   let allPlaylists
   const progress = useRef()
   const audioPlayer = useRef()
@@ -34,14 +35,19 @@ const NavBar = () => {
     allPlaylists = await dispatch(playlistActions.getAllPlaylists())
   }, [dispatch])
   useEffect(() => {
-    if (isPlaying === true) {
-      const seconds = Math.floor(audioPlayer?.current?.duration)
-      if (!isNaN(seconds)) {
-        setDuration(seconds)
-        progressBar.current.max = seconds
-      }
+    const seconds = Math.floor(audioPlayer?.current?.duration)
+    if (!isNaN(seconds)) {
+      setDuration(seconds)
+      progressBar.current.max = seconds
     }
-  }, [isPlaying, audioPlayer?.current?.loadedmetadata, audioPlayer?.current?.readyState])
+    (async () => {
+      if (sessionUser) {
+        const playlistFollowRes = await fetch(`/api/users/${sessionUser.id}/followed-playlists`)
+        const playlistFollowsData = await playlistFollowRes.json()
+        setFollowingPlaylists(playlistFollowsData.followedPlaylists)
+      }
+    })();
+  }, [setFollowingPlaylists, isPlaying, audioPlayer?.current?.loadedmetadata, audioPlayer?.current?.readyState])
   const playlistArray = Object.values(playlistState)
   console.log("AUDIO STATE", audioState)
   let userPlaylistList
@@ -93,13 +99,13 @@ const NavBar = () => {
   // }
 
   const moveSlider = () => {
-    audioPlayer.current.currentTime = progressBar.current.value
-    progressBar.current.style.setProperty('--seek-before-width', `${progressBar.current.value / duration * 100}%`)
+    audioPlayer.current.currentTime = progressBar?.current?.value
+    progressBar.current.style.setProperty('--seek-before-width', `${progressBar?.current?.value / duration * 100}%`)
     setCurrentTime(progressBar.current.value)
   }
 
   const updateTime = () => {
-    if (audioPlayer.current.currentTime) {
+    if (audioPlayer?.current?.currentTime) {
       progressBar.current.value = audioPlayer?.current?.currentTime
       progressBar?.current?.style.setProperty('--seek-before-width', `${progressBar?.current?.value / duration * 100}%`)
       setCurrentTime(progressBar?.current?.value)
@@ -122,8 +128,11 @@ const NavBar = () => {
     // setDuration(0)
     await setCurrentTime(0)
     await dispatch(audioActions.skipSong())
-    // const audioElement = document.getElementById("audio-player")
-    // audioElement.play()
+    const audioElement = document.getElementById("audio-player")
+    if (audioState.queue.length > 0) {
+      await setIsPlaying(true)
+      audioElement.play()
+    }
   }
   if (sessionUser) {
     if (audioState.current_song_playing.length > 0) {
@@ -138,14 +147,14 @@ const NavBar = () => {
   }
   if (isPlaying === true) {
     playPauseButton = (
-      <button onClick={(e) => { { pauseAudio(e); setIsPlaying(false) } }}>
+      <button onClick={() => { { pauseAudio(); setIsPlaying(false) } }}>
         <i class="fa-solid fa-circle-pause fa-3x"></i>
       </button>
     )
   } else {
     // setIsPlaying(true)
     playPauseButton = (
-      <button onClick={(e) => { { playAudio(e); setIsPlaying(true) } }}>
+      <button onClick={() => { { playAudio(); setIsPlaying(true) } }}>
         <i class="fa-solid fa-circle-play fa-3x"></i>
       </button>
     )
@@ -153,8 +162,8 @@ const NavBar = () => {
   if (location.pathname !== "/sign-up" && location.pathname !== "/login" && !sessionUser) {
     sidenav = (
       <div className='side-nav' style={{ color: "#adb3b3" }}>
-        <div id='logo'>
-          <img src={whiteLogo} />
+        <div style={{ marginBottom: "20px" }} id='logo'>
+          <img onClick={(e) => history.push("/")} style={{ width: "155px", height: "45px", cursor: "pointer" }} src={whiteLogo} />
         </div>
         <div>
           <Link to="/">
@@ -239,6 +248,15 @@ const NavBar = () => {
         <br />
         <div className='user-playlist-div'>
           <UserPlaylist />
+        </div>
+        <div className='user-playlist-div'>
+          {followingPlaylists && (
+            followingPlaylists.map((playlist) => {
+              return <div>
+                <Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link>
+              </div>
+            })
+          )}
         </div>
       </div>
     )
