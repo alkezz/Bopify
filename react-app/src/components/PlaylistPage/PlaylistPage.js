@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useHistory, useParams, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as playlistActions from "../../store/playlist"
+import * as followedPlaylistActions from "../../store/followedplaylists"
 import * as audioActions from "../../store/audioplayer"
 import EditPlaylistModal from "./EditPlaylistModal"
 import "./PlaylistPage.css"
@@ -56,18 +57,19 @@ const PlaylistPage = () => {
 
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
-    console.log("ONEPLATLIST", onePlaylist)
-    console.log("FOLLOWED PLATLIST CURRENT USER:", followingPlaylists)
     const playlistArray = Object.values(playlistState)
     const playlist = playlistArray.filter(playlist => Number(playlist.id) === Number(playlistId))[0]
     let userPlaylistList
     let userPlaylistLength
+    let userPlaylistListNoDuplicate
     if (sessionUser) {
-        userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
+        userPlaylistList = playlistArray.filter(playlist => playlist?.User?.id === sessionUser.id)
         userPlaylistLength = userPlaylistList.length + 1
+        userPlaylistListNoDuplicate = userPlaylistList.filter(playlist => playlist.id !== Number(playlistId))
     }
     let heartButton
     const deletePlaylist = async (e) => {
+        setUpdate(true)
         e.preventDefault()
         const deleted = await dispatch(playlistActions.deletePlaylist(playlistId))
         if (deleted) {
@@ -97,7 +99,7 @@ const PlaylistPage = () => {
             for (let i = 0; i < followingPlaylists.length; i++) {
                 if (followingPlaylists[i].id === Number(playlistId)) {
                     heartButton = (
-                        <button hidden={sessionUser.id === onePlaylist.User.id} onClick={(e) => { unfollowPlaylist(e); setUpdate(!update) }} style={{ backgroundColor: "#1e1e1e", border: "none", cursor: "pointer" }}>
+                        <button hidden={sessionUser?.id === onePlaylist?.User?.id} onClick={(e) => { unfollowPlaylist(e); setUpdate(!update) }} style={{ backgroundColor: "#1e1e1e", border: "none", cursor: "pointer" }}>
                             <i style={{ color: "#1ed760" }} class="fa-solid fa-heart fa-2x"></i>
                         </button>
                     )
@@ -107,6 +109,9 @@ const PlaylistPage = () => {
         }
     }
     const createPlaylist = async (e) => {
+        if (userPlaylistLength > 5) {
+            return window.alert("You can only create 5 playlists max!")
+        }
         e.preventDefault()
         const newPlaylist = {
             "name": `My Playlist #${userPlaylistLength}`,
@@ -119,16 +124,20 @@ const PlaylistPage = () => {
     const followPlaylist = async (e) => {
         e.preventDefault()
         setUpdate(true)
-        await fetch(`/api/users/${sessionUser.id}/follow-playlist/${playlistId}`, {
-            method: "POST"
-        })
+        // await fetch(`/api/users/${sessionUser.id}/follow-playlist/${playlistId}`, {
+        //     method: "POST"
+        // })
+        await dispatch(followedPlaylistActions.followPlaylist(sessionUser.id, playlistId))
+        await dispatch(followedPlaylistActions.getFollowedPlaylists(sessionUser.id))
     }
     const unfollowPlaylist = async (e) => {
         e.preventDefault()
         setUpdate(true)
-        await fetch(`/api/users/${sessionUser.id}/follow-playlist/${playlistId}`, {
-            method: "DELETE"
-        })
+        // await fetch(`/api/users/${sessionUser.id}/follow-playlist/${playlistId}`, {
+        //     method: "DELETE"
+        // })
+        await dispatch(followedPlaylistActions.unfollowPlaylist(sessionUser.id, Number(playlistId)))
+        await dispatch(followedPlaylistActions.getFollowedPlaylists(sessionUser.id))
     }
 
     const deleteSong = async (e, id) => {
@@ -199,7 +208,7 @@ const PlaylistPage = () => {
                         &nbsp;
                         <div>
                             {sessionUser && (
-                                <button className='delete-playlist-button' hidden={sessionUser.id !== onePlaylist?.User?.id} onClick={deletePlaylist}>DELETE</button>
+                                <button className='delete-playlist-button' hidden={sessionUser.id !== onePlaylist?.User?.id} onClick={(e) => { deletePlaylist(e); setUpdate(!update); }}>DELETE</button>
                             )}
                         </div>
                     </div>
@@ -239,10 +248,10 @@ const PlaylistPage = () => {
                             {onePlaylist.Songs.map((song) => {
                                 return <div style={{ paddingBottom: "10px", listStyle: "none", display: "flex", justifyContent: "space-between" }}>
                                     <div style={{ width: "300px" }}>
-                                        {incrementSongNumber()} <Link style={{ textDecoration: "none", color: "white" }} to={{ pathname: song.song_url }}>{song.name}</Link>
+                                        {incrementSongNumber()} <Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
                                     </div>
                                     <div style={{ marginLeft: "-60px" }}><Link style={{ textDecoration: "none", color: "white" }} to={`/album/${song.album.id}`}>{song.album.name}</Link></div>
-                                    <div>
+                                    <div style={{ display: "flex" }}>
                                         <i style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-regular fa-heart"></i>
                                         time
                                         {sessionUser && (
@@ -267,7 +276,7 @@ const PlaylistPage = () => {
                                                         <div className='add-song-dropdown'>
                                                             <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={createPlaylist}>Create Playlist</button>
                                                             <div style={{ borderBottom: "1px solid white" }}></div>
-                                                            {userPlaylistList.map((playlist) => {
+                                                            {userPlaylistListNoDuplicate.map((playlist) => {
                                                                 return <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={async (e) => {
                                                                     await fetch(`/api/playlists/${playlist.id}/add_song/${song.id}`, {
                                                                         method: "POST"

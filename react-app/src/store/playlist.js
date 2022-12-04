@@ -1,9 +1,12 @@
 const GET_PLAYLISTS = "/playlists/getPlaylists"
+const GET_FOLLOWED_PLAYLISTS = "/playlists/getFollowedPlaylists"
 const GET_ONE_PLAYLIST = "/playlists/getOnePlaylist"
 const CREATE_PLAYLIST = "/playlists/createPlaylist"
 const EDIT_PLAYLIST = "/playlists/editPlaylist"
 const DELETE_PLAYLIST = "/playlists/deletePlaylist"
 
+
+//ACTION CREATORS
 const actionGetPlaylists = (playlists) => {
     return {
         type: GET_PLAYLISTS,
@@ -11,7 +14,13 @@ const actionGetPlaylists = (playlists) => {
     }
 }
 
-//ACTION CREATORS
+const actionGetFollowedPlaylists = (playlists) => {
+    return {
+        type: GET_FOLLOWED_PLAYLISTS,
+        playlists
+    }
+}
+
 const actionGetOnePlaylist = (playlist) => {
     return {
         type: GET_ONE_PLAYLIST,
@@ -33,10 +42,10 @@ const actionEditPlaylist = (playlist) => {
     }
 }
 
-const actionDeletePlaylist = (playlist) => {
+const actionDeletePlaylist = (id) => {
     return {
         type: DELETE_PLAYLIST,
-        playlist
+        id
     }
 }
 
@@ -51,6 +60,16 @@ export const getAllPlaylists = () => async (dispatch) => {
     } else {
         return response
     }
+}
+
+export const getFollowedPlaylists = (id) => async (dispatch) => {
+    const response = await fetch(`/api/users/${id}/followed-playlists`)
+    if (response.ok) {
+        const data = await response.json()
+        dispatch(actionGetFollowedPlaylists(data))
+        return data
+    }
+    return response
 }
 
 export const getOnePlaylist = (id) => async (dispatch) => {
@@ -117,11 +136,20 @@ export default function playlistReducer(state = initialState, action) {
     let newState = {}
     switch (action.type) {
         case GET_PLAYLISTS:
+            newState = { ...state }
             action.playlists.forEach((playlist) => {
                 newState[playlist.id] = playlist
             })
             return newState
+        // case GET_FOLLOWED_PLAYLISTS:
+        //     newState = { ...state }
+        //     console.log(action, "ACTION")
+        //     action.playlists.followedPlaylists.forEach((playlist) => {
+        //         newState[playlist.id] = playlist
+        //     })
+        //     return newState
         case GET_ONE_PLAYLIST:
+            newState = { ...state }
             newState[action.playlist.id] = action.playlist
             return newState
         case CREATE_PLAYLIST:
@@ -134,7 +162,7 @@ export default function playlistReducer(state = initialState, action) {
             return newState
         case DELETE_PLAYLIST:
             newState = { ...state }
-            delete newState[action.playlist.id]
+            delete newState[action.id]
             return newState
         default:
             return state

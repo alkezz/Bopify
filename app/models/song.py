@@ -9,6 +9,7 @@ class Song(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     song_url = db.Column(db.String)
+    song_length = db.Column(db.String)
     album_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("albums.id")))
 
     #relationships
@@ -29,6 +30,7 @@ class Song(db.Model):
             "id": self.id,
             "name": self.name,
             "song_url": self.song_url,
+            "song_length": self.song_length,
             "album": self.albums.to_dict(images=True)
         }
 

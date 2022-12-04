@@ -3,9 +3,9 @@ from app.models import db, Album, environment, SCHEMA
 def seed_albums():
     wall = Album(
         artist_id=1,
-        name="The Wall",
-        year = "1979",
-        album_img="https://i.scdn.co/image/ab67616d0000b273f34e8811de255b34c56301d8"
+        name="Animals",
+        year = "1977",
+        album_img="https://i.scdn.co/image/ab67616d00001e02810168d54f85d48f07389237"
     )
     abnormal = Album(
         artist_id=2,
@@ -17,13 +17,13 @@ def seed_albums():
         artist_id=3,
         name="Depression Cherry",
         year = "2015",
-        album_img="https://i.scdn.co/image/ab67616d00001e020af2276ae66a42e73eb07683"
+        album_img="https://i.scdn.co/image/ab67616d00001e029b7190e673e46271b2754aab"
     )
     sound = Album(
         artist_id=4,
-        name="The Sound of Perseverance",
-        year = "1998",
-        album_img="https://i.scdn.co/image/ab67616d00001e0291fcdc499f2dbfbcd7e58b59"
+        name="Once in a Long, Long While...",
+        year = "2017",
+        album_img="https://i.scdn.co/image/ab67616d00001e0287986e804018697f14194ace"
     )
     Emany = Album(
         artist_id=5,

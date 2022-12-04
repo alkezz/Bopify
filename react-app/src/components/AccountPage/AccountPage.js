@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useHistory } from "react-router-dom";
+import { followPlaylist } from "../../store/followedplaylists";
 import * as followActions from "../../store/follower"
 import "./AccountPage.css"
 
@@ -12,6 +13,7 @@ const AccountPage = () => {
     let { userId } = useParams()
     const history = useHistory()
     const [user, setUser] = useState([])
+    const [allUsers, setAllUsers] = useState([])
     const [currentUserFollowers, setCurrentUserFollowers] = useState([])
     const [profileFollowers, setProfileFollowers] = useState([])
     const [followingPlaylists, setFollowingPlaylists] = useState([])
@@ -28,9 +30,21 @@ const AccountPage = () => {
             setUser(user)
         })();
         (async () => {
+            const allUsersRes = await fetch("/api/users/")
+            const allUsers = await allUsersRes.json()
+            setAllUsers(allUsers)
+        })();
+        (async () => {
             if (sessionUser) {
+                const userFollowersArray = []
                 const followData = await dispatch(followActions.userFollowList(sessionUser.id))
                 setCurrentUserFollowers(followData)
+                followData.current_followed_user_ids.forEach(async (id) => {
+                    const user = await fetch(`/api/users/${id}`)
+                    const data = await user.json()
+                    await userFollowersArray.push(data.username)
+                    setFollowing(userFollowersArray)
+                })
             }
         })();
         (async () => {
@@ -42,22 +56,50 @@ const AccountPage = () => {
             const playlistFollowsData = await playlistFollowRes.json()
             setFollowingPlaylists(playlistFollowsData.followedPlaylists)
         })();
-        followState.forEach(async (id) => {
-            const response = await fetch(`/api/users/${id}`)
-            const data = await response.json()
-            userFollowing.push(data.username)
-        })
-    }, [setUser, dispatch, setCurrentUserFollowers, setProfileFollowers, update, setFollowingPlaylists])
+        // followState.forEach(async (id) => {
+        //     const response = await fetch(`/api/users/${id}`)
+        //     const data = await response.json()
+        //     userFollowing.push(data.username)
+        // })
+    }, [userId, setUser, dispatch, setCurrentUserFollowers, setProfileFollowers, update, setFollowingPlaylists])
     console.log("FOLLOWED PLAYLISTS: ", followingPlaylists)
     // setFollowing(userFollowing)
-    console.log("USERFOLLOWING", userFollowing)
+    console.log("USERFOLLOWING", profileFollowers)
+    profileFollowers?.current_followed_user_ids?.map(async (id) => {
+        const res = await fetch(`/api/users/${id}`)
+        const data = await res.json()
+        userFollowing.push(data)
+    })
+    console.log("USERFOLLOWING ARRAY", userFollowing)
+    console.log("FOLLOWING USERNAMES", following)
+    console.log("ALLUSERS", allUsers.users)
+    // allUsers.users.filter((id) => )
+    let userFollowingList = []
+    let userFollowerList = []
+    for (let i = 0; i < allUsers?.users?.length; i++) {
+        let userId = allUsers.users[i].id
+        for (let j = 0; j < profileFollowers?.current_followed_user_ids?.length; j++) {
+            let otherUserId = profileFollowers.current_followed_user_ids[j]
+            if (userId === otherUserId) {
+                userFollowingList.push(allUsers.users[i])
+            }
+        }
+    }
+    for (let i = 0; i < allUsers?.users?.length; i++) {
+        let userId = allUsers.users[i].id
+        for (let j = 0; j < profileFollowers?.followed_by_user_ids?.length; j++) {
+            let otherUserId = profileFollowers.followed_by_user_ids[j]
+            if (userId === otherUserId) {
+                userFollowerList.push(allUsers.users[i])
+            }
+        }
+    }
+    console.log("ARR", userFollowingList)
+    console.log("ARRRRRRRRRR", userFollowerList)
     let profilePic
     if (!currentUserFollowers) {
         return null
     }
-    console.log(currentUserFollowers, "CURRENT USER FOLLOWERS")
-    console.log(profileFollowers, "PROFILE FOLLOWERS")
-    console.log("USER", user)
     if (!user.profile_pic) {
         profilePic = <i class="fa-solid fa-user fa-4x"></i>
     } else {
@@ -127,11 +169,11 @@ const AccountPage = () => {
                         {followButton}
                     </div>
                     <div className="profile-content">
-                        <h2>Playlists</h2>
+                        <h2 style={{ color: "white" }}>Playlists</h2>
                         <div className="profile-playlists-container">
                             {userPlaylistList && (
                                 userPlaylistList.map((playlist) => {
-                                    return <div>
+                                    return <div style={{ color: "white" }}>
                                         <div className="playlist-image">
                                             <Link to={`/playlist/${playlist.id}`}>
                                                 <img className="playlist-image-profile" src={playlist.playlist_img} />
@@ -144,11 +186,11 @@ const AccountPage = () => {
                                 })
                             )}
                         </div>
-                        <h2>Followed Playlists</h2>
+                        <h2 style={{ color: "white" }}>Followed Playlists</h2>
                         <div className="profile-followed-playlists-container">
                             {followingPlaylists && (
                                 followingPlaylists.map((playlist) => {
-                                    return <div>
+                                    return <div style={{ color: "white" }}>
                                         <div className="playlist-image">
                                             <Link to={`/playlist/${playlist.id}`}>
                                                 <img className="playlist-image-profile" src={playlist.playlist_img} />
@@ -162,16 +204,37 @@ const AccountPage = () => {
                             )}
                         </div>
                     </div>
-                    <div className="followed-users-container">
-                        <h2 style={{ color: "white" }}>Followed Users</h2>
-                        {/* {profileFollowers?.current_followed_user_ids?.map(async (follower) => {
-                            const user = await fetch(`/api/users/${follower}`)
-                            const userData = await user.json()
-                            console.log("USERDATA", userData)
-                            return <div>
-                                {userData.username}
+                    <h2 style={{ color: "white" }}>Following</h2>
+                    <div className="followed-users-container" style={{ display: "flex", flexDirection: "row" }}>
+                        {userFollowingList?.map((follower) => {
+                            console.log("MAP", follower)
+                            return <div className="follower-container" onClick={(e) => history.push(`/user/${follower.id}`)}>
+                                <div className="follower-profile-pic">
+                                    {profilePic}
+                                </div>
+                                {follower.username}
+                                <div>
+                                    <br />
+                                    Profile
+                                </div>
                             </div>
-                        })} */}
+                        })}
+                    </div>
+                    <h2 style={{ color: "white" }}>Followers</h2>
+                    <div className="followed-users-container" style={{ display: "flex", flexDirection: "row" }}>
+                        {userFollowerList?.map((follower) => {
+                            console.log("MAP", follower)
+                            return <div className="follower-container" onClick={(e) => history.push(`/user/${follower.id}`)}>
+                                <div className="follower-profile-pic">
+                                    {profilePic}
+                                </div>
+                                {follower.username}
+                                <div>
+                                    <br />
+                                    Profile
+                                </div>
+                            </div>
+                        })}
                     </div>
                 </div>)
         } else {
@@ -201,11 +264,11 @@ const AccountPage = () => {
                         {followButton}
                     </div>
                     <div className="profile-content">
-                        <h2>Playlists</h2>
+                        <h2 style={{ color: "white" }}>Playlists</h2>
                         <div className="profile-playlists-container">
                             {userPlaylistList && (
                                 userPlaylistList.map((playlist) => {
-                                    return <div>
+                                    return <div style={{ color: "white" }}>
                                         <div className="playlist-image">
                                             <Link to={`/playlist/${playlist.id}`}>
                                                 <img className="playlist-image-profile" src={playlist.playlist_img} />
@@ -217,6 +280,55 @@ const AccountPage = () => {
                                     </div>
                                 })
                             )}
+                        </div>
+                        <h2 style={{ color: "white" }}>Followed Playlists</h2>
+                        <div className="profile-followed-playlists-container">
+                            {followingPlaylists && (
+                                followingPlaylists.map((playlist) => {
+                                    return <div style={{ color: "white" }}>
+                                        <div className="playlist-image">
+                                            <Link to={`/playlist/${playlist.id}`}>
+                                                <img className="playlist-image-profile" src={playlist.playlist_img} />
+                                            </Link>
+                                        </div>
+                                        <div className="playlist-name">
+                                            {playlist.name}
+                                        </div>
+                                    </div>
+                                })
+                            )}
+                        </div>
+                        <h2 style={{ color: "white" }}>Following</h2>
+                        <div className="followed-users-container">
+                            {userFollowingList?.map((follower) => {
+                                console.log("MAP", follower)
+                                return <div className="follower-container" onClick={(e) => history.push(`/user/${follower.id}`)}>
+                                    <div className="follower-profile-pic">
+                                        {profilePic}
+                                    </div>
+                                    {follower.username}
+                                    <div>
+                                        <br />
+                                        Profile
+                                    </div>
+                                </div>
+                            })}
+                        </div>
+                        <h2 style={{ color: "white" }}>Followers</h2>
+                        <div className="followed-users-container">
+                            {userFollowerList?.map((follower) => {
+                                console.log("MAP", follower)
+                                return <div className="follower-container" onClick={(e) => history.push(`/user/${follower.id}`)}>
+                                    <div className="follower-profile-pic">
+                                        {profilePic}
+                                    </div>
+                                    <span>{follower.username}</span>
+                                    <div>
+                                        <br />
+                                        Profile
+                                    </div>
+                                </div>
+                            })}
                         </div>
                     </div>
                 </div>

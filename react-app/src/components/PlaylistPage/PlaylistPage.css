@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: row;
     border-bottom: 1px white solid;
-    margin-top: 30px
+    margin-top: 30px;
 }
 
 #playlist-info-container{

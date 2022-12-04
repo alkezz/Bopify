@@ -11,7 +11,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import greenLogo from "../../assets/new_bopify_logo-removebg-preview.png"
 import * as playlistActions from "../../store/playlist"
 import * as audioActions from "../../store/audioplayer"
+import * as followedPlaylistActions from "../../store/followedplaylists"
 import ReactAudioPlayer from 'react-audio-player';
+import AudioPlayer from '../AudioPlayer/AudioPlayer';
 
 const NavBar = () => {
   const history = useHistory()
@@ -20,34 +22,42 @@ const NavBar = () => {
   const sessionUser = useSelector((state) => state.session.user)
   const playlistState = useSelector((state) => state.playlist)
   const audioState = useSelector((state) => state.audioPlayer)
+  const followedPlaylistState = useSelector((state) => state.followedPlaylists)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
   const [userPlaylists, setUserPlaylists] = useState([])
+  const [followingPlaylists, setFollowingPlaylists] = useState([])
   let allPlaylists
-  const progress = useRef()
-  const audioPlayer = useRef()
-  const progressBar = useRef()
-  const timerRef = useRef()
+  let followedPlaylists
   // const progressBar = document.querySelector(".progress-bar")
   useEffect(async () => {
     allPlaylists = await dispatch(playlistActions.getAllPlaylists())
-  }, [dispatch])
-  useEffect(() => {
-    if (isPlaying === true) {
-      const seconds = Math.floor(audioPlayer?.current?.duration)
-      if (!isNaN(seconds)) {
-        setDuration(seconds)
-        progressBar.current.max = seconds
-      }
-    }
-  }, [isPlaying, audioPlayer?.current?.loadedmetadata, audioPlayer?.current?.readyState])
+    await dispatch(followedPlaylistActions.getFollowedPlaylists(sessionUser?.id))
+
+  }, [dispatch, sessionUser?.id])
+  // useEffect(() => {
+  //   const seconds = Math.floor(audioPlayer?.current?.duration)
+  //   if (!isNaN(seconds)) {
+  //     setDuration(seconds)
+  //     progressBar.current.max = seconds
+  //   }
+  //   // (async () => {
+  //   //   if (sessionUser) {
+  //   //     const playlistFollowRes = await fetch(`/api/users/${sessionUser.id}/followed-playlists`)
+  //   //     const playlistFollowsData = await playlistFollowRes.json()
+  //   //     setFollowingPlaylists(playlistFollowsData.followedPlaylists)
+  //   //   }
+  //   // })();
+  // }, [setFollowingPlaylists, isPlaying, audioPlayer?.current?.loadedmetadata, audioPlayer?.current?.readyState])
   const playlistArray = Object.values(playlistState)
+  const followedPlaylistArray = Object.values(followedPlaylistState)
+  console.log("followedPlaylistState", followedPlaylistArray)
   console.log("AUDIO STATE", audioState)
   let userPlaylistList
   let userPlaylistLength
   if (sessionUser) {
-    userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
+    userPlaylistList = playlistArray.filter(playlist => playlist?.User?.id === sessionUser?.id)
     userPlaylistLength = userPlaylistList.length + 1
   }
   let sidenav
@@ -55,6 +65,9 @@ const NavBar = () => {
   let bottomnav
   let playPauseButton
   const createPlaylist = async (e) => {
+    if (userPlaylistLength > 5) {
+      return window.alert("You can only create 5 playlists max!")
+    }
     e.preventDefault()
     const newPlaylist = {
       "name": `My Playlist #${userPlaylistLength}`,
@@ -68,13 +81,14 @@ const NavBar = () => {
     }
   }
 
-  const calculateTime = (secs) => {
-    const minutes = Math.floor(secs / 60);
-    const returnedMins = minutes < 10 ? `0${minutes}` : `${minutes}`;
-    const seconds = Math.floor(secs % 60)
-    const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`
-    return `${returnedMins}:${returnedSeconds}`;
-  }
+
+  // const calculateTime = (secs) => {
+  //   const minutes = Math.floor(secs / 60);
+  //   const returnedMins = minutes < 10 ? `0${minutes}` : `${minutes}`;
+  //   const seconds = Math.floor(secs % 60)
+  //   const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`
+  //   return `${returnedMins}:${returnedSeconds}`;
+  // }
 
   // const audioElement = document.getElementById("audio-player")
   // if (audioElement) {
@@ -92,69 +106,75 @@ const NavBar = () => {
   //   }
   // }
 
-  const moveSlider = () => {
-    audioPlayer.current.currentTime = progressBar.current.value
-    progressBar.current.style.setProperty('--seek-before-width', `${progressBar.current.value / duration * 100}%`)
-    setCurrentTime(progressBar.current.value)
-  }
+  // const moveSlider = () => {
+  //   audioPlayer.current.currentTime = progressBar?.current?.value
+  //   progressBar.current.style.setProperty('--seek-before-width', `${progressBar?.current?.value / duration * 100}%`)
+  //   setCurrentTime(progressBar.current.value)
+  // }
 
-  const updateTime = () => {
-    if (audioPlayer.current.currentTime) {
-      progressBar.current.value = audioPlayer?.current?.currentTime
-      progressBar?.current?.style.setProperty('--seek-before-width', `${progressBar?.current?.value / duration * 100}%`)
-      setCurrentTime(progressBar?.current?.value)
-      timerRef.current = requestAnimationFrame(updateTime)
-    }
-  }
+  // const updateTime = () => {
+  //   if (audioPlayer?.current?.currentTime) {
+  //     progressBar.current.value = audioPlayer?.current?.currentTime
+  //     progressBar?.current?.style.setProperty('--seek-before-width', `${progressBar?.current?.value / duration * 100}%`)
+  //     setCurrentTime(progressBar?.current?.value)
+  //     timerRef.current = requestAnimationFrame(updateTime)
+  //   }
+  // }
 
-  const playAudio = () => {
-    const audioElement = document.getElementById("audio-player")
-    timerRef.current = requestAnimationFrame(updateTime)
-    audioElement.play()
-  }
-  const pauseAudio = () => {
-    const audioElement = document.getElementById("audio-player")
-    cancelAnimationFrame(timerRef.current)
-    audioElement.pause()
-  }
-  const skipAudio = async () => {
-    await setIsPlaying(false)
-    // setDuration(0)
-    await setCurrentTime(0)
-    await dispatch(audioActions.skipSong())
-    // const audioElement = document.getElementById("audio-player")
-    // audioElement.play()
-  }
-  if (sessionUser) {
-    if (audioState.current_song_playing.length > 0) {
-      let volume = document.getElementById("volume-slider")
-      if (volume) {
-        volume.addEventListener("change", (e) => {
-          const audioElement = document.getElementById("audio-player")
-          audioElement.volume = e.currentTarget.value / 100
-        })
-      }
-    }
-  }
-  if (isPlaying === true) {
-    playPauseButton = (
-      <button onClick={(e) => { { pauseAudio(e); setIsPlaying(false) } }}>
-        <i class="fa-solid fa-circle-pause fa-3x"></i>
-      </button>
-    )
-  } else {
-    // setIsPlaying(true)
-    playPauseButton = (
-      <button onClick={(e) => { { playAudio(e); setIsPlaying(true) } }}>
-        <i class="fa-solid fa-circle-play fa-3x"></i>
-      </button>
-    )
-  }
+  // const playAudio = () => {
+  //   const audioElement = document.getElementById("audio-player")
+  //   timerRef.current = requestAnimationFrame(updateTime)
+  //   audioElement.play()
+  // }
+  // const pauseAudio = () => {
+  //   const audioElement = document.getElementById("audio-player")
+  //   cancelAnimationFrame(timerRef.current)
+  //   audioElement.pause()
+  // }
+  // const skipAudio = async () => {
+  //   // await setIsPlaying(false)
+  //   // setDuration(0)
+  //   await setCurrentTime(0)
+  //   await cancelAnimationFrame(timerRef.current)
+  //   await dispatch(audioActions.skipSong())
+  //   const audioElement = document.getElementById("audio-player")
+  //   // if (audioState.queue.length > 0) {
+  //   //   await setCurrentTime(0)
+  //   //   await setIsPlaying(true)
+  //   //   await cancelAnimationFrame(timerRef.current)
+  //   //   await playAudio()
+  //   // }
+  // }
+  // if (sessionUser) {
+  //   if (audioState.current_song_playing.length > 0) {
+  //     let volume = document.getElementById("volume-slider")
+  //     if (volume) {
+  //       volume.addEventListener("change", (e) => {
+  //         const audioElement = document.getElementById("audio-player")
+  //         audioElement.volume = e.currentTarget.value / 100
+  //       })
+  //     }
+  //   }
+  // }
+  // if (isPlaying === true) {
+  //   playPauseButton = (
+  //     <button onClick={() => { { pauseAudio(); setIsPlaying(false) } }}>
+  //       <i class="fa-solid fa-circle-pause fa-3x"></i>
+  //     </button>
+  //   )
+  // } else {
+  //   // setIsPlaying(true)
+  //   playPauseButton = (
+  //     <button onClick={() => { { playAudio(); setIsPlaying(true) } }}>
+  //       <i class="fa-solid fa-circle-play fa-3x"></i>
+  //     </button>
+  //   )
+  // }
   if (location.pathname !== "/sign-up" && location.pathname !== "/login" && !sessionUser) {
     sidenav = (
       <div className='side-nav' style={{ color: "#adb3b3" }}>
-        <div id='logo'>
-          <img src={whiteLogo} />
+        <div style={{ marginBottom: "20px" }} id='logo'>
+          <img onClick={(e) => history.push("/")} style={{ width: "155px", height: "45px", cursor: "pointer" }} src={whiteLogo} />
         </div>
         <div>
           <Link to="/">
@@ -240,6 +260,15 @@ const NavBar = () => {
         <div className='user-playlist-div'>
           <UserPlaylist />
         </div>
+        <div className='user-playlist-div'>
+          {followedPlaylistArray && (
+            followedPlaylistArray.map((playlist) => {
+              return <div>
+                <Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link>
+              </div>
+            })
+          )}
+        </div>
       </div>
     )
     navbar = (
@@ -256,13 +285,14 @@ const NavBar = () => {
             <div className='audio-container' style={{ display: "flex", marginLeft: "20px" }}>
               <div className='bottom-nav-image-container' style={{ display: "flex" }}>
                 <img style={{ width: "80px" }} src={audioState.current_song_playing[0].album.albumPic}></img>
-                <div className='bottom-div-album-name-artist-container' style={{ display: "flex", flexDirection: "column" }}>
+                <div className='bottom-div-album-name-artist-container' style={{ display: "flex", flexDirection: "column", marginLeft: "20px", marginTop: "15px", width: "300px" }}>
                   <Link id='bottom-nav-album-link' to={`/album/${audioState.current_song_playing[0].album.id}`}>{audioState.current_song_playing[0].name}</Link>
                   <br />
                   <Link id='bottom-nav-artist-link' to={`/artist/${audioState.current_song_playing[0].album.artist.id}`}>{audioState.current_song_playing[0].album.artist.name}</Link>
                 </div>
               </div>
-              <div className='audio-controls'>
+              <AudioPlayer />
+              {/* <div className='audio-controls'>
                 {playPauseButton}
                 <button onClick={skipAudio}>SKIP</button>
               </div>
@@ -276,7 +306,7 @@ const NavBar = () => {
               />
               <span id='song-duration'>{calculateTime(duration)}</span>
               <input style={{ width: "30%" }} type='range' id='volume-slider' max='100' value='5' />
-              <audio ref={audioPlayer} preload='auto' id='audio-player' src={audioState.current_song_playing[0].song_url}></audio>
+              <audio onEnded={() => { skipAudio(); playAudio() }} ref={audioPlayer} preload='auto' id='audio-player' src={audioState.current_song_playing[0].song_url}></audio> */}
               {/* <ReactAudioPlayer src={audioState.current_song_playing[0].song_url} /> */}
             </div>
           </div>
@@ -285,12 +315,9 @@ const NavBar = () => {
     } else {
       bottomnav = (
         <div className='bottom-div-container'>
-          <button onClick={playAudio}>PLAY</button>
-          <button onClick={pauseAudio}>PAUSE</button>
-          <button onClick={skipAudio}>SKIP</button>
-          <input style={{ width: "10%" }} type='range' id='volume-slider' />
-          <progress id='progress' value="0" min="0"><span id='progress-bar'></span></progress>
-          <audio preload='metadata' id='audio-player'></audio>
+          <div style={{ marginLeft: "290px" }}>
+            <AudioPlayer />
+          </div>
         </div>
       )
     }

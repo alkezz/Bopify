@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useHistory, useParams, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as playlistActions from "../../store/playlist"
+import * as audioActions from "../../store/audioplayer"
 
 
 const AlbumPage = () => {
@@ -38,7 +39,7 @@ const AlbumPage = () => {
     let userPlaylistLength
     if (sessionUser) {
         const playlistArray = Object.values(playlistState)
-        userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
+        userPlaylistList = playlistArray.filter(playlist => playlist?.User?.id === sessionUser.id)
         userPlaylistLength = userPlaylistList.length + 1
     }
     const incrementSongNumber = () => {
@@ -51,6 +52,9 @@ const AlbumPage = () => {
         setShowMenu(true)
     }
     const createPlaylist = async (e) => {
+        if (userPlaylistLength > 5) {
+            return window.alert("You can only create 5 playlists max!")
+        }
         e.preventDefault()
         const newPlaylist = {
             "name": `My Playlist #${userPlaylistLength}`,
@@ -59,6 +63,12 @@ const AlbumPage = () => {
         }
         await dispatch(playlistActions.createPlaylist(newPlaylist))
     }
+
+    const listenToAlbum = async (e) => {
+        e.preventDefault()
+        await dispatch(audioActions.addAlbum(albumId))
+    }
+
     return (
         <>
             {!!album && (
@@ -79,7 +89,7 @@ const AlbumPage = () => {
                     </div>
                     <div className='play-like-container'>
                         <div>
-                            <button style={{ backgroundColor: "#1e1e1e", border: "none" }}>
+                            <button onClick={listenToAlbum} style={{ backgroundColor: "#1e1e1e", border: "none" }}>
                                 <i style={{ color: "#1ed760" }} class="fa-solid fa-circle-play fa-4x"></i>
                             </button>
                         </div>
@@ -115,13 +125,13 @@ const AlbumPage = () => {
                                     &nbsp;
                                     &nbsp;
                                     <div style={{ display: "flex", flexDirection: "column" }}>
-                                        <Link style={{ textDecoration: "none", color: "white" }} to={{ pathname: song.song_url }}>{song.name}</Link>
+                                        <Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
                                         &nbsp;
-                                        <Link style={{ textDecoration: "none", color: "white" }} to={`/artist/${album.artist.id}`}>{album.artist.name}</Link>
+                                        <Link style={{ textDecoration: "none", color: "#777a7b" }} to={`/artist/${album.artist.id}`}>{album.artist.name}</Link>
                                         &nbsp;
                                     </div>
                                 </div>
-                                <div>
+                                <div style={{ display: "flex" }}>
                                     <i style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-regular fa-heart"></i>
                                     time
                                     <div>
@@ -130,6 +140,9 @@ const AlbumPage = () => {
                                             <div className='active-song-dropdown'>
                                                 <div>
                                                     <Link style={{ textDecoration: "none", color: "gray" }} to={`/album/${song.album.id}`}>Album Page</Link>
+                                                    {sessionUser && (
+                                                        <button onClick={async (e) => await dispatch(audioActions.nextSong(song.id))} style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }}>Add to queue</button>
+                                                    )}
                                                 </div>
                                                 <div>
                                                     {sessionUser && (
