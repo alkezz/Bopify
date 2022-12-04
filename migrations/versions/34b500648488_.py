@@ -1,7 +1,7 @@
 """empty message
 
 Revision ID: 34b500648488
-Revises: 
+Revises:
 Create Date: 2022-11-23 12:02:45.856708
 
 """
@@ -68,6 +68,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=True),
     sa.Column('song_url', sa.String(), nullable=True),
+    sa.Column('song_length', sa.String(), nullable=True),
     sa.Column('album_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['album_id'], ['albums.id'], ),
     sa.PrimaryKeyConstraint('id')
