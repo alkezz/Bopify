@@ -42,10 +42,10 @@ const actionEditPlaylist = (playlist) => {
     }
 }
 
-const actionDeletePlaylist = (playlist) => {
+const actionDeletePlaylist = (id) => {
     return {
         type: DELETE_PLAYLIST,
-        playlist
+        id
     }
 }
 
@@ -162,7 +162,7 @@ export default function playlistReducer(state = initialState, action) {
             return newState
         case DELETE_PLAYLIST:
             newState = { ...state }
-            delete newState[action.playlist.id]
+            delete newState[action.id]
             return newState
         default:
             return state

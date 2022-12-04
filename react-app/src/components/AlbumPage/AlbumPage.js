@@ -39,7 +39,7 @@ const AlbumPage = () => {
     let userPlaylistLength
     if (sessionUser) {
         const playlistArray = Object.values(playlistState)
-        userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
+        userPlaylistList = playlistArray.filter(playlist => playlist?.User?.id === sessionUser.id)
         userPlaylistLength = userPlaylistList.length + 1
     }
     const incrementSongNumber = () => {
@@ -52,6 +52,9 @@ const AlbumPage = () => {
         setShowMenu(true)
     }
     const createPlaylist = async (e) => {
+        if (userPlaylistLength > 5) {
+            return window.alert("You can only create 5 playlists max!")
+        }
         e.preventDefault()
         const newPlaylist = {
             "name": `My Playlist #${userPlaylistLength}`,
@@ -124,11 +127,11 @@ const AlbumPage = () => {
                                     <div style={{ display: "flex", flexDirection: "column" }}>
                                         <Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
                                         &nbsp;
-                                        <Link style={{ textDecoration: "none", color: "white" }} to={`/artist/${album.artist.id}`}>{album.artist.name}</Link>
+                                        <Link style={{ textDecoration: "none", color: "#777a7b" }} to={`/artist/${album.artist.id}`}>{album.artist.name}</Link>
                                         &nbsp;
                                     </div>
                                 </div>
-                                <div>
+                                <div style={{ display: "flex" }}>
                                     <i style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-regular fa-heart"></i>
                                     time
                                     <div>

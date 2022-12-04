@@ -11,6 +11,7 @@
 }
 
 .profile-header-container{
+    padding-bottom: 10px;
     border-bottom: 1px solid white;
 }
 
@@ -46,7 +47,7 @@
 }
 
 .profile-container{
-    padding-bottom: 80px;
+    padding-bottom: 90px;
     margin-left: 20px;
 }
 
@@ -62,4 +63,40 @@
 }
 .follow-button:hover{
     border-color: white;
+}
+
+.followed-users-container{
+    display: flex;
+    flex-direction: row;
+
+}
+
+.follower-container{
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid white;
+    width: max-content;
+    color: white;
+    margin-left: 20px;
+    width: 180px;
+}
+
+.follower-container:hover{
+    transition: 0.5s;
+    background-color: gray;
+}
+
+.follower-profile-pic{
+    border: 1px solid white;
+    border-radius: 1000px;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 15px;
+    margin-top: 20px;
+    background-color: gray;
+    box-shadow: 5px 5px 12px 5px black;
 }

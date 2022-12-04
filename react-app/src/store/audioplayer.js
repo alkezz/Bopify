@@ -3,7 +3,7 @@ const NEXT_SONG = "audioPlayer/nextSong"
 const ADD_PLAYLIST = "audioPlay/addPlaylist"
 const SKIP_SONG = "audioPlayer/skipSong"
 const ADD_ALBUM = "audioPlayer/addAlbum"
-
+const CLEAR_AUDIO_STATE = "audioPlayer/clearAudio"
 //Action Creators for thunk reference
 const actionAddSong = (song) => {
     return {
@@ -36,6 +36,12 @@ const actionAddAlbum = (album) => {
     return {
         type: ADD_ALBUM,
         album
+    }
+}
+
+const actionClearAudio = () => {
+    return {
+        type: CLEAR_AUDIO_STATE
     }
 }
 
@@ -85,6 +91,11 @@ export const skipSong = () => async (dispatch) => {
     dispatch(actionSkipSong())
 }
 
+export const clearAudio = () => async (dispatch) => {
+    dispatch(actionClearAudio())
+    return { message: "audio state cleared" }
+}
+
 const initalState = { current_song_playing: [], queue: [] }
 
 export default function audioReducer(state = initalState, action) {
@@ -110,7 +121,8 @@ export default function audioReducer(state = initalState, action) {
             } else {
                 return { current_song_playing: [state.queue[0]], queue: [...state.queue.slice(1)] }
             }
-
+        case CLEAR_AUDIO_STATE:
+            return { ...initalState }
         default:
             return state
     }

@@ -1,6 +1,8 @@
 const GET_FOLLOWED_PLAYLISTS = "/playlists/getFollowedPlaylists"
 const FOLLOW_PLAYLIST = "/playlists/followPlaylist"
 const UNFOLLOW_PLAYLIST = "/playlist/unfollowPlaylist"
+const CLEAR_PLAYLIST_FOLLOWS = "/playlist/clearPlaylistFollows"
+
 
 const actionGetFollowedPlaylists = (playlists) => {
     return {
@@ -23,6 +25,13 @@ const actionUnfollowPlaylist = (playlistId) => {
     }
 }
 
+const actionClearPlaylistFollows = () => {
+    return {
+        type: CLEAR_PLAYLIST_FOLLOWS
+    }
+}
+
+
 export const getFollowedPlaylists = (id) => async (dispatch) => {
     const response = await fetch(`/api/users/${id}/followed-playlists`)
     if (response.ok) {
@@ -39,7 +48,7 @@ export const followPlaylist = (userId, playlistId) => async (dispatch) => {
     })
     if (response.ok) {
         const data = await response.json()
-        console.log("DATA IN FOLLOWPLAYLIST THUNK", data)
+        console.log("DATA IN FOLLOWPLAYLIST THUNK", data.followedPlaylists[0])
         dispatch(actionfollowPlaylist(data.followedPlaylists))
         return data
     }
@@ -56,6 +65,11 @@ export const unfollowPlaylist = (userId, playlistId) => async (dispatch) => {
         return data
     }
     return response
+}
+
+export const clearPlaylistFollows = () => async (dispatch) => {
+    dispatch(actionClearPlaylistFollows())
+    return { message: "playlist follows cleared" }
 }
 
 const initialState = {}
@@ -93,15 +107,16 @@ export default function followedPlaylistReducer(state = initialState, action) {
         }
         case FOLLOW_PLAYLIST: {
             let newState = { ...state }
-            newState[action.playlists.id] = action.playlist
+            newState[action.playlist[0].id] = action.playlist
             return newState
         }
         case UNFOLLOW_PLAYLIST: {
-            console.log(action, "ACTION IN FOLLWOEPD:ALTS STORE")
             let newState = { ...state }
             delete newState[action.playlistId]
             return newState
         }
+        case CLEAR_PLAYLIST_FOLLOWS:
+            return { ...initialState }
         default:
             return state
     }

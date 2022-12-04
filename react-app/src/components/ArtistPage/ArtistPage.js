@@ -45,10 +45,13 @@ const ArtistPage = () => {
     let userPlaylistLength
     if (sessionUser) {
         const playlistArray = Object.values(playlistState)
-        userPlaylistList = playlistArray.filter(playlist => playlist.User.id === sessionUser.id)
+        userPlaylistList = playlistArray.filter(playlist => playlist?.User?.id === sessionUser.id)
         userPlaylistLength = userPlaylistList.length + 1
     }
     const createPlaylist = async (e) => {
+        if (userPlaylistLength > 5) {
+            return window.alert("You can only create 5 playlists max!")
+        }
         e.preventDefault()
         const newPlaylist = {
             "name": `My Playlist #${userPlaylistLength}`,
