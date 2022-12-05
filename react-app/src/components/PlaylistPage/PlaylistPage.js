@@ -19,8 +19,8 @@ const PlaylistPage = () => {
     const playlistState = useSelector((state) => state.playlist)
     const sessionUser = useSelector((state) => state.session.user)
     const songState = useSelector((state) => state)
+    const followedPlaylistState = useSelector((state) => state.followedPlaylists)
     document.body.style = 'background: #1e1e1e';
-    console.log("STATE", songState)
     let i = 0
     useEffect(async () => {
         if (!playlistId) {
@@ -80,33 +80,41 @@ const PlaylistPage = () => {
     if (!playlistId) return null
     const incrementSongNumber = () => {
         i = i + 1
-        console.log('yo')
         return i
     }
     const openMenu = () => {
         if (showMenu) return
         setShowMenu(true)
     }
-    if (!!onePlaylist.User && sessionUser) {
+    // if (!!onePlaylist.User && sessionUser) {
+    //     heartButton = (
+    //         <button hidden={sessionUser.id === onePlaylist.User.id} onClick={(e) => { followPlaylist(e); setUpdate(!update) }} style={{ backgroundColor: "#1e1e1e", border: "none", cursor: "pointer" }}>
+    //             <i style={{ color: "#babbbb" }} class="fa-regular fa-heart fa-2x"></i>
+    //         </button>
+    //     )
+    // }
+    if (followingPlaylists.length >= 1) {
+        if (!!onePlaylist.User) {
+            if (followingPlaylists.some((e) => e.id === Number(playlistId))) {
+                heartButton = (
+                    <button hidden={sessionUser?.id === onePlaylist?.User?.id} onClick={(e) => { unfollowPlaylist(e); setUpdate(!update) }} style={{ backgroundColor: "#1e1e1e", border: "none", cursor: "pointer" }}>
+                        <i style={{ color: "#1ed760" }} class="fa-solid fa-heart fa-2x"></i>
+                    </button>
+                )
+            } else {
+                heartButton = (
+                    <button hidden={sessionUser.id === onePlaylist.User.id} onClick={(e) => { followPlaylist(e); setUpdate(!update) }} style={{ backgroundColor: "#1e1e1e", border: "none", cursor: "pointer" }}>
+                        <i style={{ color: "#babbbb" }} class="fa-regular fa-heart fa-2x"></i>
+                    </button>
+                )
+            }
+        }
+    } else {
         heartButton = (
-            <button hidden={sessionUser.id === onePlaylist.User.id} onClick={(e) => { followPlaylist(e); setUpdate(!update) }} style={{ backgroundColor: "#1e1e1e", border: "none", cursor: "pointer" }}>
+            <button hidden={sessionUser?.id === onePlaylist?.User?.id} onClick={(e) => { followPlaylist(e); setUpdate(!update) }} style={{ backgroundColor: "#1e1e1e", border: "none", cursor: "pointer" }}>
                 <i style={{ color: "#babbbb" }} class="fa-regular fa-heart fa-2x"></i>
             </button>
         )
-    }
-    if (followingPlaylists.length >= 1) {
-        if (!!onePlaylist.User) {
-            for (let i = 0; i < followingPlaylists.length; i++) {
-                if (followingPlaylists[i].id === Number(playlistId)) {
-                    heartButton = (
-                        <button hidden={sessionUser?.id === onePlaylist?.User?.id} onClick={(e) => { unfollowPlaylist(e); setUpdate(!update) }} style={{ backgroundColor: "#1e1e1e", border: "none", cursor: "pointer" }}>
-                            <i style={{ color: "#1ed760" }} class="fa-solid fa-heart fa-2x"></i>
-                        </button>
-                    )
-                    break
-                }
-            }
-        }
     }
     const createPlaylist = async (e) => {
         if (userPlaylistLength > 5) {

@@ -3,7 +3,7 @@ import { Link, NavLink, useHistory, useParams, useLocation } from 'react-router-
 
 const Search = () => {
     return (
-        <h1 style={{ color: "white" }}>Feature Coming Soon!</h1>
+        <h1 style={{ color: "white", marginLeft: "30px" }}>Feature Coming Soon!</h1>
     )
 }
 

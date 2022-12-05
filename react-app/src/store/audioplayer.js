@@ -47,10 +47,8 @@ const actionClearAudio = () => {
 
 export const addSong = (id) => async (dispatch) => {
     const response = await fetch(`/api/songs/${id}`)
-    console.log("RESPONSE IN ADD SONG THUNK", response)
     if (response.ok) {
         const data = await response.json()
-        console.log("DATA IN ADD SONG THUNK", data)
         dispatch(actionAddSong(data))
         return data
     }
@@ -101,7 +99,6 @@ const initalState = { current_song_playing: [], queue: [] }
 export default function audioReducer(state = initalState, action) {
     switch (action.type) {
         case ADD_SONG:
-            console.log("ACTION.SONG", action.song)
             return { ...state, current_song_playing: [action.song] }
         case NEXT_SONG:
             if (state.current_song_playing.length === 0) {

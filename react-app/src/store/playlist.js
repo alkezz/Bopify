@@ -54,7 +54,6 @@ export const getAllPlaylists = () => async (dispatch) => {
     const response = await fetch("/api/playlists/")
     if (response.ok) {
         const data = await response.json()
-        console.log("DATA IN THUNK", data.Playlists)
         dispatch(actionGetPlaylists(data.Playlists))
         return data.Playlists
     } else {
@@ -141,13 +140,6 @@ export default function playlistReducer(state = initialState, action) {
                 newState[playlist.id] = playlist
             })
             return newState
-        // case GET_FOLLOWED_PLAYLISTS:
-        //     newState = { ...state }
-        //     console.log(action, "ACTION")
-        //     action.playlists.followedPlaylists.forEach((playlist) => {
-        //         newState[playlist.id] = playlist
-        //     })
-        //     return newState
         case GET_ONE_PLAYLIST:
             newState = { ...state }
             newState[action.playlist.id] = action.playlist

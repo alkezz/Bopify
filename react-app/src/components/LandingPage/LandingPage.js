@@ -11,7 +11,6 @@ const LandingPage = () => {
     const dispatch = useDispatch()
     const songState = useSelector((state) => state)
     document.body.style = 'background: #1e1e1e';
-    console.log("SONGSTATE: ", songState)
     useEffect(() => {
         (async () => {
             const allArtistsRes = await fetch("/api/artists/")
@@ -37,7 +36,6 @@ const LandingPage = () => {
     if (!playlists) {
         return null
     }
-    console.log("PLAYLISTS", playlists)
     return (
         <div className='landing-page-container'>
             <h1>WELCOME TO BOPIFY</h1>

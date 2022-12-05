@@ -24,7 +24,6 @@ const AccountPage = () => {
     const [isFollowing, setIsFollowing] = useState()
     const [update, setUpdate] = useState(true)
     document.body.style = 'background: #1e1e1e';
-    console.log("FOLLOWSTATE", Dstate)
     const userFollowing = []
     useEffect(() => {
         (async () => {
@@ -74,7 +73,6 @@ const AccountPage = () => {
         const data = await res.json()
         userFollowing.push(data)
     })
-    console.log("SESSIONUSER FOLLOWING", sessionUserFollowing)
     // allUsers.users.filter((id) => )
     let userFollowingList = []
     let userFollowerList = []
@@ -96,8 +94,6 @@ const AccountPage = () => {
             }
         }
     }
-    console.log("ARR", userFollowingList)
-    console.log("ARRRRRRRRRR", userFollowerList)
     let profilePic
     if (!currentUserFollowers) {
         return null
@@ -117,8 +113,6 @@ const AccountPage = () => {
     }
     let followButton
     if (sessionUser !== null) {
-        console.log(followState.includes(user.id))
-        console.log(followState)
         if (followState.includes(user.id)) {
             followButton = (
                 <button className="follow-button" hidden={sessionUser.id === user.id} onClick={(e) => { unFollow(e); setUpdate(!update) }}>UNFOLLOW</button>
@@ -136,14 +130,12 @@ const AccountPage = () => {
     const follow = (e) => {
         setUpdate(true)
         e.preventDefault()
-        console.log('follow')
         dispatch(followActions.followUser(sessionUser.id, userId))
     }
     const unFollow = (e) => {
         setUpdate(true)
         e.preventDefault()
         dispatch(followActions.unfollowUser(sessionUser.id, userId))
-        console.log("unfollow")
     }
     if (sessionUser) {
         if (sessionUser.id === Number(userId)) {
@@ -211,7 +203,6 @@ const AccountPage = () => {
                     <h2 style={{ color: "white" }}>Following</h2>
                     <div className="followed-users-container" style={{ display: "flex", flexDirection: "row" }}>
                         {userFollowingList?.map((follower) => {
-                            console.log("MAP", follower)
                             return <div className="follower-container" onClick={(e) => history.push(`/user/${follower.id}`)}>
                                 <div className="follower-profile-pic">
                                     {profilePic}
@@ -227,7 +218,6 @@ const AccountPage = () => {
                     <h2 style={{ color: "white" }}>Followers</h2>
                     <div className="followed-users-container" style={{ display: "flex", flexDirection: "row" }}>
                         {userFollowerList?.map((follower) => {
-                            console.log("MAP", follower)
                             return <div className="follower-container" onClick={(e) => history.push(`/user/${follower.id}`)}>
                                 <div className="follower-profile-pic">
                                     {profilePic}
@@ -305,7 +295,6 @@ const AccountPage = () => {
                         <h2 style={{ color: "white" }}>Following</h2>
                         <div className="followed-users-container">
                             {userFollowingList?.map((follower) => {
-                                console.log("MAP", follower)
                                 return <div className="follower-container" onClick={(e) => history.push(`/user/${follower.id}`)}>
                                     <div className="follower-profile-pic">
                                         {profilePic}
@@ -321,7 +310,6 @@ const AccountPage = () => {
                         <h2 style={{ color: "white" }}>Followers</h2>
                         <div className="followed-users-container">
                             {userFollowerList?.map((follower) => {
-                                console.log("MAP", follower)
                                 return <div className="follower-container" onClick={(e) => history.push(`/user/${follower.id}`)}>
                                     <div className="follower-profile-pic">
                                         {profilePic}
