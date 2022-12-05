@@ -46,7 +46,7 @@ const PlaylistPage = () => {
         })();
         setOnePlaylist(await dispatch(playlistActions.getOnePlaylist(playlistId)))
         await dispatch(playlistActions.getAllPlaylists())
-    }, [dispatch, playlistId, setFollowingPlaylists, setUpdate, update, setOnePlaylist, sessionUser.id])
+    }, [dispatch, playlistId, setFollowingPlaylists, setUpdate, update, setOnePlaylist, sessionUser?.id])
     useEffect(() => {
         if (!showMenu) return;
 
