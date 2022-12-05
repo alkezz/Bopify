@@ -47,3 +47,10 @@
 .playlist-song-container:hover{
     background-color: gray;
 }
+.active-playlist-song-dropdown{
+    position: absolute;
+    z-index: 99999;
+    background-color: black;
+    /* width: 300px; */
+    left: 87%;
+}
