@@ -87,7 +87,7 @@ const AlbumPage = () => {
                     </div>
                     <div className='play-like-container'>
                         <div>
-                            <button onClick={listenToAlbum} style={{ backgroundColor: "#1e1e1e", border: "none" }}>
+                            <button hidden={!sessionUser} onClick={listenToAlbum} style={{ backgroundColor: "#1e1e1e", border: "none" }}>
                                 <i style={{ color: "#1ed760" }} class="fa-solid fa-circle-play fa-4x"></i>
                             </button>
                         </div>
