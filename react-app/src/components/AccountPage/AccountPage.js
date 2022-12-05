@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDeferredValue } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useHistory } from "react-router-dom";
 import { followPlaylist } from "../../store/followedplaylists";
@@ -9,6 +10,7 @@ const AccountPage = () => {
     const sessionUser = useSelector((state) => state.session.user)
     const playlistState = useSelector((state) => state.playlist)
     const followState = useSelector((state) => state.follows.current_followed_user_ids)
+    const Dstate = useSelector((state) => state)
     const dispatch = useDispatch()
     let { userId } = useParams()
     const history = useHistory()
@@ -16,12 +18,13 @@ const AccountPage = () => {
     const [allUsers, setAllUsers] = useState([])
     const [currentUserFollowers, setCurrentUserFollowers] = useState([])
     const [profileFollowers, setProfileFollowers] = useState([])
+    const [sessionUserFollowing, setSessionUserFollowing] = useState([])
     const [followingPlaylists, setFollowingPlaylists] = useState([])
     const [following, setFollowing] = useState([])
     const [isFollowing, setIsFollowing] = useState()
     const [update, setUpdate] = useState(true)
     document.body.style = 'background: #1e1e1e';
-    console.log("FOLLOWSTATE", followState)
+    console.log("FOLLOWSTATE", Dstate)
     const userFollowing = []
     useEffect(() => {
         (async () => {
@@ -37,42 +40,41 @@ const AccountPage = () => {
         (async () => {
             if (sessionUser) {
                 const userFollowersArray = []
-                const followData = await dispatch(followActions.userFollowList(sessionUser.id))
-                setCurrentUserFollowers(followData)
-                followData.current_followed_user_ids.forEach(async (id) => {
-                    const user = await fetch(`/api/users/${id}`)
-                    const data = await user.json()
-                    await userFollowersArray.push(data.username)
-                    setFollowing(userFollowersArray)
-                })
+                await dispatch(followActions.userFollowList(sessionUser.id))
+                // followData.current_followed_user_ids.forEach(async (id) => {
+                //     const user = await fetch(`/api/users/${id}`)
+                //     const data = await user.json()
+                //     await userFollowersArray.push(data.username)
+                //     setFollowing(userFollowersArray)
+                // })
             }
         })();
         (async () => {
             const followData = await dispatch(followActions.userFollowList(userId))
             setProfileFollowers(followData)
         })();
-        (async () => {
-            const playlistFollowRes = await fetch(`/api/users/${userId}/followed-playlists`)
-            const playlistFollowsData = await playlistFollowRes.json()
-            setFollowingPlaylists(playlistFollowsData.followedPlaylists)
-        })();
+        // (async () => {
+        //     const playlistFollowRes = await fetch(`/api/users/${userId}/followed-playlists`)
+        //     const playlistFollowsData = await playlistFollowRes.json()
+        //     setFollowingPlaylists(playlistFollowsData.followedPlaylists)
+        // })();
         // followState.forEach(async (id) => {
         //     const response = await fetch(`/api/users/${id}`)
         //     const data = await response.json()
         //     userFollowing.push(data.username)
         // })
-    }, [userId, setUser, dispatch, setCurrentUserFollowers, setProfileFollowers, update, setFollowingPlaylists])
-    console.log("FOLLOWED PLAYLISTS: ", followingPlaylists)
+        (async () => {
+            const data = await dispatch(followActions.userFollowList(sessionUser.id))
+            setSessionUserFollowing(data)
+        })();
+    }, [sessionUser.id, setSessionUserFollowing, userId, setUser, dispatch, setCurrentUserFollowers, setProfileFollowers, update, setFollowingPlaylists])
     // setFollowing(userFollowing)
-    console.log("USERFOLLOWING", profileFollowers)
     profileFollowers?.current_followed_user_ids?.map(async (id) => {
         const res = await fetch(`/api/users/${id}`)
         const data = await res.json()
         userFollowing.push(data)
     })
-    console.log("USERFOLLOWING ARRAY", userFollowing)
-    console.log("FOLLOWING USERNAMES", following)
-    console.log("ALLUSERS", allUsers.users)
+    console.log("SESSIONUSER FOLLOWING", sessionUserFollowing)
     // allUsers.users.filter((id) => )
     let userFollowingList = []
     let userFollowerList = []
@@ -115,13 +117,15 @@ const AccountPage = () => {
     }
     let followButton
     if (sessionUser !== null) {
-        if (followState.includes(user?.id)) {
+        console.log(followState.includes(user.id))
+        console.log(followState)
+        if (followState.includes(user.id)) {
             followButton = (
-                <button className="follow-button" hidden={sessionUser?.id === Number(userId)} onClick={(e) => { unFollow(e); setUpdate(!update) }}>UNFOLLOW</button>
+                <button className="follow-button" hidden={sessionUser.id === user.id} onClick={(e) => { unFollow(e); setUpdate(!update) }}>UNFOLLOW</button>
             )
         } else {
             followButton = (
-                <button className="follow-button" hidden={sessionUser?.id === Number(userId)} onClick={(e) => { follow(e); setUpdate(!update) }}>FOLLOW</button>
+                <button className="follow-button" hidden={sessionUser.id === user.id} onClick={(e) => { follow(e); setUpdate(!update) }}>FOLLOW</button>
             )
         }
     } else {
@@ -133,12 +137,12 @@ const AccountPage = () => {
         setUpdate(true)
         e.preventDefault()
         console.log('follow')
-        dispatch(followActions.followUser(sessionUser.id, user.id))
+        dispatch(followActions.followUser(sessionUser.id, userId))
     }
     const unFollow = (e) => {
         setUpdate(true)
         e.preventDefault()
-        dispatch(followActions.unfollowUser(sessionUser.id, user.id))
+        dispatch(followActions.unfollowUser(sessionUser.id, userId))
         console.log("unfollow")
     }
     if (sessionUser) {
@@ -158,11 +162,11 @@ const AccountPage = () => {
                             &nbsp;
                             <span style={{ fontSize: "20px" }}>·</span>
                             &nbsp;
-                            {currentUserFollowers?.followed_by_user_ids?.length} Followers
+                            {sessionUserFollowing?.followed_by_user_ids?.length} Followers
                             &nbsp;
                             <span style={{ fontSize: "20px" }}>·</span>
                             &nbsp;
-                            {currentUserFollowers?.current_followed_user_ids?.length} Following
+                            {sessionUserFollowing?.current_followed_user_ids?.length} Following
                         </div>
                     </div>
                     <div className="follow-user-container">

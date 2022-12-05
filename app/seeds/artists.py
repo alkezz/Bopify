@@ -20,9 +20,9 @@ def seed_artists():
     )
 
     death = Artist(
-        name="Death",
-        bio="Death was an American death metal band formed in Altamonte Springs, Florida in 1984 by guitarist and vocalist Chuck Schuldiner. Death is considered to be among the most influential bands in heavy metal and a pioneering force in the extreme metal subgenre of death metal. The band's debut album, Scream Bloody Gore, has been widely regarded as one of the first death metal records, alongside the first records from Possessed and Necrophagia.",
-        artist_img="https://i.scdn.co/image/9a0f1b399f5e272074b79f4efa3139cb2fce030e"
+        name="Low Roar",
+        bio="After leading the California-based indie rock band Audrye Sessions from 2002 to 2010, Karazija relocated to Reykjavík, Iceland and started the new project Low Roar, releasing a self-titled album in 2011.[3][4][5][6] A second album, 0, was released in 2014 by Tonequake Records,[7] followed by Once in a Long, Long While... in mid-2017.[8] The Low Roar album, ross., was released in November 2019,[9] with their latest album maybe tomorrow... released in July 2021.",
+        artist_img="https://i.scdn.co/image/ab67616d0000b27329d7b7341523831085b533af"
     )
 
     fairuz = Artist(

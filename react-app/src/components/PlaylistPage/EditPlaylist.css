@@ -16,6 +16,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin-bottom: 400px;
 }
 .edit-project-componenets{
     display: flex;
