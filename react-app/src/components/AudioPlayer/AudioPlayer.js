@@ -195,7 +195,7 @@ const AudioPlayer = () => {
                     </div>
                     &nbsp;
                     {isPlaying && (
-                        <span hidden={!duration} style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>{calculateTime(duration)}</span>
+                        <span style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>{audioState?.current_song_playing[0]?.song_length}</span>
                     )}
                     {/* <span style={{ display: "flex", alignItems: "center" }}><i class="fa-solid fa-volume-low"></i></span> */}
                     {volumeButton}
