@@ -94,9 +94,7 @@ const PlaylistPage = () => {
     //         </button>
     //     )
     // }
-    console.log("followedPlaylistState", followedPlaylistState)
     let followedPlaylistArray = Object.values(followedPlaylistState)
-    console.log("followedPlaylistArray", followedPlaylistArray)
     if (followedPlaylistArray.length >= 1) {
         if (!!onePlaylist.User) {
             if (followedPlaylistArray.some((e) => e.id === Number(playlistId))) {
