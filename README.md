@@ -2,147 +2,107 @@
 
 Bopify is a Spotify clone created with love and adoration for Spotify. A place where music nerds can share playlists and listen to music in the comfort of their own home.
 
-## Getting started
-1. Clone this repository (only this branch)
+## Tech Stacks Used
 
-2. Install dependencies
+### Backend:
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
+![Amazon S3](https://img.shields.io/static/v1?style=for-the-badge&message=Amazon+S3&color=569A31&logo=Amazon+S3&logoColor=FFFFFF&label=)
 
-      ```bash
-      pipenv install -r requirements.txt
-      ```
+**| [WTForms](https://wtforms.readthedocs.io/en/3.0.x/) | [SQLAlchemy](https://www.sqlalchemy.org/) | [Alembic](https://alembic.sqlalchemy.org/en/latest/) |**
 
-3. Create a **.env** file based on the example with proper settings for your
-   development environment
+### Frontend:
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
 
-4. Make sure the SQLite3 database connection URL is in the **.env** file
+### Python Backend:
+This was my second project using a Python backend integrated with Flask and SQLAlchemy. As a programmer becoming a full stack developer, I found flask to be a huge advantge for a back end server. Querying for data was very simple compared to using Express and Sequelize especially when using the dictionary methods I initialized in the models created so extracting data when needed became easy.
 
-5. This starter organizes all tables inside the `flask_schema` schema, defined
-   by the `SCHEMA` environment variable.  Replace the value for
-   `SCHEMA` with a unique name, **making sure you use the snake_case
-   convention**.
+### Amazon S3 Integration:
+This was also my second time integrating an Amazon S3 bucket into a project I was a part of. In our group project [Behance](https://github.com/alkezz/Behance-GroupProject-2022) my group and I spent a good amount of time making sure we can implement an S3 route in our backend to allow users to upload images for projects they create. I took what we learned from that and integrated S3 to allow users to upload images for their playlists they create
 
-6. Get into your pipenv, migrate your database, seed your database, and run your Flask app
+### React/Redux:
+Using React to build out my frontend for each of my projects thus far has felt amazing. It is extremely simple to grasp but hard to master, but when you get the outcomes you are expecting it feels great. React itself was created by Meta front end engineers to create a simple and clean way to build out a front end for Facebook, it has a history of great engineers working on making it more user friendly and easier to use. React makes it easy to display the data you want users to see specifically while also hiding data that might not be necessary for that specific user.
 
-   ```bash
-   pipenv shell
-   ```
+Redux, while hard to grasp at first and even harder to master, has been a huge boost in updating my state whenever it needs to be updated like when a user follows another user or when a playlist is created. Redux allows users to get updated data in real time with no wait or refreshes needed to read that data. Redux uses "stores" for each state you want to keep track of, and within those stores, action creators are defined to send data from Thunks to a reducer that will then create the state you're looking for. Thunks are defined in the store file as well, and thunks are used to fetch data from your back end server to send to those action creators referenced before. In simple terms, it's like a factory where each component in a store relies on the other to keep everything moving. Huge fan of Redux!
 
-   ```bash
-   flask db upgrade
-   ```
+## Functionality
+When you first enter the website as a logged out user, there isn't much you can do. You can see albums, playlists, and artists but music playback, creating playlists, and following users/playlists are locked to registered users. Any attempt to use those features will send you to the log in page
 
-   ```bash
-   flask seed all
-   ```
+As a logged in user, you get to use all the features that are currently implemented:
+* Create a playlist (max 5 playlists per user)
+  * When creating a playlist, a playlist name and picture are provided on first creation, to edit these details, just click the title of the playlist or the playlist image within the playlist page and you're ready to go!
+* Edit a playlist + uploading a picture of your choosing
+* Delete a playlist
+* Music playback
+  * You can listen to playlists, albums, and indiviual songs with a queue built in!
+* Following Users
+* Following Playlists
 
-   ```bash
-   flask run
-   ```
+## Wiki Links
+[Direct Link to Wiki](https://github.com/alkezz/aA2022-Spotify-Clone/wiki)
+<br/>
+[Database Schema](https://github.com/alkezz/aA2022-Spotify-Clone/wiki/Database-Schema)
+<br/>
+[User Stories](https://github.com/alkezz/aA2022-Spotify-Clone/wiki/User-Stories)
+<br/>
+[Feature List](https://github.com/alkezz/aA2022-Spotify-Clone/wiki/Feature-List)
+<br/>
+[Wireframes](https://github.com/alkezz/aA2022-Spotify-Clone/wiki/Wire-Frames)
 
-7. To run the React App in development, checkout the [README](./react-app/README.md) inside the `react-app` directory.
+## Features coming soon!
+* Being able to like songs and having a page with all your liked songs!
+* A search feature to allow you to find what you're looking for easier!
+* Radio feature that will lump music together based on genre or mood!
+* A Discover feature that will allow users to find music they might not have thought of listening to!
 
+## Screenshots of my website
+### Landing Page (logged out)
+![image](https://user-images.githubusercontent.com/105993056/205544650-e8ff8ca6-a56d-4fe8-8001-4cbd69738bc4.png)
 
-## Deployment through Render.com
+### Landing Page (logged in)
+![image](https://user-images.githubusercontent.com/105993056/205544725-63ea58e0-6cf4-4720-955c-667eda189112.png)
 
-First, refer to your Render.com deployment articles for more detailed
-instructions about getting started with [Render.com], creating a production
-database, and deployment debugging tips.
+### Login Page
+![image](https://user-images.githubusercontent.com/105993056/205544787-7839e34c-f41a-430d-a469-e09f62611b01.png)
+Three users are provided to you to test out functionality of the website, just give them a click and you're good to go!
 
-From the [Dashboard], click on the "New +" button in the navigation bar, and
-click on "Web Service" to create the application that will be deployed.
+### Signup Page
+![image](https://user-images.githubusercontent.com/105993056/205544931-4ab5e662-8b75-41db-9b91-f9898c4641af.png)
+Two users are provided for you as well here, just like before give them a click and you'll be logged in as one of those users!
 
-Look for the name of the application you want to deploy, and click the "Connect"
-button to the right of the name.
+### Artist Page
+![image](https://user-images.githubusercontent.com/105993056/205545085-177a6a15-a0de-4d8c-8b88-e7a26d852b22.png)
 
-Now, fill out the form to configure the build and start commands, as well as add
-the environment variables to properly deploy the application.
+### Album Page
+![image](https://user-images.githubusercontent.com/105993056/205545149-fe625467-f506-43eb-843d-728dbd23cc11.png)
 
-### Part A: Configure the Start and Build Commands
+### Playlist Page
+![image](https://user-images.githubusercontent.com/105993056/205545200-068d9a44-5b08-4653-9a75-81984c93508c.png)
 
-Start by giving your application a name.
+### Editing A Playlist
+![image](https://user-images.githubusercontent.com/105993056/205545238-633fded3-b23a-430c-80ed-b4077479dbdd.png)
 
-Leave the root directory field blank. By default, Render will run commands from
-the root directory.
+### Bottom NavBar Showing Music Playing
+![image](https://user-images.githubusercontent.com/105993056/205545340-11003316-e21f-49cc-bfc9-c3d283a9bbcd.png)
 
-Make sure the Environment field is set set to "Python 3", the Region is set to
-the location closest to you, and the Branch is set to "main".
+### Profile Page
+![image](https://user-images.githubusercontent.com/105993056/205545459-eef5eee0-8a07-4787-9944-c2a63ded4d75.png)
+As you can see, I followed a playlist named "No Time for chilling", it will show up on the side nav with your playlists as well as being shown on your profile page
+![image](https://user-images.githubusercontent.com/105993056/205545567-a802cf24-4869-4e1e-9617-f08cc248ae79.png)
+You can also see the users you follow and the users who are you following you on your profile page!
+![image](https://user-images.githubusercontent.com/105993056/205545643-cabf4912-9bab-4028-bada-aca0b35fe156.png)
+This is a profile page of a different user, you can see the follow button and when hit you will follow that user and the button will change to "UNFOLLOW" to allow you to unfollow as well thanks to Redux!
 
-Next, add your Build command. This is a script that should include everything
-that needs to happen _before_ starting the server.
+## Contact Me
+If you would like to contact me:
 
-For your Flask project, enter the following command into the Build field, all in
-one line:
+[Github](https://github.com/alkezz)
+<br/>
+[LinkedIn](https://www.linkedin.com/in/ali-ezzeddine-17b2b6248/)
+<br/>
+Email: a.k.ezzeddine@gmail.com
 
-```shell
-# build command - enter all in one line
-npm install --prefix react-app &&
-npm run build --prefix react-app &&
-pip install -r requirements.txt &&
-pip install psycopg2 &&
-flask db upgrade &&
-flask seed all
-```
-
-This script will install dependencies for the frontend, and run the build
-command in the __package.json__ file for the frontend, which builds the React
-application. Then, it will install the dependencies needed for the Python
-backend, and run the migration and seed files.
-
-Now, add your start command in the Start field:
-
-```shell
-# start script
-gunicorn app:app
-```
-
-_If you are using websockets, use the following start command instead for increased performance:_
-
-`gunicorn --worker-class eventlet -w 1 app:app`
-
-### Part B: Add the Environment Variables
-
-Click on the "Advanced" button at the bottom of the form to configure the
-environment variables your application needs to access to run properly. In the
-development environment, you have been securing these variables in the __.env__
-file, which has been removed from source control. In this step, you will need to
-input the keys and values for the environment variables you need for production
-into the Render GUI.
-
-Click on "Add Environment Variable" to start adding all of the variables you
-need for the production environment.
-
-Add the following keys and values in the Render GUI form:
-
-- SECRET_KEY (click "Generate" to generate a secure secret for production)
-- FLASK_ENV production
-- FLASK_APP app
-- SCHEMA (your unique schema name, in snake_case)
-- REACT_APP_BASE_URL (use render.com url, located at top of page, similar to
-  https://this-application-name.onrender.com)
-
-In a new tab, navigate to your dashboard and click on your Postgres database
-instance.
-
-Add the following keys and values:
-
-- DATABASE_URL (copy value from Internal Database URL field)
-
-_Note: Add any other keys and values that may be present in your local __.env__
-file. As you work to further develop your project, you may need to add more
-environment variables to your local __.env__ file. Make sure you add these
-environment variables to the Render GUI as well for the next deployment._
-
-Next, choose "Yes" for the Auto-Deploy field. This will re-deploy your
-application every time you push to main.
-
-Now, you are finally ready to deploy! Click "Create Web Service" to deploy your
-project. The deployment process will likely take about 10-15 minutes if
-everything works as expected. You can monitor the logs to see your build and
-start commands being executed, and see any errors in the build process.
-
-When deployment is complete, open your deployed site and check to see if you
-successfully deployed your Flask application to Render! You can find the URL for
-your site just below the name of the Web Service at the top of the page.
-
-[Render.com]: https://render.com/
-[Dashboard]: https://dashboard.render.com/
