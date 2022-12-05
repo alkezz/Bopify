@@ -3,7 +3,7 @@ import { Link, NavLink, useHistory, useParams, useLocation } from 'react-router-
 import { useDispatch, useSelector } from 'react-redux';
 import * as playlistActions from "../../store/playlist"
 import * as audioActions from "../../store/audioplayer"
-
+import "./AlbumPage.css"
 
 const AlbumPage = () => {
     let i = 0
@@ -118,7 +118,7 @@ const AlbumPage = () => {
                                     </div>
                             } */}
                         {album?.Songs?.map((song) => {
-                            return <div style={{ paddingBottom: "10px", listStyle: "none", display: "flex", justifyContent: "space-between" }}>
+                            return <div className='song-album-container' style={{ paddingBottom: "10px", listStyle: "none", display: "flex", justifyContent: "space-between" }}>
                                 <div style={{ width: "300px", display: "flex", flexDirection: "row" }}>
                                     {incrementSongNumber()}
                                     &nbsp;
@@ -127,15 +127,14 @@ const AlbumPage = () => {
                                     <div style={{ display: "flex", flexDirection: "column" }}>
                                         <Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
                                         &nbsp;
-                                        <Link style={{ textDecoration: "none", color: "#777a7b" }} to={`/artist/${album.artist.id}`}>{album.artist.name}</Link>
-                                        &nbsp;
+                                        <Link style={{ textDecoration: "none", color: "white" }} to={`/artist/${album.artist.id}`}>{album.artist.name}</Link>
                                     </div>
                                 </div>
                                 <div style={{ display: "flex" }}>
                                     <i style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-regular fa-heart"></i>
-                                    time
+                                    {song.song_length}
                                     <div>
-                                        <button id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
+                                        <button style={{ background: "none" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
                                         {activeMenu === song.id && (
                                             <div className='active-song-dropdown'>
                                                 <div>

@@ -163,7 +163,7 @@ const PlaylistPage = () => {
                     {sessionUser?.id !== onePlaylist?.User?.id && (
                         <div className='playlist-header-container'>
                             <div id='picture-container'>
-                                <img src={playlist.playlist_img} />
+                                <img style={{ width: "200px", height: "210px" }} src={playlist.playlist_img} />
                                 {/* <EditPlaylistModal playlistId={playlistId} playlist={playlist} /> */}
                             </div>
                             <div id='playlist-info-container'>
@@ -235,8 +235,6 @@ const PlaylistPage = () => {
                             &nbsp;
                             &nbsp;
                             &nbsp;
-                            &nbsp;
-                            &nbsp;
                             ALBUM
                         </div>
                         <div style={{ paddingRight: "20px" }}>
@@ -246,23 +244,23 @@ const PlaylistPage = () => {
                     {onePlaylist.Songs && (
                         <div>
                             {onePlaylist.Songs.map((song) => {
-                                return <div style={{ paddingBottom: "10px", listStyle: "none", display: "flex", justifyContent: "space-between" }}>
+                                return <div className='playlist-song-container' style={{ paddingBottom: "10px", listStyle: "none", display: "flex", justifyContent: "space-between" }}>
                                     <div style={{ width: "300px" }}>
-                                        {incrementSongNumber()} <Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
+                                        {incrementSongNumber()}&nbsp;<img style={{ width: "40px" }} src={song.album.albumPic} /><Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
                                     </div>
                                     <div style={{ marginLeft: "-60px" }}><Link style={{ textDecoration: "none", color: "white" }} to={`/album/${song.album.id}`}>{song.album.name}</Link></div>
                                     <div style={{ display: "flex" }}>
                                         <i style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-regular fa-heart"></i>
-                                        time
+                                        <span>{song.song_length}</span>
                                         {sessionUser && (
-                                            <button id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
+                                            <button style={{ background: "none", marginBottom: "30px" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
                                         )}
                                         {activeMenu === song.id && (
                                             <div className='active-song-dropdown'>
                                                 <div>
                                                     <Link style={{ textDecoration: "none", color: "gray" }} to={`/album/${song.album.id}`}>Album Page</Link>
                                                 </div>
-                                                <button style={{ background: 'none', color: "gray", cursor: "pointer" }} onClick={async (e) => {
+                                                <button hidden={sessionUser.id !== onePlaylist.User.id} style={{ background: 'none', color: "gray", cursor: "pointer" }} onClick={async (e) => {
                                                     {
                                                         deleteSong(e, song.id);
                                                         setUpdate(!update);

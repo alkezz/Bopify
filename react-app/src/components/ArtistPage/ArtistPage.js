@@ -89,7 +89,7 @@ const ArtistPage = () => {
                                 &nbsp;
                                 &nbsp;
                                 <div style={{ display: "flex" }}>
-                                    time
+                                    {song.song_length}
                                     <div>
                                         <button style={{ background: "none" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
                                         {activeMenu === song.id && (

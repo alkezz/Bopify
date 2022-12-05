@@ -105,12 +105,21 @@ const AudioPlayer = () => {
         if (audioState.queue.length > 0) {
             await dispatch(audioActions.skipSong())
             setCurrentTrack(audioState.current_song_playing[0].song_url)
-            audioRef.current.volume = volume
             setVolume(volume)
+            audioRef.current.volume = volume
         } else {
             await dispatch(audioActions.skipSong())
         }
     }
+
+    const goBack = () => {
+        setIsPlaying(false)
+        setCurrentTrack(audioState.current_song_playing[0].song_url)
+        setTrackProgress(0)
+        setVolume(volume)
+        audioRef.current.volume = volume
+    }
+
     let skipSongButton
     if (audioState.queue) {
         skipSongButton = (
@@ -175,7 +184,7 @@ const AudioPlayer = () => {
                         />
                     </div>
                     &nbsp;
-                    <span style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>{calculateTime(duration)}</span>
+                    <span hidden={!duration} style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>{calculateTime(duration)}</span>
                     {/* <span style={{ display: "flex", alignItems: "center" }}><i class="fa-solid fa-volume-low"></i></span> */}
                     {volumeButton}
                     &nbsp;
