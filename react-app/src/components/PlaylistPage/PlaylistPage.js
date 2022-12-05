@@ -20,7 +20,6 @@ const PlaylistPage = () => {
     const sessionUser = useSelector((state) => state.session.user)
     const songState = useSelector((state) => state)
     document.body.style = 'background: #1e1e1e';
-    console.log("STATE", songState)
     let i = 0
     useEffect(async () => {
         if (!playlistId) {
@@ -80,7 +79,6 @@ const PlaylistPage = () => {
     if (!playlistId) return null
     const incrementSongNumber = () => {
         i = i + 1
-        console.log('yo')
         return i
     }
     const openMenu = () => {

@@ -48,7 +48,6 @@ export const followPlaylist = (userId, playlistId) => async (dispatch) => {
     })
     if (response.ok) {
         const data = await response.json()
-        console.log("DATA IN FOLLOWPLAYLIST THUNK", data.followedPlaylists[0])
         dispatch(actionfollowPlaylist(data.followedPlaylists))
         return data
     }
@@ -74,29 +73,7 @@ export const clearPlaylistFollows = () => async (dispatch) => {
 
 const initialState = {}
 
-// export default function followedPlaylistReducer(state = initialState, action) {
-//     let newState = {}
-//     switch (action.type) {
-//         case GET_FOLLOWED_PLAYLISTS:
-//             newState = { ...state }
-//             action.playlists.forEach((playlist) => {
-//                 newState[playlist.id] = playlist
-//             })
-//             return newState
-//         case FOLLOW_PLAYLIST:
-//             return { ...state, ...action.playlist }
-//         case UNFOLLOW_PLAYLIST:
-//             console.log(action, "ACTION IN FOLLWOEPD:ALTS STORE")
-//             let newState = { ...state }
-//             delete newState[action.playlist.id]
-//             return newState
-//         default:
-//             return state
-//     }
-// }
-
 export default function followedPlaylistReducer(state = initialState, action) {
-    let newState = {}
     switch (action.type) {
         case GET_FOLLOWED_PLAYLISTS: {
             let newState = { ...state }

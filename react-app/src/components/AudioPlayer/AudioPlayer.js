@@ -28,7 +28,6 @@ const AudioPlayer = () => {
     const intervalRef = useRef();
     const isReady = useRef(false);
     const { duration } = audioRef.current;
-    console.log("VOLUME", volume)
     useEffect(() => {
         if (isPlaying) {
             audioRef.current.play();

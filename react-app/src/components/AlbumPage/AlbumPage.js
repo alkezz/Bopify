@@ -34,7 +34,6 @@ const AlbumPage = () => {
 
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
-    console.log("ALBUM", album)
     let userPlaylistList
     let userPlaylistLength
     if (sessionUser) {
@@ -44,7 +43,6 @@ const AlbumPage = () => {
     }
     const incrementSongNumber = () => {
         i = i + 1
-        console.log('yo')
         return i
     }
     const openMenu = () => {

@@ -24,7 +24,6 @@ const EditPlaylistForm = ({ playlistId }) => {
         if (name.length <= 0) errorList.push("Playlist name is required")
         setErrors(errorList)
     }, [name.length])
-    console.log(userPlaylist)
     if (!sessionUser) {
         return null
     }
@@ -39,7 +38,7 @@ const EditPlaylistForm = ({ playlistId }) => {
         setImage("")
         const errorList = []
         if (name.length > 15) errorList.push("Name of playlist should be 15 characters or less!")
-        if (description.length > 80) errorList.push("Description should be 80 characters or less!")
+        if (description.length > 80 || description.length < 10) errorList.push("Description should be between 10 and 80 characters!")
         let imageInput = document.querySelector("#file-input")
         setErrors(errorList)
         // if(errorList.length){
@@ -57,7 +56,6 @@ const EditPlaylistForm = ({ playlistId }) => {
         if (errorList.length) return
         let img = imageInput.files[0]
         formData.append('file', img)
-        console.log("FORMDATA", img === undefined)
         if (img === undefined) {
             const editedPlaylist = {
                 name,
@@ -109,7 +107,7 @@ const EditPlaylistForm = ({ playlistId }) => {
                         <input id='edit-name-input' name='name' type='text' value={name} onChange={(e) => setName(e.target.value)} />
                         <br />
                         <label>Description</label>
-                        <textarea placeholder='Add an optional description' id='description-textarea' name='description' type='text' value={description} onChange={(e) => setDescription(e.target.value)} />
+                        <textarea placeholder='Add a description' id='description-textarea' name='description' type='text' value={description} onChange={(e) => setDescription(e.target.value)} />
                     </div>
                 </div>
                 <div id='submit-edit-button-div'>

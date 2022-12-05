@@ -71,7 +71,6 @@ class User(db.Model, UserMixin):
             'username': self.username,
             'email': self.email
         }
-        [print("HEREHERE",playlistList.to_dict()) for playlistList in self.playlist_users]
         if playlist:
             user["Playlists"] = [playlistList.to_dict(image=True) for playlistList in self.playlist_users]
 

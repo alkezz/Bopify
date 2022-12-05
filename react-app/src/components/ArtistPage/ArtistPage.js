@@ -60,10 +60,7 @@ const ArtistPage = () => {
         }
         await dispatch(playlistActions.createPlaylist(newPlaylist))
     }
-    console.log(userPlaylistList)
     const topFive = songs.slice(0, 5)
-    console.log(topFive)
-    console.log("ARTIST", artist)
     const openMenu = () => {
         if (showMenu) return
         setShowMenu(true)

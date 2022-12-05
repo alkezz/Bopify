@@ -18,9 +18,7 @@ BUCKET_NAME=os.environ.get("AWS_BUCKET_NAME")
 @playlist_routes.route("/images/upload", methods=["POST"])
 def upload():
     if request.method == "POST":
-        print("REQUESTMETHOD", request.files['file'])
         img = request.files["file"]
-        print("IMG", img)
         if img:
             filename = secure_filename(img.filename)
             s3.upload_fileobj(
@@ -41,7 +39,6 @@ def test():
 def all_playlists():
     all_playlists = Playlist.query.all()
     playlists_dict = [playlist.to_dict(user=True) for playlist in all_playlists]
-    print("ALL_PLAYLISTS", playlists_dict)
     return {"Playlists": playlists_dict}
 
 @playlist_routes.route("/", methods=["POST"])
