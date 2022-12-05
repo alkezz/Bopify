@@ -111,6 +111,12 @@ const PlaylistPage = () => {
                 )
             }
         }
+    } else {
+        heartButton = (
+            <button hidden={sessionUser?.id === onePlaylist?.User?.id} onClick={(e) => { followPlaylist(e); setUpdate(!update); }} style={{ backgroundColor: "#1e1e1e", border: "none", cursor: "pointer" }}>
+                <i style={{ color: "#babbbb" }} class="fa-regular fa-heart fa-2x"></i>
+            </button>
+        )
     }
     const createPlaylist = async (e) => {
         if (userPlaylistLength > 5) {
