@@ -116,6 +116,7 @@ const AudioPlayer = () => {
         setIsPlaying(false)
         setCurrentTrack(audioState.current_song_playing[0].song_url)
         setTrackProgress(0)
+        audioRef.current.currentTime = 0
         setVolume(volume)
         audioRef.current.volume = volume
     }
@@ -125,6 +126,14 @@ const AudioPlayer = () => {
         skipSongButton = (
             <button style={{ background: "none", border: "none" }} onClick={skipSong}>
                 <i class="fa-solid fa-forward fa-2x"></i>
+            </button>
+        )
+    }
+    let backButton
+    if (audioState.current_song_playing) {
+        backButton = (
+            <button style={{ background: "none", border: "none" }} onClick={goBack}>
+                <i class="fa-solid fa-backward fa-2x"></i>
             </button>
         )
     }
@@ -163,7 +172,8 @@ const AudioPlayer = () => {
         <>
 
             <div>
-                <div style={{ marginLeft: "450px" }}>
+                <div style={{ marginLeft: "400px" }}>
+                    {backButton}
                     {playPauseButton}
                     {skipSongButton}
                 </div>
@@ -184,7 +194,9 @@ const AudioPlayer = () => {
                         />
                     </div>
                     &nbsp;
-                    <span hidden={!duration} style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>{calculateTime(duration)}</span>
+                    {isPlaying && (
+                        <span hidden={!duration} style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>{calculateTime(duration)}</span>
+                    )}
                     {/* <span style={{ display: "flex", alignItems: "center" }}><i class="fa-solid fa-volume-low"></i></span> */}
                     {volumeButton}
                     &nbsp;
