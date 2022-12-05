@@ -178,7 +178,7 @@ const ArtistPage = () => {
                     <br />
                     <br />
                     <br />
-                    <div style={{ marginLeft: "10%", width: "750px", textShadow: "1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000" }}>
+                    <div style={{ backgroundColor: "#1e1e1e", marginLeft: "10%", width: "750px", textShadow: "1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000" }}>
                         {artist.bio}
                     </div>
                 </div>

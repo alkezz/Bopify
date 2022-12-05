@@ -53,11 +53,11 @@ const AccountPage = () => {
             const followData = await dispatch(followActions.userFollowList(userId))
             setProfileFollowers(followData)
         })();
-        // (async () => {
-        //     const playlistFollowRes = await fetch(`/api/users/${userId}/followed-playlists`)
-        //     const playlistFollowsData = await playlistFollowRes.json()
-        //     setFollowingPlaylists(playlistFollowsData.followedPlaylists)
-        // })();
+        (async () => {
+            const playlistFollowRes = await fetch(`/api/users/${userId}/followed-playlists`)
+            const playlistFollowsData = await playlistFollowRes.json()
+            setFollowingPlaylists(playlistFollowsData.followedPlaylists)
+        })();
         // followState.forEach(async (id) => {
         //     const response = await fetch(`/api/users/${id}`)
         //     const data = await response.json()
@@ -108,7 +108,7 @@ const AccountPage = () => {
         profilePic = <img src={sessionUser.profile_pic} />
     }
     const playlistArray = Object.values(playlistState)
-    const userPlaylistList = playlistArray.filter(playlist => Number(playlist.User.id) === Number(userId))
+    const userPlaylistList = playlistArray.filter(playlist => Number(playlist?.User?.id) === Number(userId))
     let userPlaylistLength
     if (userPlaylistList.length === 1) {
         userPlaylistLength = <span>{userPlaylistList.length} public playlist</span>

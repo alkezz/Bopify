@@ -214,7 +214,7 @@ const PlaylistPage = () => {
                     </div>
                     <br />
                     <br />
-                    <div className='song-list-header-container' style={{ marginBottom: "10px" }}>
+                    <div className='song-list-header-container'>
                         <div className='number-icon'>
                             <div>
                                 #
@@ -246,14 +246,14 @@ const PlaylistPage = () => {
                             {onePlaylist.Songs.map((song) => {
                                 return <div className='playlist-song-container' style={{ paddingBottom: "10px", listStyle: "none", display: "flex", justifyContent: "space-between" }}>
                                     <div style={{ width: "300px" }}>
-                                        {incrementSongNumber()}&nbsp;<img style={{ width: "40px" }} src={song.album.albumPic} /><Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
+                                        {incrementSongNumber()}&nbsp;<Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
                                     </div>
                                     <div style={{ marginLeft: "-60px" }}><Link style={{ textDecoration: "none", color: "white" }} to={`/album/${song.album.id}`}>{song.album.name}</Link></div>
                                     <div style={{ display: "flex" }}>
                                         <i style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-regular fa-heart"></i>
                                         <span>{song.song_length}</span>
                                         {sessionUser && (
-                                            <button style={{ background: "none", marginBottom: "30px" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
+                                            <button style={{ background: "none" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
                                         )}
                                         {activeMenu === song.id && (
                                             <div className='active-song-dropdown'>

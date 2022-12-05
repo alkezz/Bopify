@@ -247,10 +247,10 @@ const NavBar = () => {
           &nbsp;
           Your Library</Link>
         <br />
-        <button onClick={createPlaylist} className='create-playlist-button'>
+        <Link onClick={createPlaylist} className='create-playlist-button'>
           <i class="fa-solid fa-square-plus"></i>
           &nbsp;
-          Create playlist</button>
+          Create playlist</Link>
         <Link to="/likes">
           <i class="fa-solid fa-heart"></i>
           &nbsp;
