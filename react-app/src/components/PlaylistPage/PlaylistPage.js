@@ -264,7 +264,7 @@ const PlaylistPage = () => {
                                             <button style={{ background: "none" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
                                         )}
                                         {activeMenu === song.id && (
-                                            <div className='active-song-dropdown'>
+                                            <div className='active-playlist-song-dropdown'>
                                                 <div>
                                                     <Link style={{ textDecoration: "none", color: "gray" }} to={`/album/${song.album.id}`}>Album Page</Link>
                                                 </div>
@@ -283,11 +283,13 @@ const PlaylistPage = () => {
                                                             <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={createPlaylist}>Create Playlist</button>
                                                             <div style={{ borderBottom: "1px solid white" }}></div>
                                                             {userPlaylistListNoDuplicate.map((playlist) => {
-                                                                return <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={async (e) => {
-                                                                    await fetch(`/api/playlists/${playlist.id}/add_song/${song.id}`, {
-                                                                        method: "POST"
-                                                                    })
-                                                                }}>{playlist.name}</button>
+                                                                return <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                                                                    <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={async (e) => {
+                                                                        await fetch(`/api/playlists/${playlist.id}/add_song/${song.id}`, {
+                                                                            method: "POST"
+                                                                        })
+                                                                    }}>{playlist.name}</button>
+                                                                </div>
                                                             })}
                                                         </div>
                                                     )}

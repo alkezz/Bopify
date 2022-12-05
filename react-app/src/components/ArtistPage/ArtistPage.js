@@ -106,11 +106,13 @@ const ArtistPage = () => {
                                                             <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={createPlaylist}>Create Playlist</button>
                                                             <div style={{ borderBottom: "1px solid white" }}></div>
                                                             {userPlaylistList.map((playlist) => {
-                                                                return <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={async (e) => {
-                                                                    await fetch(`/api/playlists/${playlist.id}/add_song/${song.id}`, {
-                                                                        method: "POST"
-                                                                    })
-                                                                }}>{playlist.name}</button>
+                                                                return <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                                                                    <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={async (e) => {
+                                                                        await fetch(`/api/playlists/${playlist.id}/add_song/${song.id}`, {
+                                                                            method: "POST"
+                                                                        })
+                                                                    }}>{playlist.name}</button>
+                                                                </div>
                                                             })}
                                                         </div>
                                                     )}
