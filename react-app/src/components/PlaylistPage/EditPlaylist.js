@@ -38,7 +38,7 @@ const EditPlaylistForm = ({ playlistId }) => {
         setImage("")
         const errorList = []
         if (name.length > 15) errorList.push("Name of playlist should be 15 characters or less!")
-        if (description.length > 80 || description.length < 10) errorList.push("Description should be between 10 and 80 characters!")
+        // if (description.length > 80 || description.length < 10) errorList.push("Description should be between 10 and 80 characters!")
         let imageInput = document.querySelector("#file-input")
         setErrors(errorList)
         // if(errorList.length){
