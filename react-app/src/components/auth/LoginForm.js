@@ -64,7 +64,6 @@ const LoginForm = () => {
               onClick={async () => {
                 await dispatch(login("demo@aa.io", "password"))
               }}>
-              <i id='facebook' class="fa-brands fa-facebook"></i>
               CONTINUE WITH DEMO USER
             </button>
             <br />
@@ -72,7 +71,6 @@ const LoginForm = () => {
               onClick={async () => {
                 await dispatch(login("marnie@aa.io", "password"))
               }}>
-              <i id="apple" class="fa-brands fa-apple"></i>
               CONTINUE WITH MARNIE
             </button>
             <br />
@@ -81,7 +79,6 @@ const LoginForm = () => {
               onClick={async (e) => {
                 await dispatch(login("bobbie@aa.io", "password"))
               }}>
-              <i id="google" class="fa-brands fa-google"></i>
               CONTINUE WITH BOBBIE
             </button>
           </div>
@@ -131,7 +128,6 @@ const LoginForm = () => {
             onClick={async () => {
               await dispatch(login("demo@aa.io", "password"))
             }}>
-            <i id='facebook' class="fa-brands fa-facebook"></i>
             CONTINUE WITH DEMO USER
           </button>
           <br />
@@ -140,7 +136,6 @@ const LoginForm = () => {
             onClick={async () => {
               await dispatch(login("marnie@aa.io", "password"))
             }}>
-            <i id="apple" class="fa-brands fa-apple"></i>
             CONTINUE WITH MARNIE
           </button>
           <br />
@@ -149,7 +144,6 @@ const LoginForm = () => {
             onClick={async () => {
               await dispatch(login("bobbie@aa.io", "password"))
             }}>
-            <i id="google" class="fa-brands fa-google"></i>
             CONTINUE WITH BOBBIE
           </button>
         </div>

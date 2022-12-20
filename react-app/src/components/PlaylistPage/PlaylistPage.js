@@ -21,6 +21,7 @@ const PlaylistPage = () => {
     const songState = useSelector((state) => state)
     const followedPlaylistState = useSelector((state) => state.followedPlaylists)
     document.body.style = 'background: #1e1e1e';
+    document.getElementById("top-navbar").style.backgroundColor = "#111111"
     let i = 0
     useEffect(async () => {
         if (!playlistId) {

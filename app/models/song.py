@@ -1,5 +1,14 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 
+likes = db.Table(
+    "song_likes",
+    db.Model.metadata,
+    db.Column("user_id", db.Integer, db.ForeignKey(add_prefix_for_prod("users.id"))),
+    db.Column("song_id", db.Integer, db.ForeignKey(add_prefix_for_prod("songs.id")))
+)
+if environment == 'production':
+    likes.schema = SCHEMA
+
 class Song(db.Model):
     __tablename__ = "songs"
 
@@ -19,11 +28,11 @@ class Song(db.Model):
         secondary="playlist_songs",
         back_populates="playlist_song_list"
     )
-    # song_likes = db.relationship(
-    #     "User",
-    #     secondary="likes",
-    #     back_populates="user_likes"
-    # )
+    song_likes = db.relationship(
+        "User",
+        secondary=likes,
+        back_populates="user_likes"
+    )
 
     def to_dict(self, album=False):
         song = {

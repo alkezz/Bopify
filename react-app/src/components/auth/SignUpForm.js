@@ -100,7 +100,6 @@ const SignUpForm = () => {
               // setPassword("password");
               await dispatch(login("demo@aa.io", "password"))
             }}>
-            <i id='facebook' class="fa-brands fa-facebook"></i>
             CONTINUE WITH DEMO USER
           </button>
           <br />
@@ -109,7 +108,6 @@ const SignUpForm = () => {
             onClick={async () => {
               await dispatch(login("bobbie@aa.io", "password"))
             }}>
-            <i id="google" class="fa-brands fa-google"></i>
             CONTINUE WITH BOBBIE
           </button>
         </div>
@@ -203,7 +201,6 @@ const SignUpForm = () => {
               // setPassword("password");
               await dispatch(login("demo@aa.io", "password"))
             }}>
-            <i id='facebook' class="fa-brands fa-facebook"></i>
             CONTINUE WITH DEMO USER
           </button>
           <br />
@@ -212,7 +209,6 @@ const SignUpForm = () => {
             onClick={async () => {
               await dispatch(login("bobbie@aa.io", "password"))
             }}>
-            <i id="google" class="fa-brands fa-google"></i>
             CONTINUE WITH BOBBIE
           </button>
         </div>
@@ -259,7 +255,6 @@ const SignUpForm = () => {
               placeholder='Enter your password again'
               onChange={updateRepeatPassword}
               value={repeatPassword}
-              required={true}
             ></input>
           </div>
           <label>What should we call you?</label>

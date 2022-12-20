@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
-from app.models import User, db, Playlist
+from app.models import User, db, Playlist, Song
 from app.models.user import follows
 
 user_routes = Blueprint('users', __name__)
@@ -32,6 +32,14 @@ def user_followed_playlists(id):
     else:
         return {"message": f"User with id of {id} not found"}
 
+@user_routes.route("/<int:id>/song_likes")
+def user_song_likes(id):
+    user = User.query.get(id)
+    if user:
+        return user.to_dict(likes=True)
+    else:
+        return {"message": f"User with id of {id} not found"}
+
 @user_routes.route("/<int:id>/follow-playlist/<int:id2>", methods=["POST", "DELETE"])
 @login_required
 def follow_playlist(id, id2):
@@ -53,6 +61,29 @@ def follow_playlist(id, id2):
     else:
         return {"message": f"User with id of {id} not found"}
 
+@user_routes.route("/<int:id>/like-song/<int:id2>", methods=["POST", "DELETE"])
+@login_required
+def like_song(id, id2):
+    """
+    Route to allow user to like songs
+    Syntax: user with id will like song with id2
+    """
+    user = User.query.get(id)
+    song = Song.query.get(id2)
+    if user:
+        if song:
+            if request.method == "POST":
+                user.user_likes.append(song)
+                db.session.commit()
+                return user.to_dict(likes=True)
+            else:
+                user.user_likes.remove(song)
+                db.session.commit()
+                return user.to_dict(likes=True)
+        else:
+            return {"message": f"Song with id of {id2} not found"}
+    else:
+        return {"message": f"User with id of {id} not found"}
 
 @user_routes.route("/<int:id>/follow/<int:id2>", methods=["POST", "DELETE"])
 @login_required

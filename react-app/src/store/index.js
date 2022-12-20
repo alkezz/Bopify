@@ -5,13 +5,15 @@ import playlist from './playlist';
 import follows from './follower';
 import audioPlayer from './audioplayer'
 import followedPlaylists from './followedplaylists'
+import likedSongReducer from './songlikes';
 
 const rootReducer = combineReducers({
   session,
   playlist,
   follows,
   audioPlayer,
-  followedPlaylists
+  followedPlaylists,
+  likedSongReducer
 });
 
 
