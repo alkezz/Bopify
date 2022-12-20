@@ -14,6 +14,8 @@ const ArtistPage = () => {
     const [songs, setSongs] = useState([])
     const [showMenu, setShowMenu] = useState(false)
     const [activeMenu, setActiveMenu] = useState()
+    const [isVisible, setIsVisible] = useState(false)
+    const [addedToQueue, setAddedToQueue] = useState(false)
     const sessionUser = useSelector((state) => state.session.user)
     const playlistState = useSelector((state) => state.playlist)
     document.body.style = 'background: #1e1e1e';
@@ -110,7 +112,11 @@ const ArtistPage = () => {
                                                                     <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={async (e) => {
                                                                         await fetch(`/api/playlists/${playlist.id}/add_song/${song.id}`, {
                                                                             method: "POST"
-                                                                        })
+                                                                        });
+                                                                        setIsVisible(true)
+                                                                        setTimeout(() => {
+                                                                            setIsVisible(false)
+                                                                        }, 1500)
                                                                     }}>{playlist.name}</button>
                                                                 </div>
                                                             })}
@@ -123,6 +129,16 @@ const ArtistPage = () => {
                                 </div>
                             </div>
                         })
+                    )}
+                    {isVisible && (
+                        <div id='song-added-div' hidden>
+                            <div style={{ display: "flex", alignItems: "center", fontWeight: "700" }}>Added to Playlist</div>
+                        </div>
+                    )}
+                    {addedToQueue && (
+                        <div id='song-added-div' hidden>
+                            <div style={{ display: "flex", alignItems: "center", fontWeight: "700" }}>Added to Queue</div>
+                        </div>
                     )}
                 </div>
             </div>
