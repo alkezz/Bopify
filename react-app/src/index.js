@@ -6,6 +6,7 @@ import App from './App';
 import configureStore from './store';
 import { ModalProvider } from "./context/Modal";
 import { BrowserRouter } from 'react-router-dom';
+import './fonts/CircularStd-Black.otf'
 
 const store = configureStore();
 

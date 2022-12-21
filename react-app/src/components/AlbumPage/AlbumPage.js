@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as playlistActions from "../../store/playlist"
 import * as audioActions from "../../store/audioplayer"
 import "./AlbumPage.css"
+import * as songLikeActions from '../../store/songlikes';
 
 const AlbumPage = () => {
     let i = 0
@@ -11,10 +12,15 @@ const AlbumPage = () => {
     const { albumId } = useParams()
     const [showMenu, setShowMenu] = useState(false)
     const [activeMenu, setActiveMenu] = useState()
+    const [isVisible, setIsVisible] = useState(false)
+    const [addedToQueue, setAddedToQueue] = useState(false)
+    const [update, setUpdate] = useState(false)
     const sessionUser = useSelector((state) => state.session.user)
     const dispatch = useDispatch()
     const history = useHistory()
     const playlistState = useSelector((state) => state.playlist)
+    const likedSongs = useSelector((state) => state.likedSongReducer)
+    console.log("LIKES", likedSongs)
     document.body.style = 'background: #1e1e1e';
     useEffect(() => {
         (async () => {
@@ -22,7 +28,7 @@ const AlbumPage = () => {
             const albumData = await albumResponse.json()
             setAlbum(albumData)
         })();
-    }, [setAlbum, albumId])
+    }, [setAlbum, albumId, update])
     useEffect(() => {
         if (!showMenu) return;
 
@@ -35,6 +41,7 @@ const AlbumPage = () => {
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
     let userPlaylistList
+    let heartButton
     let userPlaylistLength
     if (sessionUser) {
         const playlistArray = Object.values(playlistState)
@@ -65,6 +72,17 @@ const AlbumPage = () => {
     const listenToAlbum = async (e) => {
         e.preventDefault()
         await dispatch(audioActions.addAlbum(albumId))
+    }
+
+    // if (sessionUser) {
+    //     if (likedSongReducer)
+    // }
+
+    const likeSong = async (e, id) => {
+        e.preventDefault()
+        setUpdate(true)
+        await dispatch(songLikeActions.likeSong(sessionUser.id, id))
+        await dispatch(songLikeActions.getLikesSongs(sessionUser.id))
     }
 
     return (
@@ -129,7 +147,7 @@ const AlbumPage = () => {
                                     </div>
                                 </div>
                                 <div style={{ display: "flex" }}>
-                                    <i style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-regular fa-heart"></i>
+                                    <i onClick={(e) => likeSong(e, song.id)} style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-regular fa-heart"></i>
                                     {song.song_length}
                                     <div>
                                         <button style={{ background: "none" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
@@ -138,7 +156,14 @@ const AlbumPage = () => {
                                                 <div>
                                                     <Link style={{ textDecoration: "none", color: "gray" }} to={`/album/${song.album.id}`}>Album Page</Link>
                                                     {sessionUser && (
-                                                        <button onClick={async (e) => await dispatch(audioActions.nextSong(song.id))} style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }}>Add to queue</button>
+                                                        <button onClick={async (e) => {
+                                                            await dispatch(audioActions.nextSong(song.id));
+                                                            setAddedToQueue(true)
+                                                            setTimeout(() => {
+                                                                setAddedToQueue(false)
+                                                            }, 1500)
+
+                                                        }} style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }}>Add to queue</button>
                                                     )}
                                                 </div>
                                                 <div>
@@ -154,7 +179,11 @@ const AlbumPage = () => {
                                                                     <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={async (e) => {
                                                                         await fetch(`/api/playlists/${playlist.id}/add_song/${song.id}`, {
                                                                             method: "POST"
-                                                                        })
+                                                                        });
+                                                                        setIsVisible(true);
+                                                                        setTimeout(() => {
+                                                                            setIsVisible(false)
+                                                                        }, 1500)
                                                                     }}>{playlist.name}</button>
                                                                 </div>
                                                             })}
@@ -167,6 +196,16 @@ const AlbumPage = () => {
                                 </div>
                             </div>
                         })}
+                        {isVisible && (
+                            <div id='song-added-div' hidden>
+                                <div style={{ display: "flex", alignItems: "center", fontWeight: "700" }}>Added to Playlist</div>
+                            </div>
+                        )}
+                        {addedToQueue && (
+                            <div id='song-added-div' hidden>
+                                <div style={{ display: "flex", alignItems: "center", fontWeight: "700" }}>Added to Queue</div>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

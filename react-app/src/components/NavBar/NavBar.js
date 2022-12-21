@@ -76,6 +76,85 @@ const NavBar = () => {
       history.push(`/playlist/${new_playlist.id}`)
     }
   }
+  console.log("LOCATION", location.pathname === "/likes")
+  if (location.pathname === "/likes") {
+    sidenav = (
+      <div className='side-nav' style={{ color: "#adb3b3" }}>
+        <div style={{ marginBottom: "20px" }} id='logo'>
+          <img onClick={(e) => history.push("/")} style={{ width: "155px", height: "45px", cursor: "pointer" }} src={whiteLogo} />
+        </div>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <i class="fa-solid fa-house" style={{ color: "#b3b3b3" }}></i>
+          &nbsp;
+          Home</Link>
+        <Link to="/search">
+          <i class="fa-solid fa-magnifying-glass" style={{ color: "#b3b3b3" }}></i>
+          &nbsp;
+          Search</Link>
+        <Link to="/library">
+          <i class="fa-solid fa-lines-leaning" style={{ color: "#b3b3b3" }}></i>
+          &nbsp;
+          Your Library</Link>
+        <br />
+        <Link onClick={createPlaylist} className='create-playlist-button'>
+          <i class="fa-solid fa-square-plus"></i>
+          &nbsp;
+          Create playlist</Link>
+        <Link to="/likes">
+          <i class="fa-solid fa-heart"></i>
+          &nbsp;
+          Liked Songs</Link>
+        <div style={{ borderBottom: "1px solid white" }}><br /></div>
+        <br />
+        <div className='user-playlist-div'>
+          <UserPlaylist />
+        </div>
+        <div className='user-playlist-div'>
+          {followedPlaylistArray && (
+            followedPlaylistArray.map((playlist) => {
+              return <div>
+                <Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link>
+              </div>
+            })
+          )}
+        </div>
+      </div>
+    )
+    navbar = (
+      <nav id="top-navbar" style={{ backgroundColor: "#513a9e" }}>
+        <div className='login-signup'>
+          <DropDown />
+        </div>
+      </nav>
+    )
+    if (audioState.current_song_playing.length > 0) {
+      bottomnav = (
+        audioState.current_song_playing.length > 0 && (
+          <div className='bottom-div-container'>
+            <div className='audio-container' style={{ display: "flex", marginLeft: "20px" }}>
+              <div className='bottom-nav-image-container' style={{ display: "flex" }}>
+                <img style={{ width: "80px" }} src={audioState.current_song_playing[0].album.albumPic}></img>
+                <div className='bottom-div-album-name-artist-container' style={{ display: "flex", flexDirection: "column", marginLeft: "20px", marginTop: "15px", width: "300px" }}>
+                  <Link id='bottom-nav-album-link' to={`/album/${audioState.current_song_playing[0].album.id}`}>{audioState.current_song_playing[0].name}</Link>
+                  <br />
+                  <Link id='bottom-nav-artist-link' to={`/artist/${audioState.current_song_playing[0].album.artist.id}`}>{audioState.current_song_playing[0].album.artist.name}</Link>
+                </div>
+              </div>
+              <AudioPlayer />
+            </div>
+          </div>
+        )
+      )
+    } else {
+      bottomnav = (
+        <div className='bottom-div-container'>
+          <div style={{ marginLeft: "290px" }}>
+            <AudioPlayer />
+          </div>
+        </div>
+      )
+    }
+  }
   if (location.pathname !== "/sign-up" && location.pathname !== "/login" && !sessionUser) {
     sidenav = (
       <div className='side-nav' style={{ color: "#adb3b3" }}>
@@ -124,17 +203,18 @@ const NavBar = () => {
     bottomnav = (
       <div className='logged-out-bottom-div-container'>
         <div className='logged-out-text'>
-          <div>
-            Preview of Spotify
+          &nbsp;
+          <div style={{ fontSize: "13px", marginLeft: "12px", marginBottom: "5px" }}>
+            PREVIEW OF SPOTIFY
           </div>
-          <div>
+          <div style={{ marginLeft: "12px", fontWeight: "550" }}>
             Sign up to get unlimited songs and podcasts with occasional ads. No credit card needed.
           </div>
         </div>
-        <button style={{ marginTop: "12px", borderRadius: "20px", height: "50px", width: "150px", fontWeight: "700" }} onClick={(e) => history.push("/sign-up")}>Sign up free</button>
+        <button style={{ marginTop: "12px", borderRadius: "30px", height: "50px", width: "150px", fontWeight: "700", border: "none" }} onClick={(e) => history.push("/sign-up")}>Sign up free</button>
       </div>
     )
-  } else if (sessionUser && location.pathname !== "/sign-up" && location.pathname !== "/login") {
+  } else if (sessionUser && location.pathname !== "/sign-up" && location.pathname !== "/login" && location.pathname !== "/likes") {
     sidenav = (
       <div className='side-nav' style={{ color: "#adb3b3" }}>
         <div style={{ marginBottom: "20px" }} id='logo'>

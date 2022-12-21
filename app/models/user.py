@@ -9,18 +9,8 @@ follows = db.Table(
     db.Column("followed_id", db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
 )
 
-# likes = db.Table(
-#     "song_likes",
-#     db.Model.metadata,
-#     db.Column("user_id", db.Integer, db.ForeignKey(add_prefix_for_prod("users.id"))),
-#     db.Column("song_id", db.Integer, db.ForeignKey(add_prefix_for_prod("songs.id")))
-# )
-
 if environment == 'production':
     follows.schema = SCHEMA
-
-# if environment == 'production':
-#     likes.schema = SCHEMA
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -58,12 +48,12 @@ class User(db.Model, UserMixin):
         backref=db.backref('follows', lazy='dynamic'),
         lazy='dynamic'
     )
-
-    # user_likes = db.relationship(
-    #     "Song",
-    #     secondary=likes,
-    #     back_populates="song_likes"
-    # )
+    #! MIGRATE TO FIX RELATIONSHIP ISSUE, LIKES TABLE DNE IN ALEMBIC MIGRATIONS !#
+    user_likes = db.relationship(
+        "Song",
+        secondary="likes",
+        back_populates="song_likes"
+    )
 
     def to_dict(self, followed_playlists=False, likes=False, playlist=False):
         user = {

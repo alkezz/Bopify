@@ -21,6 +21,7 @@ const PlaylistPage = () => {
     const songState = useSelector((state) => state)
     const followedPlaylistState = useSelector((state) => state.followedPlaylists)
     document.body.style = 'background: #1e1e1e';
+    document.getElementById("top-navbar").style.backgroundColor = "#111111"
     let i = 0
     useEffect(async () => {
         if (!playlistId) {
@@ -202,7 +203,7 @@ const PlaylistPage = () => {
                     )}
                     <div className='play-like-container'>
                         <div>
-                            <button hidden={!sessionUser} onClick={listenToPlaylist} style={{ backgroundColor: "#1e1e1e", border: "none" }}>
+                            <button hidden={!sessionUser || onePlaylist?.Songs?.length === 0} onClick={listenToPlaylist} style={{ backgroundColor: "#1e1e1e", border: "none" }}>
                                 <i style={{ color: "#1ed760" }} class="fa-solid fa-circle-play fa-4x"></i>
                             </button>
                         </div>
