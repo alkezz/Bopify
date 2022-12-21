@@ -48,10 +48,10 @@ class User(db.Model, UserMixin):
         backref=db.backref('follows', lazy='dynamic'),
         lazy='dynamic'
     )
-
+    #! MIGRATE TO FIX RELATIONSHIP ISSUE, LIKES TABLE DNE IN ALEMBIC MIGRATIONS !#
     user_likes = db.relationship(
         "Song",
-        secondary="song_likes",
+        secondary="likes",
         back_populates="song_likes"
     )
 

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as playlistActions from "../../store/playlist"
 import * as audioActions from "../../store/audioplayer"
 import "./AlbumPage.css"
+import * as songLikeActions from '../../store/songlikes';
 
 const AlbumPage = () => {
     let i = 0
@@ -13,10 +14,13 @@ const AlbumPage = () => {
     const [activeMenu, setActiveMenu] = useState()
     const [isVisible, setIsVisible] = useState(false)
     const [addedToQueue, setAddedToQueue] = useState(false)
+    const [update, setUpdate] = useState(false)
     const sessionUser = useSelector((state) => state.session.user)
     const dispatch = useDispatch()
     const history = useHistory()
     const playlistState = useSelector((state) => state.playlist)
+    const likedSongs = useSelector((state) => state.likedSongReducer)
+    console.log("LIKES", likedSongs)
     document.body.style = 'background: #1e1e1e';
     useEffect(() => {
         (async () => {
@@ -24,7 +28,7 @@ const AlbumPage = () => {
             const albumData = await albumResponse.json()
             setAlbum(albumData)
         })();
-    }, [setAlbum, albumId])
+    }, [setAlbum, albumId, update])
     useEffect(() => {
         if (!showMenu) return;
 
@@ -37,6 +41,7 @@ const AlbumPage = () => {
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
     let userPlaylistList
+    let heartButton
     let userPlaylistLength
     if (sessionUser) {
         const playlistArray = Object.values(playlistState)
@@ -67,6 +72,17 @@ const AlbumPage = () => {
     const listenToAlbum = async (e) => {
         e.preventDefault()
         await dispatch(audioActions.addAlbum(albumId))
+    }
+
+    // if (sessionUser) {
+    //     if (likedSongReducer)
+    // }
+
+    const likeSong = async (e, id) => {
+        e.preventDefault()
+        setUpdate(true)
+        await dispatch(songLikeActions.likeSong(sessionUser.id, id))
+        await dispatch(songLikeActions.getLikesSongs(sessionUser.id))
     }
 
     return (
@@ -131,7 +147,7 @@ const AlbumPage = () => {
                                     </div>
                                 </div>
                                 <div style={{ display: "flex" }}>
-                                    <i style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-regular fa-heart"></i>
+                                    <i onClick={(e) => likeSong(e, song.id)} style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-regular fa-heart"></i>
                                     {song.song_length}
                                     <div>
                                         <button style={{ background: "none" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
