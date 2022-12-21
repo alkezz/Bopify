@@ -14,7 +14,8 @@ const AlbumPage = () => {
     const [activeMenu, setActiveMenu] = useState()
     const [isVisible, setIsVisible] = useState(false)
     const [addedToQueue, setAddedToQueue] = useState(false)
-    const [update, setUpdate] = useState(false)
+    const [update, setUpdate] = useState(true)
+    const [likedSongsList, setLikedSongsList] = useState([])
     const sessionUser = useSelector((state) => state.session.user)
     const dispatch = useDispatch()
     const history = useHistory()
@@ -27,8 +28,12 @@ const AlbumPage = () => {
             const albumResponse = await fetch(`/api/albums/${albumId}`)
             const albumData = await albumResponse.json()
             setAlbum(albumData)
+            if (sessionUser) {
+                setLikedSongsList(await dispatch(songLikeActions.getLikesSongs(sessionUser.id)))
+            }
         })();
-    }, [setAlbum, albumId, update])
+    }, [setAlbum, albumId, update, setUpdate, sessionUser, dispatch, setLikedSongsList])
+    console.log(likedSongsList.likedSongs, "LIKED SONG LIST")
     useEffect(() => {
         if (!showMenu) return;
 
@@ -43,6 +48,7 @@ const AlbumPage = () => {
     let userPlaylistList
     let heartButton
     let userPlaylistLength
+    let likedSongsArray = Object.values(likedSongs)
     if (sessionUser) {
         const playlistArray = Object.values(playlistState)
         userPlaylistList = playlistArray.filter(playlist => playlist?.User?.id === sessionUser.id)
@@ -82,6 +88,13 @@ const AlbumPage = () => {
         e.preventDefault()
         setUpdate(true)
         await dispatch(songLikeActions.likeSong(sessionUser.id, id))
+        await dispatch(songLikeActions.getLikesSongs(sessionUser.id))
+    }
+
+    const unlikeSong = async (e, id) => {
+        e.preventDefault()
+        setUpdate(true)
+        await dispatch(songLikeActions.unlikeSong(sessionUser.id, id))
         await dispatch(songLikeActions.getLikesSongs(sessionUser.id))
     }
 
@@ -146,8 +159,15 @@ const AlbumPage = () => {
                                         <Link style={{ textDecoration: "none", color: "white" }} to={`/artist/${album.artist.id}`}>{album.artist.name}</Link>
                                     </div>
                                 </div>
+                                {console.log(song.id, "SONGID")}
                                 <div style={{ display: "flex" }}>
-                                    <i onClick={(e) => likeSong(e, song.id)} style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-regular fa-heart"></i>
+                                    {likedSongsList?.likedSongs?.some(e => e.id === song.id) ? <i onClick={(e) => { unlikeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#1ed760", cursor: "pointer" }} class="fa-solid fa-heart"></i> : <i onClick={(e) => { likeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#babbbb", cursor: "pointer" }} class="fa-regular fa-heart"></i>}
+                                    {/* {likedSongsList?.likedSongs?.some(likedSong => likedSong.id === song.id) && (
+                                        <i onClick={(e) => { unlikeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-solid fa-heart"></i>
+                                    )}
+                                    {likedSongsList?.likedSongs?.some(likedSong => likedSong.id !== song.id) && (
+                                        <i onClick={(e) => { likeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-regular fa-heart"></i>
+                                    )} */}
                                     {song.song_length}
                                     <div>
                                         <button style={{ background: "none" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
