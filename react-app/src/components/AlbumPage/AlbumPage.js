@@ -5,6 +5,8 @@ import * as playlistActions from "../../store/playlist"
 import * as audioActions from "../../store/audioplayer"
 import "./AlbumPage.css"
 import * as songLikeActions from '../../store/songlikes';
+import FourZeroFourPage from '../404Page/404Page';
+
 
 const AlbumPage = () => {
     let i = 0
@@ -21,19 +23,20 @@ const AlbumPage = () => {
     const history = useHistory()
     const playlistState = useSelector((state) => state.playlist)
     const likedSongs = useSelector((state) => state.likedSongReducer)
-    console.log("LIKES", likedSongs)
     document.body.style = 'background: #1e1e1e';
     useEffect(() => {
         (async () => {
-            const albumResponse = await fetch(`/api/albums/${albumId}`)
-            const albumData = await albumResponse.json()
-            setAlbum(albumData)
-            if (sessionUser) {
-                setLikedSongsList(await dispatch(songLikeActions.getLikesSongs(sessionUser.id)))
+            if (albumId <= 5) {
+                const albumResponse = await fetch(`/api/albums/${albumId}`)
+                const albumData = await albumResponse.json()
+                setAlbum(albumData)
+                if (sessionUser) {
+                    setLikedSongsList(await dispatch(songLikeActions.getLikesSongs(sessionUser.id)))
+                }
             }
         })();
     }, [setAlbum, albumId, update, setUpdate, sessionUser, dispatch, setLikedSongsList])
-    console.log(likedSongsList.likedSongs, "LIKED SONG LIST")
+    console.log(album, "ALBUM")
     useEffect(() => {
         if (!showMenu) return;
 
@@ -45,6 +48,11 @@ const AlbumPage = () => {
 
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
+    if (albumId > 5) {
+        return (
+            <FourZeroFourPage />
+        )
+    }
     let userPlaylistList
     let heartButton
     let userPlaylistLength
@@ -155,11 +163,9 @@ const AlbumPage = () => {
                                     &nbsp;
                                     <div style={{ display: "flex", flexDirection: "column" }}>
                                         <Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
-                                        &nbsp;
-                                        <Link style={{ textDecoration: "none", color: "white" }} to={`/artist/${album.artist.id}`}>{album.artist.name}</Link>
+                                        <Link style={{ textDecoration: "none", color: "white", marginTop: "8px" }} to={`/artist/${album.artist.id}`}>{album.artist.name}</Link>
                                     </div>
                                 </div>
-                                {console.log(song.id, "SONGID")}
                                 <div style={{ display: "flex" }}>
                                     {likedSongsList?.likedSongs?.some(e => e.id === song.id) ? <i onClick={(e) => { unlikeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#1ed760", cursor: "pointer" }} class="fa-solid fa-heart"></i> : <i onClick={(e) => { likeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#babbbb", cursor: "pointer" }} class="fa-regular fa-heart"></i>}
                                     {/* {likedSongsList?.likedSongs?.some(likedSong => likedSong.id === song.id) && (

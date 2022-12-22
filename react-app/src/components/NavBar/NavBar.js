@@ -285,7 +285,7 @@ const NavBar = () => {
     } else {
       bottomnav = (
         <div className='bottom-div-container'>
-          <div style={{ marginLeft: "290px" }}>
+          <div style={{ marginLeft: "420px" }}>
             <AudioPlayer />
           </div>
         </div>
