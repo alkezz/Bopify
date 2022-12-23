@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as playlistActions from "../../store/playlist"
 import * as followedPlaylistActions from "../../store/followedplaylists"
 import * as audioActions from "../../store/audioplayer"
+import * as songLikeActions from '../../store/songlikes';
+import FourZeroFourPage from '../404Page/404Page';
 import EditPlaylistModal from "./EditPlaylistModal"
 import "./PlaylistPage.css"
 
@@ -16,12 +18,12 @@ const PlaylistPage = () => {
     const [activeMenu, setActiveMenu] = useState()
     const [update, setUpdate] = useState(true)
     const [followingPlaylists, setFollowingPlaylists] = useState([])
+    const [likedSongsList, setLikedSongsList] = useState([])
     const playlistState = useSelector((state) => state.playlist)
     const sessionUser = useSelector((state) => state.session.user)
     const songState = useSelector((state) => state)
     const followedPlaylistState = useSelector((state) => state.followedPlaylists)
-    document.body.style = 'background: #1e1e1e';
-    document.getElementById("top-navbar").style.backgroundColor = "#111111"
+    const likedSongs = useSelector((state) => state.likedSongReducer)
     let i = 0
     useEffect(async () => {
         if (!playlistId) {
@@ -43,11 +45,12 @@ const PlaylistPage = () => {
                 // const playlistFollowsData = await playlistFollowRes.json()
                 const playlistFollowsData = await dispatch(followedPlaylistActions.getFollowedPlaylists(sessionUser.id))
                 await setFollowingPlaylists(playlistFollowsData.followedPlaylists)
+                setLikedSongsList(await dispatch(songLikeActions.getLikesSongs(sessionUser.id)))
             }
         })();
         setOnePlaylist(await dispatch(playlistActions.getOnePlaylist(playlistId)))
         await dispatch(playlistActions.getAllPlaylists())
-    }, [dispatch, playlistId, setFollowingPlaylists, setUpdate, update, setOnePlaylist, sessionUser?.id])
+    }, [dispatch, playlistId, setFollowingPlaylists, setUpdate, update, setOnePlaylist, sessionUser?.id, setLikedSongsList])
     useEffect(() => {
         if (!showMenu) return;
 
@@ -61,6 +64,13 @@ const PlaylistPage = () => {
     }, [showMenu]);
     const playlistArray = Object.values(playlistState)
     const playlist = playlistArray.filter(playlist => Number(playlist.id) === Number(playlistId))[0]
+    if (playlistId > playlistArray.length) {
+        return (
+            <FourZeroFourPage />
+        )
+    }
+    document.body.style = 'background: #1e1e1e';
+    document.getElementById("top-navbar").style.backgroundColor = "#111111"
     let userPlaylistList
     let userPlaylistLength
     let userPlaylistListNoDuplicate
@@ -166,6 +176,20 @@ const PlaylistPage = () => {
         await dispatch(audioActions.addPlaylist(playlistId))
     }
 
+    const likeSong = async (e, id) => {
+        e.preventDefault()
+        setUpdate(true)
+        await dispatch(songLikeActions.likeSong(sessionUser.id, id))
+        await dispatch(songLikeActions.getLikesSongs(sessionUser.id))
+    }
+
+    const unlikeSong = async (e, id) => {
+        e.preventDefault()
+        setUpdate(true)
+        await dispatch(songLikeActions.unlikeSong(sessionUser.id, id))
+        await dispatch(songLikeActions.getLikesSongs(sessionUser.id))
+    }
+
     return (
         <>
             {!!onePlaylist.User && (
@@ -255,7 +279,7 @@ const PlaylistPage = () => {
                         </div>
                     </div>
                     {onePlaylist.Songs && (
-                        <div>
+                        <div style={{ marginTop: "1.5vh" }}>
                             {onePlaylist.Songs.map((song) => {
                                 return <div className='playlist-song-container' style={{ paddingBottom: "10px", listStyle: "none", display: "flex", justifyContent: "space-between" }}>
                                     <div style={{ width: "300px" }}>
@@ -263,7 +287,7 @@ const PlaylistPage = () => {
                                     </div>
                                     <div style={{ marginLeft: "-60px" }}><Link style={{ textDecoration: "none", color: "white" }} to={`/album/${song.album.id}`}>{song.album.name}</Link></div>
                                     <div style={{ display: "flex" }}>
-                                        <i style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-regular fa-heart"></i>
+                                        {likedSongsList?.likedSongs?.some(e => e.id === song.id) ? <i onClick={(e) => { unlikeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#1ed760", cursor: "pointer" }} class="fa-solid fa-heart"></i> : <i onClick={(e) => { likeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#babbbb", cursor: "pointer" }} class="fa-regular fa-heart"></i>}
                                         <span>{song.song_length}</span>
                                         {sessionUser && (
                                             <button style={{ background: "none" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>

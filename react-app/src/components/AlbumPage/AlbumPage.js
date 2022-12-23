@@ -36,7 +36,6 @@ const AlbumPage = () => {
             }
         })();
     }, [setAlbum, albumId, update, setUpdate, sessionUser, dispatch, setLikedSongsList])
-    console.log(album, "ALBUM")
     useEffect(() => {
         if (!showMenu) return;
 
