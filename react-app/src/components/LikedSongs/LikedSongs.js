@@ -71,6 +71,10 @@ const LikedSongs = () => {
         await dispatch(songLikeActions.unlikeSong(sessionUser.id, id))
         setLikedSongsList(await dispatch(songLikeActions.getLikesSongs(sessionUser.id)))
     }
+    const listenToLikes = async (e) => {
+        e.preventDefault()
+        await dispatch(audioActions.addLikes(sessionUser.id))
+    }
     if (likedSongsList?.likedSongs?.length >= 1) {
         return (
             <div className='liked-songs-page-container' style={{ color: "white", paddingBottom: "80px", width: "100%" }}>
@@ -81,11 +85,15 @@ const LikedSongs = () => {
                     <div className='liked-songs-info-container' style={{ marginLeft: "20px", display: "flex", flexDirection: "column" }}>
                         <h1 style={{ color: "white", fontSize: "13px", marginBottom: "-50px", marginTop: "70px" }}>PLAYLIST</h1>
                         <h1 style={{ fontSize: "75px", fontWeight: "700" }}>Liked Songs</h1>
-                        <span>{sessionUser.username}</span>
+                        <span><Link style={{ textDecoration: "none", color: "white" }} to={`/user/${sessionUser.id}`}>{sessionUser.username}</Link>&nbsp;&nbsp;&nbsp;{likedSongsList.likedSongs.length} songs</span>
                     </div>
                 </div>
-                <div className='play-button-container' style={{ paddingLeft: "60px", height: "100px", marginTop: "-20px" }}>
-                    <h1>U</h1>
+                <div className='play-button-container' style={{ paddingLeft: "60px", height: "100px" }}>
+                    <div>
+                        <button style={{ border: "none", background: "none" }}>
+                            <i style={{ color: "#1ed760", cursor: "pointer" }} onClick={listenToLikes} class="fa-solid fa-circle-play fa-4x"></i>
+                        </button>
+                    </div>
                 </div>
                 <div className='song-list-header-container' style={{ marginLeft: "55px", marginRight: "55px" }}>
                     <div className='number-icon'>
@@ -114,20 +122,20 @@ const LikedSongs = () => {
                         <i class="fa-regular fa-clock"></i>
                     </div>
                 </div>
-                <div className='liked-songs-list' style={{ marginLeft: "20px" }}>
+                <div className='liked-songs-list' style={{ marginLeft: "20px", marginTop: "1.5vh" }}>
                     {likedSongsList.likedSongs && (
                         <div>
                             {likedSongsList.likedSongs.map((song) => {
                                 return <div className='playlist-song-container' style={{ paddingBottom: "10px", listStyle: "none", display: "flex", justifyContent: "space-between" }}>
-                                    <div style={{ width: "300px" }}>
-                                        {incrementSongNumber()}&nbsp;<Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
+                                    <div style={{ width: "300px", marginLeft: "35px" }}>
+                                        {incrementSongNumber()}&nbsp;&nbsp;<img style={{ width: "30px" }} src={song.album.albumPic} />&nbsp;&nbsp;<Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
                                     </div>
                                     <div style={{ marginLeft: "-60px" }}><Link style={{ textDecoration: "none", color: "white" }} to={`/album/${song.album.id}`}>{song.album.name}</Link></div>
-                                    <div style={{ display: "flex" }}>
+                                    <div style={{ display: "flex", marginRight: "45px" }}>
                                         <i onClick={(e) => { unlikeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#1ed760", cursor: "pointer" }} class="fa-solid fa-heart"></i>
                                         <span>{song.song_length}</span>
                                         {sessionUser && (
-                                            <button style={{ background: "none" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
+                                            <button style={{ background: "none", marginBottom: "20px" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
                                         )}
                                         {activeMenu === song.id && (
                                             <div className='active-playlist-song-dropdown'>
@@ -177,8 +185,7 @@ const LikedSongs = () => {
                         <span>{sessionUser.username}</span>
                     </div>
                 </div>
-                <div className='play-button-container' style={{ paddingLeft: "60px", height: "100px", marginTop: "-20px" }}>
-                    <h1>U</h1>
+                <div className='play-button-container' style={{ paddingLeft: "60px", height: "100px" }}>
                 </div>
                 <div className='song-list-header-container' style={{ marginLeft: "55px", marginRight: "55px" }}>
                     <div className='number-icon'>

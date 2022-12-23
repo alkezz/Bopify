@@ -3,6 +3,7 @@ const NEXT_SONG = "audioPlayer/nextSong"
 const ADD_PLAYLIST = "audioPlay/addPlaylist"
 const SKIP_SONG = "audioPlayer/skipSong"
 const ADD_ALBUM = "audioPlayer/addAlbum"
+const ADD_LIKED_SONGS = "audioPlayer/addLikes"
 const CLEAR_AUDIO_STATE = "audioPlayer/clearAudio"
 //Action Creators for thunk reference
 const actionAddSong = (song) => {
@@ -36,6 +37,13 @@ const actionAddAlbum = (album) => {
     return {
         type: ADD_ALBUM,
         album
+    }
+}
+
+const actionAddLikes = (likes) => {
+    return {
+        type: ADD_LIKED_SONGS,
+        likes
     }
 }
 
@@ -85,6 +93,16 @@ export const addAlbum = (id) => async (dispatch) => {
     return response
 }
 
+export const addLikes = (userId) => async (dispatch) => {
+    const response = await fetch(`/api/users/${userId}/song_likes`)
+    if (response.ok) {
+        const data = await response.json()
+        dispatch(actionAddLikes(data.likedSongs))
+        return data.likedSongs
+    }
+    return response
+}
+
 export const skipSong = () => async (dispatch) => {
     dispatch(actionSkipSong())
 }
@@ -112,6 +130,8 @@ export default function audioReducer(state = initalState, action) {
             return { ...state, current_song_playing: [action.playlist.Songs[0]], queue: [...action.playlist.Songs.slice(1)] }
         case ADD_ALBUM:
             return { ...state, current_song_playing: [action.album.Songs[0]], queue: [...action.album.Songs.slice(1)] }
+        case ADD_LIKED_SONGS:
+            return { ...state, current_song_playing: [action.likes[0]], queue: [...action.likes.slice(1)] }
         case SKIP_SONG:
             if (state.queue.length === 0) {
                 return { ...state, current_song_playing: [], queue: [] }
