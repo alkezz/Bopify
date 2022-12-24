@@ -16,6 +16,7 @@ import ReactAudioPlayer from 'react-audio-player';
 import AudioPlayer from '../AudioPlayer/AudioPlayer';
 
 const NavBar = () => {
+  let topNav = document.getElementById("top-navbar")
   const history = useHistory()
   const location = useLocation()
   const dispatch = useDispatch()
@@ -30,10 +31,10 @@ const NavBar = () => {
   const [followingPlaylists, setFollowingPlaylists] = useState([])
   let allPlaylists
   let followedPlaylists
+  console.log(location.pathname === "/", "Location")
   useEffect(async () => {
     allPlaylists = await dispatch(playlistActions.getAllPlaylists())
     await dispatch(followedPlaylistActions.getFollowedPlaylists(sessionUser?.id))
-
   }, [dispatch, sessionUser?.id])
   // useEffect(() => {
   //   const seconds = Math.floor(audioPlayer?.current?.duration)
@@ -49,6 +50,10 @@ const NavBar = () => {
   //   //   }
   //   // })();
   // }, [setFollowingPlaylists, isPlaying, audioPlayer?.current?.loadedmetadata, audioPlayer?.current?.readyState])
+  if (location.pathname === "/" && topNav) {
+    topNav.style.backgroundColor = "#111111"
+    topNav.style.backgroundImage = "none"
+  }
   const playlistArray = Object.values(playlistState)
   const followedPlaylistArray = Object.values(followedPlaylistState)
   let userPlaylistList
@@ -76,7 +81,6 @@ const NavBar = () => {
       history.push(`/playlist/${new_playlist.id}`)
     }
   }
-  console.log("LOCATION", location.pathname === "/likes")
   if (location.pathname === "/likes") {
     sidenav = (
       <div className='side-nav' style={{ color: "#adb3b3" }}>
@@ -104,7 +108,7 @@ const NavBar = () => {
           <i class="fa-solid fa-heart"></i>
           &nbsp;
           Liked Songs</Link>
-        <div style={{ borderBottom: "1px solid white" }}><br /></div>
+        <div style={{ borderBottom: "1px solid gray" }}><br /></div>
         <br />
         <div className='user-playlist-div'>
           <UserPlaylist />
@@ -121,7 +125,7 @@ const NavBar = () => {
       </div>
     )
     navbar = (
-      <nav id="top-navbar" style={{ backgroundColor: "#513a9e" }}>
+      <nav id="top-navbar" style={{ backgroundColor: "#513a9e", backgroundImage: "none" }}>
         <div className='login-signup'>
           <DropDown />
         </div>
@@ -255,7 +259,7 @@ const NavBar = () => {
           <i class="fa-solid fa-heart"></i>
           &nbsp;
           Liked Songs</Link>
-        <div style={{ borderBottom: "1px solid white" }}><br /></div>
+        <div style={{ borderBottom: "1px solid gray" }}><br /></div>
         <br />
         <div className='user-playlist-div'>
           <UserPlaylist />

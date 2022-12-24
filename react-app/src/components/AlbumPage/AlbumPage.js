@@ -10,8 +10,10 @@ import FourZeroFourPage from '../404Page/404Page';
 
 const AlbumPage = () => {
     let i = 0
+    const topNav = document.getElementById("top-navbar")
     const [album, setAlbum] = useState([])
     const { albumId } = useParams()
+    const location = useLocation()
     const [showMenu, setShowMenu] = useState(false)
     const [activeMenu, setActiveMenu] = useState()
     const [isVisible, setIsVisible] = useState(false)
@@ -51,6 +53,10 @@ const AlbumPage = () => {
         return (
             <FourZeroFourPage />
         )
+    }
+    if (location.pathname.includes("album") && topNav) {
+        topNav.style.backgroundImage = `url(${album.albumPic})`
+        topNav.style.backgroundSize = "0.5px 0.5px"
     }
     let userPlaylistList
     let heartButton
@@ -104,16 +110,15 @@ const AlbumPage = () => {
         await dispatch(songLikeActions.unlikeSong(sessionUser.id, id))
         await dispatch(songLikeActions.getLikesSongs(sessionUser.id))
     }
-
     return (
         <>
             {!!album && (
-                <div className='album-page-container' style={{ color: "white", paddingBottom: "80px", marginLeft: "30px", marginRight: "30px" }}>
-                    <div className='album-top-header' style={{ backgroundColor: "#393939", display: "flex", flexDirection: "row", width: "100%" }}>
-                        <div style={{ width: "250px", height: "250px" }} className='album-image'>
+                <div className='album-page-container' style={{ color: "white", paddingBottom: "80px", marginRight: "30px" }}>
+                    <div className='album-top-header' style={{ backgroundImage: `url(${album.albumPic})`, backgroundSize: "0.5px 0.5px", display: "flex", flexDirection: "row", width: "102.8%" }}>
+                        <div style={{ width: "250px", height: "250px", paddingLeft: "30px" }} className='album-image'>
                             <img style={{ width: "250px", height: "250px" }} src={album?.albumPic}></img>
                         </div>
-                        <div className='album-info' style={{ marginTop: "130px", marginLeft: "20px", display: "flex", flexDirection: "column" }}>
+                        <div className='album-info' style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)", marginTop: "130px", marginLeft: "20px", display: "flex", flexDirection: "column" }}>
                             ALBUM
                             <div className='album-name' style={{ fontSize: "60px", fontWeight: "700" }}>
                                 {album?.name}
@@ -123,16 +128,16 @@ const AlbumPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='play-like-container'>
+                    <div style={{ paddingLeft: "30px" }} className='play-like-container'>
                         <div>
-                            <button hidden={!sessionUser} onClick={listenToAlbum} style={{ backgroundColor: "#1e1e1e", border: "none" }}>
+                            <button hidden={!sessionUser} onClick={listenToAlbum} style={{ backgroundColor: "#1e1e1e", border: "none", cursor: "pointer" }}>
                                 <i style={{ color: "#1ed760" }} class="fa-solid fa-circle-play fa-4x"></i>
                             </button>
                         </div>
                     </div>
                     <br />
                     <br />
-                    <div className='song-list-header-container' style={{ marginBottom: "10px" }}>
+                    <div className='song-list-header-container' style={{ marginBottom: "10px", marginLeft: "30px" }}>
                         <div className='number-icon'>
                             <div>
                                 #
@@ -145,7 +150,7 @@ const AlbumPage = () => {
                             <i class="fa-regular fa-clock"></i>
                         </div>
                     </div>
-                    <div>
+                    <div style={{ paddingLeft: "30px" }}>
                         {/* {onePlaylist.Songs.map((song) => {
                                 return <div style={{ paddingBottom: "10px", listStyle: "none", display: "flex", justifyContent: "space-between" }}>
                                     <div style={{ width: "300px" }}>

@@ -20,7 +20,6 @@ const LikedSongs = () => {
     const playlistState = useSelector((state) => state.playlist)
     document.body.style = 'background: #1e1e1e';
     let likedSongsState
-    console.log(likedSongs, "LIKEDSONGS")
     useEffect(async () => {
         if (sessionUser) {
             likedSongsState = await dispatch(songLikeActions.getLikesSongs(sessionUser.id))

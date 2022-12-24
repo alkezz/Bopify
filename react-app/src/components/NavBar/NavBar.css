@@ -33,7 +33,7 @@ body{
     right: -7.5px;
     background-color: #111111;
     margin-top: -10px;
-    width: 100%;
+    width: 100.6%;
     /* z-index: 999; */
 }
 
@@ -57,13 +57,15 @@ body{
     font-weight: 750;
     border: none;
     border-radius: 25px;
-    padding: 14px 32px
+    padding: 14px 32px;
+    cursor: pointer;
 }
 
 #signup-nav-button{
     border: none;
     background-color: #111111;
     color: #808080;
+    cursor: pointer;
 }
 
 #signup-nav-button:hover{
