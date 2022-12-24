@@ -4,6 +4,7 @@
     align-items: center;
     background-color: #282828;
     margin-top: 10px;
+    border-radius: 10px;
 }
 .drop-down{
     /* width: 100px; */

@@ -8,6 +8,8 @@ const LandingPage = () => {
     const [artists, setArtists] = useState([])
     const [albums, setAlbums] = useState([])
     const [playlists, setPlaylists] = useState([])
+    const [greeting, setGreeting] = useState("")
+    const sessionUser = useSelector((state) => state.session.user)
     const dispatch = useDispatch()
     const songState = useSelector((state) => state)
     document.body.style = 'background: #1e1e1e';
@@ -26,7 +28,14 @@ const LandingPage = () => {
             const allPlaylists = await dispatch(playlistActions.getAllPlaylists())
             setPlaylists(allPlaylists)
         })();
-    }, [setArtists, setAlbums, setPlaylists, dispatch])
+        if (currTime < "12") {
+            setGreeting("Good Morning")
+        } else if (currTime > "12" && currTime < "17") {
+            setGreeting("Good Afternoon")
+        } else {
+            setGreeting("Good Evening")
+        }
+    }, [setArtists, setAlbums, setPlaylists, dispatch, setGreeting])
     if (!artists) {
         return null
     }
@@ -36,9 +45,16 @@ const LandingPage = () => {
     if (!playlists) {
         return null
     }
+    let today = new Date();
+    let currTime = today.toLocaleString('en-US', { hour: 'numeric', hourCycle: "h24" })
     return (
         <div className='landing-page-container'>
-            <h1>WELCOME TO BOPIFY</h1>
+            {sessionUser && (
+                <h1>{greeting} {sessionUser.username.toLowerCase()}</h1>
+            )}
+            {!sessionUser && (
+                <h1>{greeting}</h1>
+            )}
             <h2>Artists</h2>
             <div className='artist-landing-container'>
                 {artists.map((artist) => {

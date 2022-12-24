@@ -3,6 +3,8 @@ import { Link, NavLink, useHistory, useParams, useLocation } from 'react-router-
 import { useDispatch, useSelector } from 'react-redux';
 import * as playlistActions from "../../store/playlist"
 import * as audioActions from "../../store/audioplayer"
+import * as songLikeActions from '../../store/songlikes';
+import FourZeroFourPage from '../404Page/404Page';
 import "./ArtistPage.css"
 
 
@@ -16,22 +18,34 @@ const ArtistPage = () => {
     const [activeMenu, setActiveMenu] = useState()
     const [isVisible, setIsVisible] = useState(false)
     const [addedToQueue, setAddedToQueue] = useState(false)
+    const [likedSongsList, setLikedSongsList] = useState([])
+    const [update, setUpdate] = useState(true)
     const sessionUser = useSelector((state) => state.session.user)
     const playlistState = useSelector((state) => state.playlist)
+    const likedSongs = useSelector((state) => state.likedSongReducer)
     document.body.style = 'background: #1e1e1e';
     let i = 0
     useEffect(() => {
         (async () => {
-            const artistResponse = await fetch(`/api/artists/${artistId}`)
-            const artistData = await artistResponse.json()
-            setArtist(artistData)
+            if (artistId <= 5) {
+                const artistResponse = await fetch(`/api/artists/${artistId}`)
+                const artistData = await artistResponse.json()
+                setArtist(artistData)
+            }
         })();
         (async () => {
             const songResponse = await fetch(`/api/artists/${artistId}/songs`)
             const songData = await songResponse.json()
             setSongs(songData.Albums[0].Songs)
         })();
-    }, [setArtist, setSongs])
+        (async () => {
+            if (artistId <= 5) {
+                if (sessionUser) {
+                    setLikedSongsList(await dispatch(songLikeActions.getLikesSongs(sessionUser.id)))
+                }
+            }
+        })();
+    }, [setArtist, setSongs, setLikedSongsList, update, dispatch, setUpdate, artistId, sessionUser])
     useEffect(() => {
         if (!showMenu) return;
 
@@ -43,6 +57,11 @@ const ArtistPage = () => {
 
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
+    if (artistId > 5 || artistId <= 0) {
+        return (
+            <FourZeroFourPage />
+        )
+    }
     let userPlaylistList
     let userPlaylistLength
     if (sessionUser) {
@@ -71,6 +90,19 @@ const ArtistPage = () => {
         i = i + 1
         return i
     }
+    const likeSong = async (e, id) => {
+        e.preventDefault()
+        setUpdate(true)
+        await dispatch(songLikeActions.likeSong(sessionUser.id, id))
+        await dispatch(songLikeActions.getLikesSongs(sessionUser.id))
+    }
+
+    const unlikeSong = async (e, id) => {
+        e.preventDefault()
+        setUpdate(true)
+        await dispatch(songLikeActions.unlikeSong(sessionUser.id, id))
+        await dispatch(songLikeActions.getLikesSongs(sessionUser.id))
+    }
     return (
         <div className='artist-container' style={{ overflowX: "hidden", paddingBottom: "80px" }}>
             <div className='header-container' style={{ backgroundImage: `url(${artist.artist_img})`, backgroundRepeat: "no-repeat", backgroundSize: "100% 500px" }}>
@@ -88,6 +120,9 @@ const ArtistPage = () => {
                                 &nbsp;
                                 &nbsp;
                                 <div style={{ display: "flex" }}>
+                                    {sessionUser && (
+                                        likedSongsList?.likedSongs?.some(e => e.id === song.id) ? <i onClick={(e) => { unlikeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#1ed760", cursor: "pointer" }} class="fa-solid fa-heart"></i> : <i onClick={(e) => { likeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#babbbb", cursor: "pointer" }} class="fa-regular fa-heart"></i>
+                                    )}
                                     {song.song_length}
                                     <div>
                                         <button style={{ background: "none" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>

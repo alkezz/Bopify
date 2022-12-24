@@ -13,6 +13,7 @@ import LikedSongs from './components/LikedSongs/LikedSongs';
 import Search from './components/Search/Search';
 import Library from './components/Library/Library';
 import AudioPlayer from './components/AudioPlayer/AudioPlayer';
+import FourZeroFourPage from './components/404Page/404Page';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
@@ -72,6 +73,9 @@ function App() {
         </Route>
         <Route path='/' exact={true} >
           <LandingPage />
+        </Route>
+        <Route path="*">
+          <FourZeroFourPage />
         </Route>
       </Switch>
     </BrowserRouter>

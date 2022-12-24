@@ -123,7 +123,7 @@ const AudioPlayer = () => {
     let skipSongButton
     if (audioState.queue) {
         skipSongButton = (
-            <button style={{ background: "none", border: "none" }} onClick={skipSong}>
+            <button style={{ cursor: "pointer", background: "none", border: "none" }} onClick={skipSong}>
                 <i class="fa-solid fa-forward fa-2x"></i>
             </button>
         )
@@ -131,7 +131,7 @@ const AudioPlayer = () => {
     let backButton
     if (audioState.current_song_playing) {
         backButton = (
-            <button style={{ background: "none", border: "none" }} onClick={goBack}>
+            <button style={{ cursor: "pointer", background: "none", border: "none" }} onClick={goBack}>
                 <i class="fa-solid fa-backward fa-2x"></i>
             </button>
         )
@@ -139,14 +139,14 @@ const AudioPlayer = () => {
     let playPauseButton
     if (isPlaying === true) {
         playPauseButton = (
-            <button style={{ background: "none", border: "none" }} onClick={() => setIsPlaying(false)}>
+            <button style={{ cursor: "pointer", background: "none", border: "none" }} onClick={() => setIsPlaying(false)}>
                 <i class="fa-solid fa-circle-pause fa-3x"></i>
             </button>
         )
     } else {
         // setIsPlaying(true)
         playPauseButton = (
-            <button style={{ background: "none", border: "none" }} onClick={() => setIsPlaying(true)}>
+            <button style={{ cursor: "pointer", background: "none", border: "none" }} onClick={() => setIsPlaying(true)}>
                 <i class="fa-solid fa-circle-play fa-3x"></i>
             </button>
         )
@@ -193,9 +193,7 @@ const AudioPlayer = () => {
                         />
                     </div>
                     &nbsp;
-                    {isPlaying && (
-                        <span style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>{audioState?.current_song_playing[0]?.song_length}</span>
-                    )}
+                    <span style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>{audioState?.current_song_playing[0]?.song_length}</span>
                     {/* <span style={{ display: "flex", alignItems: "center" }}><i class="fa-solid fa-volume-low"></i></span> */}
                     {volumeButton}
                     &nbsp;
