@@ -23,7 +23,7 @@ Bopify is a Spotify clone created with love and adoration for Spotify. A place w
 This was my second project using a Python backend integrated with Flask and SQLAlchemy. As a programmer becoming a full stack developer, I found flask to be a huge advantge for a back end server. Querying for data was very simple compared to using Express and Sequelize especially when using the dictionary methods I initialized in the models created so extracting data when needed became easy.
 
 ### Amazon S3 Integration:
-This was also my second time integrating an Amazon S3 bucket into a project I was a part of. In our group project [Behance](https://github.com/alkezz/Behance-GroupProject-2022) my group and I spent a good amount of time making sure we can implement an S3 route in our backend to allow users to upload images for projects they create. I took what we learned from that and integrated S3 to allow users to upload images for their playlists they create
+This was also my second time integrating an Amazon S3 bucket into a project I was a part of. In my group project, [Behance](https://github.com/alkezz/Behance-GroupProject-2022), my group and I spent a good amount of time making sure we can implement an S3 route in our backend to allow users to upload images for projects they create. I took what we learned from that and integrated S3 to allow users to upload images for their playlists they create
 
 ### React/Redux:
 Using React to build out my frontend for each of my projects thus far has felt amazing. It is extremely simple to grasp but hard to master, but when you get the outcomes you are expecting it feels great. React itself was created by Meta front end engineers to create a simple and clean way to build out a front end for Facebook, it has a history of great engineers working on making it more user friendly and easier to use. React makes it easy to display the data you want users to see specifically while also hiding data that might not be necessary for that specific user.
@@ -42,6 +42,9 @@ As a logged in user, you get to use all the features that are currently implemen
   * You can listen to playlists, albums, and indiviual songs with a queue built in!
 * Following Users
 * Following Playlists
+* You have the ability to like and unlike songs using the "heart" button
+  * Your liked songs will appear in the "Liked Songs" tab
+  * You have the ability to play your liked songs list as well as indiviual songs in that component
 
 ## Wiki Links
 [Direct Link to Wiki](https://github.com/alkezz/aA2022-Spotify-Clone/wiki)
@@ -55,7 +58,7 @@ As a logged in user, you get to use all the features that are currently implemen
 [Wireframes](https://github.com/alkezz/aA2022-Spotify-Clone/wiki/Wire-Frames)
 
 ## Features coming soon!
-* Being able to like songs and having a page with all your liked songs!
+* Being able to like songs and having a page with all your liked songs! - Implemented!
 * A search feature to allow you to find what you're looking for easier!
 * Radio feature that will lump music together based on genre or mood!
 * A Discover feature that will allow users to find music they might not have thought of listening to!
