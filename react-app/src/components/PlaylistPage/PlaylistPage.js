@@ -71,7 +71,8 @@ const PlaylistPage = () => {
             <FourZeroFourPage />
         )
     }
-    if (location.pathname.includes("playlist") && topNav) {
+    console.log(playlist, "PLAYLISTIG")
+    if (location.pathname.includes("playlist") && topNav && playlist) {
         topNav.style.backgroundImage = `url(${playlist.playlist_img})`
         topNav.style.backgroundSize = "0.5px 0.5px"
     }
