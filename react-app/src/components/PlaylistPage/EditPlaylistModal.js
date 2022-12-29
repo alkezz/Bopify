@@ -9,12 +9,12 @@ const EditPlaylistModal = ({ playlistId, playlist, onePlaylist }) => {
     return (
         <>
             <div onClick={() => setShowModal(true)}>
-                <div className='playlist-header-container'>
-                    <div style={{ width: "250px", height: "250px" }} id='picture-container'>
+                <div className='playlist-header-container' style={{ backgroundImage: `url(${playlist.playlist_img})`, backgroundSize: "0.5px 0.5px" }}>
+                    <div style={{ width: "250px", height: "250px", paddingLeft: "30px" }} id='picture-container'>
                         <img style={{ width: "250px", height: "250px" }} src={playlist?.playlist_img} />
                         {/* <EditPlaylistModal playlistId={playlistId} playlist={playlist} /> */}
                     </div>
-                    <div id='playlist-info-container'>
+                    <div id='playlist-info-container' style={{ paddingLeft: "30px" }}>
                         <div id='playlist-word-container' style={{ fontSize: "12px" }}>
                             PLAYLIST
                         </div>

@@ -10,8 +10,10 @@ import EditPlaylistModal from "./EditPlaylistModal"
 import "./PlaylistPage.css"
 
 const PlaylistPage = () => {
+    let topNav = document.getElementById("top-navbar")
     const dispatch = useDispatch()
     const history = useHistory()
+    const location = useLocation()
     let { playlistId } = useParams()
     const [onePlaylist, setOnePlaylist] = useState([])
     const [showMenu, setShowMenu] = useState(false)
@@ -69,8 +71,11 @@ const PlaylistPage = () => {
             <FourZeroFourPage />
         )
     }
+    if (location.pathname.includes("playlist") && topNav) {
+        topNav.style.backgroundImage = `url(${playlist.playlist_img})`
+        topNav.style.backgroundSize = "0.5px 0.5px"
+    }
     document.body.style = 'background: #1e1e1e';
-    document.getElementById("top-navbar").style.backgroundColor = "#111111"
     let userPlaylistList
     let userPlaylistLength
     let userPlaylistListNoDuplicate
@@ -198,8 +203,8 @@ const PlaylistPage = () => {
                         <EditPlaylistModal playlistId={playlistId} playlist={playlist} onePlaylist={onePlaylist} />
                     )}
                     {sessionUser?.id !== onePlaylist?.User?.id && (
-                        <div className='playlist-header-container'>
-                            <div id='picture-container'>
+                        <div className='playlist-header-container' style={{ backgroundImage: `url(${playlist.playlist_img})`, backgroundSize: "0.5px 0.5px" }}>
+                            <div id='picture-container' style={{ paddingLeft: "30px" }}>
                                 <img style={{ width: "200px", height: "210px" }} src={playlist.playlist_img} />
                                 {/* <EditPlaylistModal playlistId={playlistId} playlist={playlist} /> */}
                             </div>
@@ -225,7 +230,7 @@ const PlaylistPage = () => {
                             </div>
                         </div>
                     )}
-                    <div className='play-like-container'>
+                    <div className='play-like-container' style={{ paddingLeft: "30px" }}>
                         <div>
                             <button hidden={!sessionUser || onePlaylist?.Songs?.length === 0} onClick={listenToPlaylist} style={{ backgroundColor: "#1e1e1e", border: "none" }}>
                                 <i style={{ color: "#1ed760" }} class="fa-solid fa-circle-play fa-4x"></i>
@@ -251,7 +256,7 @@ const PlaylistPage = () => {
                     </div>
                     <br />
                     <br />
-                    <div className='song-list-header-container'>
+                    <div className='song-list-header-container' style={{ paddingLeft: "30px" }}>
                         <div className='number-icon'>
                             <div>
                                 #
@@ -279,7 +284,7 @@ const PlaylistPage = () => {
                         </div>
                     </div>
                     {onePlaylist.Songs && (
-                        <div style={{ marginTop: "1.5vh" }}>
+                        <div style={{ marginTop: "1.5vh", paddingLeft: "30px" }}>
                             {onePlaylist.Songs.map((song) => {
                                 return <div className='playlist-song-container' style={{ paddingBottom: "10px", listStyle: "none", display: "flex", justifyContent: "space-between" }}>
                                     <div style={{ width: "300px" }}>

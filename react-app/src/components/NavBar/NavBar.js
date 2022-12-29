@@ -54,6 +54,13 @@ const NavBar = () => {
     topNav.style.backgroundColor = "#111111"
     topNav.style.backgroundImage = "none"
   }
+  if (location.pathname === "/login" && topNav) {
+    topNav.style.backgroundColor = "white"
+  }
+  // if (location.pathname.includes("playlist") && topNav) {
+  //   topNav.style.backgroundColor = "#111111"
+  //   topNav.style.backgroundImage = "none"
+  // }
   const playlistArray = Object.values(playlistState)
   const followedPlaylistArray = Object.values(followedPlaylistState)
   let userPlaylistList
@@ -277,7 +284,7 @@ const NavBar = () => {
     )
     navbar = (
       <nav id="top-navbar">
-        <div style={{ marginRight: "87%" }}>
+        <div style={{ marginRight: "30px" }}>
           <Link to={{ pathname: "https://github.com/alkezz/aA2022-Spotify-Clone" }} target="_blank">
             <i style={{ color: "white", marginTop: "20%" }} class="fa-brands fa-github fa-lg"></i>
           </Link>
