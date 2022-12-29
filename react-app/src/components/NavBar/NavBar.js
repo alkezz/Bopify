@@ -201,7 +201,7 @@ const NavBar = () => {
     )
     navbar = (
       <nav id="top-navbar">
-        <div style={{ marginRight: "79%" }}>
+        <div style={{ marginRight: "30px" }}>
           <Link to={{ pathname: "https://github.com/alkezz/aA2022-Spotify-Clone" }} target="_blank">
             <i style={{ color: "white", marginTop: "20%" }} class="fa-brands fa-github fa-lg"></i>
           </Link>

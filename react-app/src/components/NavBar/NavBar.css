@@ -3,6 +3,7 @@ body{
     /* padding-bottom: 400px; */
     /* overflow-y: scroll; */
     /* margin: 0; */
+    overflow-x: hidden;
 }
 ::-webkit-scrollbar {
     width: 10px;
@@ -123,6 +124,7 @@ body{
     height: 80px;
     color: white;
     background-color: #181818;
+    overflow-x: hidden;
 }
 
 .logged-out-bottom-div-container{
@@ -139,6 +141,7 @@ body{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    overflow-x: hidden;
 }
 
 .create-playlist-button{
