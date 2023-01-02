@@ -63,9 +63,9 @@ As a logged in user, you get to use all the features that are currently implemen
 * Radio feature that will lump music together based on genre or mood!
 * A Discover feature that will allow users to find music they might not have thought of listening to!
 
-## Screenshots of my website
+## Screenshots
 ### Landing Page (logged out)
-![image](https://user-images.githubusercontent.com/105993056/205544650-e8ff8ca6-a56d-4fe8-8001-4cbd69738bc4.png)
+![image](https://user-images.githubusercontent.com/105993056/210269465-0252f743-1dff-47e8-8020-fc7df545ee53.png)
 
 ### Landing Page (logged in)
 ![image](https://user-images.githubusercontent.com/105993056/205544725-63ea58e0-6cf4-4720-955c-667eda189112.png)
@@ -82,10 +82,10 @@ Two users are provided for you as well here, just like before give them a click 
 ![image](https://user-images.githubusercontent.com/105993056/205545085-177a6a15-a0de-4d8c-8b88-e7a26d852b22.png)
 
 ### Album Page
-![image](https://user-images.githubusercontent.com/105993056/205545149-fe625467-f506-43eb-843d-728dbd23cc11.png)
+![image](https://user-images.githubusercontent.com/105993056/210269572-eea48a14-3a3d-4e65-baa9-f3598910a3a8.png)
 
 ### Playlist Page
-![image](https://user-images.githubusercontent.com/105993056/205545200-068d9a44-5b08-4653-9a75-81984c93508c.png)
+![image](https://user-images.githubusercontent.com/105993056/210269670-c71c5e7d-cac4-45e0-bd04-fdb50b6f8ca0.png)
 
 ### Editing A Playlist
 ![image](https://user-images.githubusercontent.com/105993056/205545238-633fded3-b23a-430c-80ed-b4077479dbdd.png)
