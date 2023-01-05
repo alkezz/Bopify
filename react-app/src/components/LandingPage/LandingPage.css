@@ -14,10 +14,20 @@
 }
 
 .artist-image-container{
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
     padding-bottom: 35px;
+    border-radius: 20px;
+    background-color: #181818;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
 }
+
+.artist-image-container:hover{
+    background-color: rgb(40, 40, 40);
+}
+
 .landing-page-image{
     width: 200px;
     height: 200px;
@@ -35,6 +45,16 @@
 
 .album-image-container{
     padding-bottom: 30px;
+    border-radius: 20px;
+    background-color: #181818;
+    color: white;
+    width: 250px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.album-image-container:hover{
+    background-color: rgb(40, 40, 40);
 }
 
 /* img{
