@@ -9,9 +9,11 @@ import "./ArtistPage.css"
 
 
 const ArtistPage = () => {
+    const topNav = document.getElementById("top-navbar")
     const { artistId } = useParams()
     const history = useHistory()
     const dispatch = useDispatch()
+    const location = useLocation()
     const [artist, setArtist] = useState([])
     const [songs, setSongs] = useState([])
     const [showMenu, setShowMenu] = useState(false)
@@ -62,6 +64,10 @@ const ArtistPage = () => {
             <FourZeroFourPage />
         )
     }
+    if (location.pathname.includes("artist") && topNav) {
+        topNav.style.backgroundImage = `url(${artist.artist_img})`
+        topNav.style.backgroundSize = "0.5px 0.5px"
+    }
     let userPlaylistList
     let userPlaylistLength
     if (sessionUser) {
@@ -106,7 +112,7 @@ const ArtistPage = () => {
     return (
         <div className='artist-container' style={{ overflowX: "hidden", paddingBottom: "80px" }}>
             <div className='header-container' style={{ backgroundImage: `url(${artist.artist_img})`, backgroundRepeat: "no-repeat", backgroundSize: "100% 500px" }}>
-                <h1 style={{ fontSize: "70px", marginLeft: "40px", color: "white", marginTop: "150px" }}>{artist.name}</h1>
+                <h1 style={{ fontSize: "70px", marginLeft: "65px", color: "white", marginTop: "150px" }}>{artist.name}</h1>
             </div>
             <div className='artist-info-container' style={{ marginLeft: "40px" }}>
                 <h2 style={{ color: "white" }}>Popular</h2>
