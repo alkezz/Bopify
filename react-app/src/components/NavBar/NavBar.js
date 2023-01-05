@@ -215,10 +215,12 @@ const NavBar = () => {
             <i style={{ color: "white", marginTop: "20%" }} class="fa-solid fa-star fa-lg"></i>
           </Link>
         </div>
-        <div className='login-signup'>
-          <button id='signup-nav-button' onClick={(e) => history.push("/sign-up")}>
-            Sign Up
-          </button>
+        <div className='login-signup' style={{ display: "flex", marginRight: "40px" }}>
+          <div style={{ paddingTop: "10px", marginRight: "10px" }}>
+            <button style={{ fontSize: "18px", fontWeight: "700" }} id='signup-nav-button' onClick={(e) => history.push("/sign-up")}>
+              Sign Up
+            </button>
+          </div>
           <button id='login-nav-button' onClick={(e) => history.push("/login")}>
             Log In
           </button>
@@ -236,7 +238,7 @@ const NavBar = () => {
             Sign up to get unlimited songs and podcasts with occasional ads. No credit card needed.
           </div>
         </div>
-        <button style={{ marginTop: "12px", borderRadius: "30px", height: "50px", width: "150px", fontWeight: "700", border: "none" }} onClick={(e) => history.push("/sign-up")}>Sign up free</button>
+        <button style={{ marginTop: "12px", borderRadius: "30px", height: "50px", width: "150px", fontWeight: "700", border: "none", cursor: "pointer" }} onClick={(e) => history.push("/sign-up")}>Sign up free</button>
       </div>
     )
   } else if (sessionUser && location.pathname !== "/sign-up" && location.pathname !== "/login" && location.pathname !== "/likes") {
@@ -298,7 +300,7 @@ const NavBar = () => {
             <i style={{ color: "white", marginTop: "20%" }} class="fa-solid fa-star fa-lg"></i>
           </Link>
         </div>
-        <div className='login-signup'>
+        <div className='login-signup' style={{ marginRight: "40px" }}>
           <DropDown />
         </div>
       </nav>

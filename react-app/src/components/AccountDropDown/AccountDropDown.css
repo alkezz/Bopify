@@ -1,19 +1,37 @@
 .profile-dropdown-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #282828;
-    margin-top: 10px;
-    border-radius: 10px;
+    position: relative;
+    display: inline-block;
 }
 .drop-down{
     /* width: 100px; */
-    height: 40px;
+    height: 50px;
+    position: absolute;
+    background-color: rgb(40, 40, 40);
+    width: 75px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
     /* margin-left: 45px; */
+    font-size: 20px;
 }
+.drop-down a:hover {
+    background-color: white;
+}
+.drop-down div:hover{
+    background-color: white;
+}
+
 
 #drop-down-button{
     border-radius: 20px;
     border: none;
     background-color: #1ed760;
+    margin-top: 5px;
+    width: 75px;
+    height: 30px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.logout-button-dropdown{
+    margin-left: -3px;
 }
