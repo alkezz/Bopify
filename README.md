@@ -1,6 +1,7 @@
 # Bopify - A Spotify clone
 
 [Live Link](https://bopify-2022.onrender.com/)
+<br />
 Bopify is a Spotify clone created with love and adoration for Spotify. A place where music nerds can share playlists and listen to music in the comfort of their own home.
 
 ## Tech Stacks Used
