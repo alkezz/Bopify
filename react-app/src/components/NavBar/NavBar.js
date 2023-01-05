@@ -217,7 +217,7 @@ const NavBar = () => {
         </div>
         <div className='login-signup' style={{ display: "flex", marginRight: "40px" }}>
           <div style={{ paddingTop: "10px", marginRight: "10px" }}>
-            <button style={{ fontSize: "18px", fontWeight: "700" }} id='signup-nav-button' onClick={(e) => history.push("/sign-up")}>
+            <button style={{ fontSize: "18px", fontWeight: "700", background: "none" }} id='signup-nav-button' onClick={(e) => history.push("/sign-up")}>
               Sign Up
             </button>
           </div>
