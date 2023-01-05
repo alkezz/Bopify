@@ -177,7 +177,7 @@ const NavBar = () => {
             <i class="fa-solid fa-house" style={{ color: "#b3b3b3" }}></i>
             &nbsp;
             Home</Link>
-          <Link to="/login">
+          <Link to="/search">
             <i class="fa-solid fa-magnifying-glass" style={{ color: "#b3b3b3" }}></i>
             &nbsp;
             Search</Link>
