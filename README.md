@@ -45,6 +45,7 @@ As a logged in user, you get to use all the features that are currently implemen
 * You have the ability to like and unlike songs using the "heart" button
   * Your liked songs will appear in the "Liked Songs" tab
   * You have the ability to play your liked songs list as well as indiviual songs in that component
+* Search Functionality as both a logged out and logged in user.
 
 ## Wiki Links
 [Direct Link to Wiki](https://github.com/alkezz/aA2022-Spotify-Clone/wiki)
@@ -59,16 +60,16 @@ As a logged in user, you get to use all the features that are currently implemen
 
 ## Features coming soon!
 * Being able to like songs and having a page with all your liked songs! - Implemented!
-* A search feature to allow you to find what you're looking for easier!
+* A search feature to allow you to find what you're looking for easier! - Implemented!
 * Radio feature that will lump music together based on genre or mood!
 * A Discover feature that will allow users to find music they might not have thought of listening to!
 
 ## Screenshots
 ### Landing Page (logged out)
-![image](https://user-images.githubusercontent.com/105993056/210269465-0252f743-1dff-47e8-8020-fc7df545ee53.png)
+![image](https://user-images.githubusercontent.com/105993056/210889845-911b03a8-05d6-40e9-8885-69d49cb30f06.png)
 
 ### Landing Page (logged in)
-![image](https://user-images.githubusercontent.com/105993056/205544725-63ea58e0-6cf4-4720-955c-667eda189112.png)
+![image](https://user-images.githubusercontent.com/105993056/210889917-12267714-7860-4765-bc80-a9e39264c4f6.png)
 
 ### Login Page
 ![image](https://user-images.githubusercontent.com/105993056/205544787-7839e34c-f41a-430d-a469-e09f62611b01.png)
@@ -79,7 +80,7 @@ Three users are provided to you to test out functionality of the website, just g
 Two users are provided for you as well here, just like before give them a click and you'll be logged in as one of those users!
 
 ### Artist Page
-![image](https://user-images.githubusercontent.com/105993056/205545085-177a6a15-a0de-4d8c-8b88-e7a26d852b22.png)
+![image](https://user-images.githubusercontent.com/105993056/210890006-6026ec9c-f850-49a6-acc2-15097a76e1f4.png)
 
 ### Album Page
 ![image](https://user-images.githubusercontent.com/105993056/210269572-eea48a14-3a3d-4e65-baa9-f3598910a3a8.png)
@@ -89,6 +90,12 @@ Two users are provided for you as well here, just like before give them a click 
 
 ### Editing A Playlist
 ![image](https://user-images.githubusercontent.com/105993056/205545238-633fded3-b23a-430c-80ed-b4077479dbdd.png)
+
+### Liked Songs
+![image](https://user-images.githubusercontent.com/105993056/210890161-1c514a1d-2cbd-442e-91ff-1f43d45bd738.png)
+
+### Search Page
+![image](https://user-images.githubusercontent.com/105993056/210890432-04ca73fa-3368-4540-8ec3-474003ea6c8f.png)
 
 ### Bottom NavBar Showing Music Playing
 ![image](https://user-images.githubusercontent.com/105993056/205545340-11003316-e21f-49cc-bfc9-c3d283a9bbcd.png)
