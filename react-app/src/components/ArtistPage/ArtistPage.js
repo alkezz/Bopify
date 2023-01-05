@@ -182,16 +182,11 @@ const ArtistPage = () => {
                 <div className='artist-album-list-container'>
                     {artist?.Albums && (
                         artist.Albums.map((album) => {
-                            return <div onClick={(e) => history.push(`/album/${album?.id}`)} className='album-card' style={{ cursor: "pointer", padding: "10px", borderRadius: "10px", border: "1px solid black", width: "max-content" }}>
-                                <div className='artist-album-cover-container'>
-                                    <img style={{ width: "200px", borderRadius: "10px" }} src={songs[0]?.album?.albumPic} />
-                                </div>
-                                <div style={{ color: "white" }}>
-                                    {album.name}
-                                </div>
-                                <br />
-                                <div style={{ color: "gray" }}>
-                                    {album.year}<span>.</span>Album
+                            return <div onClick={(e) => history.push(`/album/${album?.id}`)} className='album-card'>
+                                <div className='album-image-container'>
+                                    <img className='album-image' src={songs[0]?.album?.albumPic} />
+                                    <p style={{ marginLeft: "15px", fontWeight: "700" }}>{album.name}</p>
+                                    <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>{album.year} - {album.artist.name}</span>
                                 </div>
                             </div>
                         })

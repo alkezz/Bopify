@@ -177,7 +177,7 @@ const AudioPlayer = () => {
                     {skipSongButton}
                 </div>
                 <div style={{ marginTop: "-10px", marginLeft: "250px", display: "flex" }}>
-                    <span style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>{calculateTime(trackProgress)}</span>
+                    <span style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>{trackProgress ? calculateTime(trackProgress) : "--:--"}</span>
                     &nbsp;
                     <div className='track-length-range'>
                         <input
@@ -193,7 +193,7 @@ const AudioPlayer = () => {
                         />
                     </div>
                     &nbsp;
-                    <span style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>{audioState?.current_song_playing[0]?.song_length}</span>
+                    <span style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>{audioState?.current_song_playing[0]?.song_length ? audioState?.current_song_playing[0]?.song_length : "--:--"}</span>
                     {/* <span style={{ display: "flex", alignItems: "center" }}><i class="fa-solid fa-volume-low"></i></span> */}
                     {volumeButton}
                     &nbsp;
