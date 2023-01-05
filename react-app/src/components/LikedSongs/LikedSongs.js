@@ -15,6 +15,8 @@ const LikedSongs = () => {
     const [update, setUpdate] = useState(true)
     const [showMenu, setShowMenu] = useState(false)
     const [activeMenu, setActiveMenu] = useState()
+    const [isVisible, setIsVisible] = useState(false)
+    const [addedToQueue, setAddedToQueue] = useState(false)
     const likedSongs = useSelector((state) => state.likedSongReducer)
     const sessionUser = useSelector((state) => state.session.user)
     const playlistState = useSelector((state) => state.playlist)
@@ -140,6 +142,14 @@ const LikedSongs = () => {
                                             <div className='active-playlist-song-dropdown'>
                                                 <div>
                                                     <Link style={{ textDecoration: "none", color: "gray" }} to={`/album/${song.album.id}`}>Album Page</Link>
+                                                    <br />
+                                                    {sessionUser && (
+                                                        <button onClick={async (e) => {
+                                                            await dispatch(audioActions.nextSong(song.id)); setAddedToQueue(true); setTimeout(() => {
+                                                                setAddedToQueue(false)
+                                                            }, 1500)
+                                                        }} style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }}>Add to queue</button>
+                                                    )}
                                                 </div>
                                                 <div>
                                                     {sessionUser && (
@@ -154,7 +164,11 @@ const LikedSongs = () => {
                                                                     <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={async (e) => {
                                                                         await fetch(`/api/playlists/${playlist.id}/add_song/${song.id}`, {
                                                                             method: "POST"
-                                                                        })
+                                                                        });
+                                                                        setIsVisible(true);
+                                                                        setTimeout(() => {
+                                                                            setIsVisible(false)
+                                                                        }, 1500)
                                                                     }}>{playlist.name}</button>
                                                                 </div>
                                                             })}
@@ -169,6 +183,16 @@ const LikedSongs = () => {
                         </div>
                     )}
                 </div>
+                {isVisible && (
+                    <div style={{ marginTop: "300px" }} id='song-added-div' hidden>
+                        <div style={{ display: "flex", alignItems: "center", fontWeight: "700" }}>Added to Playlist</div>
+                    </div>
+                )}
+                {addedToQueue && (
+                    <div style={{ marginTop: "300px" }} id='song-added-div' hidden>
+                        <div style={{ display: "flex", alignItems: "center", fontWeight: "700" }}>Added to Queue</div>
+                    </div>
+                )}
             </div>
         )
     } else {

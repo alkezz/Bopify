@@ -65,7 +65,7 @@ const Search = () => {
             </input>
             <i id='search-button-icon' type='submit' class="fa-solid fa-magnifying-glass"></i>
             <h1 hidden={searchShow ? false : true} style={{ marginLeft: "30px", color: "white" }}>Albums</h1>
-            <div style={{ display: "flex" }}>
+            <div className='search-results-container'>
                 {albums.filter(album => {
                     if (searchInput === "") {
                         return album
@@ -83,7 +83,7 @@ const Search = () => {
                 ))}
             </div>
             <h1 hidden={searchShow ? false : true} style={{ marginLeft: "30px", color: "white" }}>Artists</h1>
-            <div style={{ display: "flex" }}>
+            <div className='search-results-container'>
                 {artists.filter(artist => {
                     if (searchInput === "") {
                         return artist
@@ -100,7 +100,7 @@ const Search = () => {
                 ))}
             </div>
             <h1 hidden={searchShow ? false : true} style={{ marginLeft: "30px", color: "white" }}>Public Playlists</h1>
-            <div style={{ display: "flex" }}>
+            <div className='search-results-container'>
                 {playlists.filter(playlist => {
                     if (searchInput === "") {
                         return playlist
@@ -109,7 +109,7 @@ const Search = () => {
                     }
                 }).map((playlist, index) => (
                     searchShow === true && (
-                        <div onClick={(e) => history.push(`/playlist/${playlist.id}`)} className='album-cards' key={index}>
+                        <div onClick={(e) => history.push(`/playlist/${playlist.id}`)} className='playlist-cards' key={index}>
                             <img className='album-image' src={playlist.playlist_img} />
                             <p style={{ marginLeft: "15px", fontWeight: "700" }}>{playlist.name}</p>
                             <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>By {playlist.User.username}</span>
