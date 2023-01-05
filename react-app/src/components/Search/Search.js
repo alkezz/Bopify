@@ -15,6 +15,7 @@ const Search = () => {
     const [searchInput, setSearchInput] = useState("");
     const [searchShow, setSearchShow] = useState(false)
     const [showAlbums, setShowAlbums] = useState(false)
+    document.body.style = 'background: #1e1e1e';
     useEffect(() => {
         (async () => {
             const data = await dispatch(playlistActions.getAllPlaylists())
@@ -55,7 +56,7 @@ const Search = () => {
         }
     }
     return (
-        <div style={{ paddingBottom: "80px" }}>
+        <div style={{ marginTop: "-66px", marginLeft: "50px", paddingBottom: "80px" }}>
             <input
                 type='search'
                 placeholder='What do you want to listen to?'
@@ -64,58 +65,60 @@ const Search = () => {
                 style={{ marginLeft: "4%", marginTop: "20px", paddingLeft: "35px", borderRadius: "25px", height: "45px", position: "sticky", top: "2px", border: "none" }}>
             </input>
             <i id='search-button-icon' type='submit' class="fa-solid fa-magnifying-glass"></i>
-            <h1 hidden={searchShow ? false : true} style={{ marginLeft: "30px", color: "white" }}>Albums</h1>
-            <div style={{ display: "flex" }}>
-                {albums.filter(album => {
-                    if (searchInput === "") {
-                        return album
-                    } else if (album.name.toLowerCase().includes(searchInput.toLowerCase())) {
-                        return album
-                    }
-                }).map((album, index) => (
-                    searchShow === true && (
-                        <div onClick={(e) => history.push(`/album/${album.id}`)} className='album-cards' key={index}>
-                            <img className='album-image' src={album.albumPic} />
-                            <p style={{ marginLeft: "15px", fontWeight: "700" }}>{album.name}</p>
-                            <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>{album.year} - {album.artist.name}</span>
-                        </div>
-                    )
-                ))}
-            </div>
-            <h1 hidden={searchShow ? false : true} style={{ marginLeft: "30px", color: "white" }}>Artists</h1>
-            <div style={{ display: "flex" }}>
-                {artists.filter(artist => {
-                    if (searchInput === "") {
-                        return artist
-                    } else if (artist.name.toLowerCase().includes(searchInput.toLowerCase())) {
-                        return artist
-                    }
-                }).map((artist, index) => (
-                    searchShow === true && (
-                        <div onClick={(e) => history.push(`/artist/${artist.id}`)} className='album-cards' key={index}>
-                            <img className='artist-image' src={artist.artist_img} />
-                            <p style={{ marginLeft: "15px", fontWeight: "700" }}>{artist.name}</p>
-                        </div>
-                    )
-                ))}
-            </div>
-            <h1 hidden={searchShow ? false : true} style={{ marginLeft: "30px", color: "white" }}>Public Playlists</h1>
-            <div style={{ display: "flex" }}>
-                {playlists.filter(playlist => {
-                    if (searchInput === "") {
-                        return playlist
-                    } else if (playlist.name.toLowerCase().includes(searchInput.toLowerCase())) {
-                        return playlist
-                    }
-                }).map((playlist, index) => (
-                    searchShow === true && (
-                        <div onClick={(e) => history.push(`/playlist/${playlist.id}`)} className='album-cards' key={index}>
-                            <img className='album-image' src={playlist.playlist_img} />
-                            <p style={{ marginLeft: "15px", fontWeight: "700" }}>{playlist.name}</p>
-                            <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>By {playlist.User.username}</span>
-                        </div>
-                    )
-                ))}
+            <div style={{ marginTop: "60px" }}>
+                <h1 hidden={searchShow ? false : true} style={{ marginLeft: "30px", color: "white" }}>Albums</h1>
+                <div className='search-results-container'>
+                    {albums.filter(album => {
+                        if (searchInput === "") {
+                            return album
+                        } else if (album.name.toLowerCase().includes(searchInput.toLowerCase())) {
+                            return album
+                        }
+                    }).map((album, index) => (
+                        searchShow === true && (
+                            <div onClick={(e) => history.push(`/album/${album.id}`)} className='album-cards' key={index}>
+                                <img className='album-image' src={album.albumPic} />
+                                <p style={{ marginLeft: "15px", fontWeight: "700" }}>{album.name}</p>
+                                <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>{album.year} - {album.artist.name}</span>
+                            </div>
+                        )
+                    ))}
+                </div>
+                <h1 hidden={searchShow ? false : true} style={{ marginLeft: "30px", color: "white" }}>Artists</h1>
+                <div className='search-results-container'>
+                    {artists.filter(artist => {
+                        if (searchInput === "") {
+                            return artist
+                        } else if (artist.name.toLowerCase().includes(searchInput.toLowerCase())) {
+                            return artist
+                        }
+                    }).map((artist, index) => (
+                        searchShow === true && (
+                            <div onClick={(e) => history.push(`/artist/${artist.id}`)} className='album-cards' key={index}>
+                                <img className='artist-image' src={artist.artist_img} />
+                                <p style={{ marginLeft: "15px", fontWeight: "700" }}>{artist.name}</p>
+                            </div>
+                        )
+                    ))}
+                </div>
+                <h1 hidden={searchShow ? false : true} style={{ marginLeft: "30px", color: "white" }}>Public Playlists</h1>
+                <div className='search-results-container'>
+                    {playlists.filter(playlist => {
+                        if (searchInput === "") {
+                            return playlist
+                        } else if (playlist.name.toLowerCase().includes(searchInput.toLowerCase())) {
+                            return playlist
+                        }
+                    }).map((playlist, index) => (
+                        searchShow === true && (
+                            <div onClick={(e) => history.push(`/playlist/${playlist.id}`)} className='playlist-cards' key={index}>
+                                <img className='album-image' src={playlist.playlist_img} />
+                                <p style={{ marginLeft: "15px", fontWeight: "700" }}>{playlist.name}</p>
+                                <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>By {playlist.User.username}</span>
+                            </div>
+                        )
+                    ))}
+                </div>
             </div>
         </div>
 

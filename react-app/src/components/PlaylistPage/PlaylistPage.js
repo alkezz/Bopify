@@ -18,6 +18,8 @@ const PlaylistPage = () => {
     const [onePlaylist, setOnePlaylist] = useState([])
     const [showMenu, setShowMenu] = useState(false)
     const [activeMenu, setActiveMenu] = useState()
+    const [isVisible, setIsVisible] = useState(false)
+    const [addedToQueue, setAddedToQueue] = useState(false)
     const [update, setUpdate] = useState(true)
     const [followingPlaylists, setFollowingPlaylists] = useState([])
     const [likedSongsList, setLikedSongsList] = useState([])
@@ -71,7 +73,6 @@ const PlaylistPage = () => {
             <FourZeroFourPage />
         )
     }
-    console.log(playlist, "PLAYLISTIG")
     if (location.pathname.includes("playlist") && topNav && playlist) {
         topNav.style.backgroundImage = `url(${playlist.playlist_img})`
         topNav.style.backgroundSize = "0.5px 0.5px"
@@ -304,6 +305,14 @@ const PlaylistPage = () => {
                                             <div className='active-playlist-song-dropdown'>
                                                 <div>
                                                     <Link style={{ textDecoration: "none", color: "gray" }} to={`/album/${song.album.id}`}>Album Page</Link>
+                                                    <br />
+                                                    {sessionUser && (
+                                                        <button onClick={async (e) => {
+                                                            await dispatch(audioActions.nextSong(song.id)); setAddedToQueue(true); setTimeout(() => {
+                                                                setAddedToQueue(false)
+                                                            }, 1500)
+                                                        }} style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }}>Add to queue</button>
+                                                    )}
                                                 </div>
                                                 <button hidden={sessionUser.id !== onePlaylist.User.id} style={{ background: 'none', color: "gray", cursor: "pointer" }} onClick={async (e) => {
                                                     {
@@ -324,7 +333,11 @@ const PlaylistPage = () => {
                                                                     <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={async (e) => {
                                                                         await fetch(`/api/playlists/${playlist.id}/add_song/${song.id}`, {
                                                                             method: "POST"
-                                                                        })
+                                                                        });
+                                                                        setIsVisible(true)
+                                                                        setTimeout(() => {
+                                                                            setIsVisible(false)
+                                                                        }, 1500)
                                                                     }}>{playlist.name}</button>
                                                                 </div>
                                                             })}
@@ -336,6 +349,16 @@ const PlaylistPage = () => {
                                     </div>
                                 </div>
                             })}
+                        </div>
+                    )}
+                    {isVisible && (
+                        <div style={{ marginTop: "300px" }} id='song-added-div' hidden>
+                            <div style={{ display: "flex", alignItems: "center", fontWeight: "700" }}>Added to Playlist</div>
+                        </div>
+                    )}
+                    {addedToQueue && (
+                        <div style={{ marginTop: "300px" }} id='song-added-div' hidden>
+                            <div style={{ display: "flex", alignItems: "center", fontWeight: "700" }}>Added to Queue</div>
                         </div>
                     )}
                 </div>

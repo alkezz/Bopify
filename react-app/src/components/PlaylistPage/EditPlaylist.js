@@ -56,11 +56,38 @@ const EditPlaylistForm = ({ playlistId }) => {
         if (errorList.length) return
         let img = imageInput.files[0]
         formData.append('file', img)
-        if (img === undefined) {
+        if (img === undefined && !description) {
+            const editedPlaylist = {
+                name,
+                description: " ",
+                playlist_img: ""
+            }
+            const newPlaylist = await dispatch(playlistActions.editPlaylist(editedPlaylist, playlistId))
+            if (newPlaylist) {
+                await dispatch(playlistActions.getOnePlaylist(playlistId))
+                await dispatch(playlistActions.getAllPlaylists())
+            }
+        } else if (img === undefined && description) {
             const editedPlaylist = {
                 name,
                 description,
                 playlist_img: ""
+            }
+            const newPlaylist = await dispatch(playlistActions.editPlaylist(editedPlaylist, playlistId))
+            if (newPlaylist) {
+                await dispatch(playlistActions.getOnePlaylist(playlistId))
+                await dispatch(playlistActions.getAllPlaylists())
+            }
+        } else if (img !== undefined && !description) {
+            const picture = await fetch("/api/playlists/images/upload", {
+                method: "POST",
+                body: formData
+            })
+            const imageURL = await picture.json()
+            const editedPlaylist = {
+                name,
+                description: " ",
+                playlist_img: imageURL.image
             }
             const newPlaylist = await dispatch(playlistActions.editPlaylist(editedPlaylist, playlistId))
             if (newPlaylist) {
