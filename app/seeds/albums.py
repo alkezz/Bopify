@@ -31,12 +31,26 @@ def seed_albums():
         year = "1973",
         album_img="https://i.scdn.co/image/ab67616d00001e0252fb8ee4341fcf40afaf616b"
     )
+    bends = Album(
+        artist_id=6,
+        name="The Bends",
+        year="1995",
+        album_img="https://ali-practice-aws-bucket.s3.amazonaws.com/The+Bends/TheBendsCover.jpg"
+    )
+    darkAge = Album(
+        artist_id=7,
+        name="Little Dark Age",
+        year="2018",
+        album_img="https://ali-practice-aws-bucket.s3.amazonaws.com/Little+Dark+Age/LittleDarkAgeCover.jpg"
+    )
 
     db.session.add(wall)
     db.session.add(abnormal)
     db.session.add(cherry)
     db.session.add(sound)
     db.session.add(Emany)
+    db.session.add(bends)
+    db.session.add(darkAge)
     db.session.commit()
 
 def undo_albums():

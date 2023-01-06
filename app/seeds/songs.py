@@ -323,6 +323,166 @@ def seed_songs():
     db.session.add(nas)
     db.session.commit()
 
+    telefax = Song(
+        name="Planet Telex",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/The+Bends/01.+Planet+Telex.flac",
+        song_length="4:19",
+        album_id=6
+    )
+    theBends = Song(
+        name="The Bends",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/The+Bends/02.+The+Bends.flac",
+        song_length="4:06",
+        album_id=6
+    )
+    highDry = Song(
+        name="High and Dry",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/The+Bends/03.+High+and+Dry.flac",
+        song_length="4:17",
+        album_id=6
+    )
+    plasticTrees = Song(
+        name="Fake Plastic Trees",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/The+Bends/04.+Fake+Plastic+Trees.flac",
+        song_length="4:50",
+        album_id=6
+    )
+    bones = Song(
+        name="Bones",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/The+Bends/05.+Bones.flac",
+        song_length="3:09",
+        album_id=6
+    )
+    dream = Song(
+        name="(Nice Dream)",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/The+Bends/06.+(Nice+Dream).flac",
+        song_length="3:53",
+        album_id=6
+    )
+    just = Song(
+        name="Just",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/The+Bends/07.+Just.flac",
+        song_length="3:54",
+        album_id=6
+    )
+    ironLung = Song(
+        name="My Iron Lung",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/The+Bends/08.+My+Iron+Lung.flac",
+        song_length="4:36",
+        album_id=6
+    )
+    bulletProof = Song(
+        name="Bullet Proof...I Wish I Was",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/The+Bends/09.+Bullet+Proof..I+Wish+I+Was.flac",
+        song_length="3:28",
+        album_id=6
+    )
+    blackStar = Song(
+        name="Black Star",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/The+Bends/10.+Black+Star.flac",
+        song_length="4:07",
+        album_id=6
+    )
+    sulk = Song(
+        name="Sulk",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/The+Bends/11.+Sulk.flac",
+        song_length="3:42",
+        album_id=6
+    )
+    streetSpirit = Song(
+        name="Street Spirit (Fade Out)",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/The+Bends/12.+Street+Spirit+(Fade+Out).flac",
+        song_length="4:13",
+        album_id=6
+    )
+
+    db.session.add(telefax)
+    db.session.add(theBends)
+    db.session.add(highDry)
+    db.session.add(plasticTrees)
+    db.session.add(bones)
+    db.session.add(dream)
+    db.session.add(just)
+    db.session.add(ironLung)
+    db.session.add(bulletProof)
+    db.session.add(blackStar)
+    db.session.add(sulk)
+    db.session.add(streetSpirit)
+    db.session.commit()
+
+    worksOut = Song(
+        name="She Works Out Too Much",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/Little+Dark+Age/01.+She+Works+Out+Too+Much.mp3",
+        song_length="4:38",
+        album_id=7
+    )
+    little = Song(
+        name="Little Dark Age",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/Little+Dark+Age/02.+Little+Dark+Age.mp3",
+        song_length="4:59",
+        album_id=7
+    )
+    youDie = Song(
+        name="When You Die",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/Little+Dark+Age/03.+When+You+Die.mp3",
+        song_length="4:23",
+        album_id=7
+    )
+    michael = Song(
+        name="Me and Michael",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/Little+Dark+Age/04.+Me+and+Michael.mp3",
+        song_length="4:49",
+        album_id=7
+    )
+    tslamp = Song(
+        name="TSLAMP",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/Little+Dark+Age/05.+Tslamp.mp3",
+        song_length="4:30",
+        album_id=7
+    )
+    james = Song(
+        name="James",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/Little+Dark+Age/06.+James.mp3",
+        song_length="3:52",
+        album_id=7
+    )
+    gotAway = Song(
+        name="Days That Got Away",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/Little+Dark+Age/07.+Days+That+Got+Away.mp3",
+        song_length="4:44",
+        album_id=7
+    )
+    oneThing = Song(
+        name="One Thing Left to Try",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/Little+Dark+Age/08.+One+Thing+Left+to+Try.mp3",
+        song_length="4:20",
+        album_id=7
+    )
+    small = Song(
+        name="When You're Small",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/Little+Dark+Age/09.+When+You're+Small.mp3",
+        song_length="3:30",
+        album_id=7
+    )
+    handItOver = Song(
+        name="Hand It Over",
+        song_url="https://ali-practice-aws-bucket.s3.amazonaws.com/Little+Dark+Age/10.+Hand+It+Over.mp3",
+        song_length="4:13",
+        album_id=7
+    )
+
+    db.session.add(worksOut)
+    db.session.add(little)
+    db.session.add(youDie)
+    db.session.add(michael)
+    db.session.add(tslamp)
+    db.session.add(james)
+    db.session.add(gotAway)
+    db.session.add(oneThing)
+    db.session.add(small)
+    db.session.add(handItOver)
+    db.session.commit()
+
     one = Playlist(
         user_id=1,
         name="Cool Playlist",

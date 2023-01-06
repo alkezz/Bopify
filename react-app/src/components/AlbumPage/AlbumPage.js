@@ -28,7 +28,7 @@ const AlbumPage = () => {
     document.body.style = 'background: #1e1e1e';
     useEffect(() => {
         (async () => {
-            if (albumId <= 5) {
+            if (albumId <= 7) {
                 const albumResponse = await fetch(`/api/albums/${albumId}`)
                 const albumData = await albumResponse.json()
                 setAlbum(albumData)
@@ -49,7 +49,7 @@ const AlbumPage = () => {
 
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
-    if (albumId > 5) {
+    if (albumId > 7) {
         return (
             <FourZeroFourPage />
         )

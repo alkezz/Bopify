@@ -29,7 +29,7 @@ const ArtistPage = () => {
     let i = 0
     useEffect(() => {
         (async () => {
-            if (artistId <= 5) {
+            if (artistId <= 7) {
                 const artistResponse = await fetch(`/api/artists/${artistId}`)
                 const artistData = await artistResponse.json()
                 setArtist(artistData)
@@ -41,7 +41,7 @@ const ArtistPage = () => {
             setSongs(songData.Albums[0].Songs)
         })();
         (async () => {
-            if (artistId <= 5) {
+            if (artistId <= 7) {
                 if (sessionUser) {
                     setLikedSongsList(await dispatch(songLikeActions.getLikesSongs(sessionUser.id)))
                 }
@@ -59,7 +59,7 @@ const ArtistPage = () => {
 
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
-    if (artistId > 5 || artistId <= 0) {
+    if (artistId > 7 || artistId <= 0) {
         return (
             <FourZeroFourPage />
         )
