@@ -124,7 +124,7 @@ const AlbumPage = () => {
                                 {album?.name}
                             </div>
                             <div className='album-artist'>
-                                <Link style={{ textDecoration: "none", color: "white" }} to={`/artist/${album?.artist?.id}`}>{album?.artist?.name}</Link><span>.</span> {album?.year} <span>.</span> {album?.Songs?.length} songs
+                                <Link style={{ textDecoration: "none", color: "white" }} to={`/artist/${album?.artist?.id}`}>{album?.artist?.name}</Link><span style={{ marginLeft: "4px" }}>·</span> {album?.year} <span>·</span> {album?.Songs?.length} songs
                             </div>
                         </div>
                     </div>

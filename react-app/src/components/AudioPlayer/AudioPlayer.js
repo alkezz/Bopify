@@ -171,12 +171,12 @@ const AudioPlayer = () => {
         <>
 
             <div>
-                <div style={{ marginLeft: "400px" }}>
+                <div style={{ marginLeft: "65%" }}>
                     {backButton}
                     {playPauseButton}
                     {skipSongButton}
                 </div>
-                <div style={{ marginTop: "-10px", marginLeft: "250px", display: "flex" }}>
+                <div style={{ marginTop: "-10px", marginLeft: "44%", display: "flex" }}>
                     <span style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>{trackProgress ? calculateTime(trackProgress) : "--:--"}</span>
                     &nbsp;
                     <div className='track-length-range'>

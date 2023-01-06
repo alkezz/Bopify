@@ -11,6 +11,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, 270px);
     padding-left: 30px;
+    font-family: Circular;
 }
 
 .artist-image-container{
@@ -54,6 +55,7 @@
 }
 
 .album-image-container:hover{
+    transition: 0.5s;
     background-color: rgb(40, 40, 40);
 }
 
@@ -78,6 +80,20 @@
     height: 200px;
 }
 
-.album-image{
+.playlist-image{
+    width: 220px;
+    height: 220px;
+    margin-top: 20px;
+    margin-left: 25px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 12px 5px black;
+}
+
+.landing-album-image{
+    width: 220px;
+    height: 220px;
+    margin-top: 20px;
+    margin-left: 15px;
+    border-radius: 15px;
     box-shadow: 5px 5px 12px 5px black;
 }
