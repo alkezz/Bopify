@@ -16,7 +16,7 @@ const LoginForm = () => {
     e.preventDefault();
     const data = await dispatch(login(email, password));
     if (data) {
-      setErrors(data);
+      setErrors("Invalid Username/Password");
     }
   };
 
@@ -38,12 +38,10 @@ const LoginForm = () => {
   let errorDiv
   if (errors) {
     errorDiv = (
-      <div className='errors' style={{ visibility: errors.length ? "visible" : "hidden" }}>
+      <div className='errors' style={{ visibility: errors.length ? "visible" : "hidden", borderRadius: "100px" }}>
         <div className='icon'><i class="fa-solid fa-circle-exclamation"></i></div>
         <div>
-          {errors.map((error, ind) => (
-            <div id='one-error' key={ind}>{error}</div>
-          ))}
+          <div style={{ marginTop: "10px", marginBottom: "10px" }} id='one-error'>{errors}</div>
         </div>
       </div>
     )
@@ -82,7 +80,7 @@ const LoginForm = () => {
               CONTINUE WITH BOBBIE
             </button>
           </div>
-          <h3><span>OR</span></h3>
+          <h3 style={{ width: "400px" }}><span>OR</span></h3>
           <br />
           <label htmlFor='email'>Email address or username</label>
           <div className='input-div'>

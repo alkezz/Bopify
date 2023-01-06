@@ -91,7 +91,7 @@ const LandingPage = () => {
             <div className='landing-page-playlist-container' style={{ paddingBottom: "80px" }}>
                 {playlists && (
                     playlists.map((playlist) => {
-                        return <div className='album-image-container' onClick={(e) => history.push(`/playlist/${playlist.id}`)}>
+                        return <div className='album-image-container'>
                             <Link to={`/playlist/${playlist.id}`}>
                                 <img className='playlist-image' src={playlist.playlist_img} />
                             </Link>

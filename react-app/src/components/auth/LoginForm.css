@@ -1,5 +1,6 @@
 body{
     font-family: Arial, Helvetica, sans-serif;
+    margin-right: 100px;
 }
 
 .form-container{
@@ -51,6 +52,7 @@ input:hover{
     height: 50px;
     color: white;
     font-weight: bolder;
+    cursor: pointer;
 }
 
 #demo-button:hover{
@@ -65,6 +67,7 @@ input:hover{
     height: 50px;
     color: white;
     font-weight: bolder;
+    cursor: pointer;
 }
 
 #bobbie-button{
@@ -75,10 +78,11 @@ input:hover{
     height: 50px;
     color: #6a6a6a;
     font-weight: bolder;
+    cursor: pointer;
 }
 
 h3{
-    width: 29.5%;
+   width: 400px;
    text-align: center;
    border-top: 1px solid #eeeeee;
    margin: 10px 0 20px;
@@ -105,7 +109,8 @@ h3 span {
     font-weight: bolder;
     border: none;
     border-radius: 25px;
-    padding: 14px 32px
+    padding: 14px 32px;
+    cursor: pointer;
 }
 
 #login-button:hover{
@@ -175,4 +180,5 @@ h3 span {
     background-color: white;
     color: #b5b5b5;
     font-weight: 700;
+    cursor: pointer;
 }

@@ -238,7 +238,7 @@ const NavBar = () => {
             Sign up to get unlimited songs and podcasts with occasional ads. No credit card needed.
           </div>
         </div>
-        <button style={{ marginTop: "12px", borderRadius: "30px", height: "50px", width: "150px", fontWeight: "700", border: "none", cursor: "pointer" }} onClick={(e) => history.push("/sign-up")}>Sign up free</button>
+        <button style={{ marginTop: "12px", borderRadius: "30px", height: "50px", width: "150px", fontWeight: "700", border: "none", cursor: "pointer", marginRight: "10px" }} onClick={(e) => history.push("/sign-up")}>Sign up free</button>
       </div>
     )
   } else if (sessionUser && location.pathname !== "/sign-up" && location.pathname !== "/login" && location.pathname !== "/likes") {

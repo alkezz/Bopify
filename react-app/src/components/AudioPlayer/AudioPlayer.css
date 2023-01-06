@@ -5,7 +5,7 @@ input[type=range] {
 	margin-bottom: 10px;
     margin-top: 25px;
 	border-radius: 8px;
-	background: #3b7677;
+	background: #777777;
 	transition: background 0.2s ease;
 	cursor: pointer;
 }

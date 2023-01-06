@@ -26,6 +26,7 @@
 }
 
 .artist-image-container:hover{
+    transition: 1s;
     background-color: rgb(40, 40, 40);
 }
 
@@ -50,12 +51,11 @@
     background-color: #181818;
     color: white;
     width: 250px;
-    cursor: pointer;
     margin-top: 10px;
 }
 
 .album-image-container:hover{
-    transition: 0.5s;
+    transition: 1s;
     background-color: rgb(40, 40, 40);
 }
 

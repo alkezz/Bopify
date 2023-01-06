@@ -46,7 +46,8 @@ h3 span {
     font-weight: bolder;
     border: none;
     border-radius: 25px;
-    padding: 14px 32px
+    padding: 14px 32px;
+    cursor: pointer;
 }
 
 #already-have-account{
