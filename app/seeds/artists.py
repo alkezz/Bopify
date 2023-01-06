@@ -31,11 +31,25 @@ def seed_artists():
         artist_img="https://images.mubicdn.net/images/cast_member/166652/cache-279851-1544474609/image-w856.jpg?size=800x"
     )
 
+    radioHead = Artist(
+        name="Radiohead",
+        bio="At some point in the early 21st century, Radiohead became something more than a band: they became a touchstone for everything that is fearless and adventurous in rock, inheriting the throne from David Bowie, Pink Floyd, and the Talking Heads. The latter group gave the band its name -- it's an album track on 1986's True Stories -- but Radiohead never sounded much like the Heads, nor did they take much from Bowie, apart from their willingness to experiment. Instead, they spliced Floyd's spaciness with U2's messianic arena rock heft, bridging the gap with guitar skronk borrowed from the '80s American underground.",
+        artist_img="https://ali-practice-aws-bucket.s3.amazonaws.com/radiohead-download-stream-burn-the-witch.jpg"
+    )
+
+    mgmt = Artist(
+        name="MGMT",
+        bio="MGMT was formed by Ben Goldwasser and Andrew VanWyngarden in 2001 while students at Wesleyan University. Since their first release, the EP Time To Pretend in 2005, MGMT have released four critically acclaimed albums: Oracular Spectacular (2008), Congratulations (2010), MGMT (2013), and Little Dark Age (2018).",
+        artist_img="https://ali-practice-aws-bucket.s3.amazonaws.com/mgmt-11-11-11-cover.jpg"
+    )
+
     db.session.add(pinkFloyd)
     db.session.add(theStrokes)
     db.session.add(beachHouse)
     db.session.add(death)
     db.session.add(fairuz)
+    db.session.add(radioHead)
+    db.session.add(mgmt)
     db.session.commit()
 
 def undo_artists():

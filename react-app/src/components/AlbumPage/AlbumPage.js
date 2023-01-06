@@ -28,7 +28,7 @@ const AlbumPage = () => {
     document.body.style = 'background: #1e1e1e';
     useEffect(() => {
         (async () => {
-            if (albumId <= 5) {
+            if (albumId <= 7) {
                 const albumResponse = await fetch(`/api/albums/${albumId}`)
                 const albumData = await albumResponse.json()
                 setAlbum(albumData)
@@ -49,7 +49,7 @@ const AlbumPage = () => {
 
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
-    if (albumId > 5) {
+    if (albumId > 7) {
         return (
             <FourZeroFourPage />
         )
@@ -116,7 +116,7 @@ const AlbumPage = () => {
                 <div className='album-page-container' style={{ color: "white", paddingBottom: "80px", marginRight: "30px" }}>
                     <div className='album-top-header' style={{ backgroundImage: `url(${album.albumPic})`, backgroundSize: "0.5px 0.5px", display: "flex", flexDirection: "row", width: "103.1%" }}>
                         <div style={{ width: "250px", height: "250px", paddingLeft: "30px" }} className='album-image'>
-                            <img style={{ width: "250px", height: "250px" }} src={album?.albumPic}></img>
+                            <img id='album-image' style={{ width: "250px", height: "250px" }} src={album?.albumPic}></img>
                         </div>
                         <div className='album-info' style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)", marginTop: "130px", marginLeft: "20px", display: "flex", flexDirection: "column" }}>
                             ALBUM
