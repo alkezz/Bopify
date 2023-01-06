@@ -15,3 +15,8 @@
     position:sticky;
     bottom: 90px;
 }
+
+#album-image{
+    box-shadow: 5px 5px 12px 5px black;
+    margin-top: -15px;
+}
