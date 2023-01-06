@@ -25,9 +25,8 @@ const SignUpForm = () => {
     // }
     const errorList = []
     if (username.length > 15 || username.length < 2) errorList.push("Username must be between 2 and 15 characters")
-    if (email.includes("@") === false) errorList.push("Invalid Email")
-    if (email.includes(".com") === false) {
-      errorList.push("Emails must end with .com")
+    if (email.includes(".com") === false && email.includes(".org") === false && email.includes(".io") === false && email.includes(".net") && email.includes("@") === false) {
+      errorList.push("Invalid Email")
     }
     if (email !== repeatEmail) errorList.push("Emails must match!")
     if (password !== repeatPassword) errorList.push("Passwords must match!")
@@ -67,11 +66,11 @@ const SignUpForm = () => {
   let errorDiv
   if (errors) {
     errorDiv = (
-      <div className='errors' style={{ visibility: errors.length ? "visible" : "hidden" }}>
+      <div className='errors' style={{ visibility: errors.length ? "visible" : "hidden", borderRadius: "100px" }}>
         <div className='icon'><i class="fa-solid fa-circle-exclamation"></i></div>
         <div>
           {errors.map((error, ind) => (
-            <div id='one-error' key={ind}>{error}</div>
+            <div style={{ marginTop: "10px", marginBottom: "10px" }} id='one-error' key={ind}>{error}</div>
           ))}
         </div>
       </div>

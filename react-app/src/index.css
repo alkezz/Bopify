@@ -1,1 +1,9 @@
 /* TODO Add site wide styles */
+*{
+    font-family: Circular;
+    /* -ms-overflow-style: none; */
+}
+
+/* ::-webkit-scrollbar{
+    display: none;
+} */

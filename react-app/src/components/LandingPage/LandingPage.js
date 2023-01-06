@@ -76,7 +76,7 @@ const LandingPage = () => {
                 {albums.map((album) => {
                     return <div className='album-image-container' onClick={(e) => history.push(`/album/${album.id}`)}>
                         <Link to={`/album/${album.id}`}>
-                            <img className='album-image' src={album.albumPic} />
+                            <img className='landing-album-image' src={album.albumPic} />
                         </Link>
                         <p style={{ marginLeft: "15px", fontWeight: "700" }}>{album.name}</p>
                         <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>{album.year} - {album.artist.name}</span>
@@ -91,9 +91,9 @@ const LandingPage = () => {
             <div className='landing-page-playlist-container' style={{ paddingBottom: "80px" }}>
                 {playlists && (
                     playlists.map((playlist) => {
-                        return <div className='album-image-container' onClick={(e) => history.push(`/playlist/${playlist.id}`)}>
+                        return <div className='album-image-container'>
                             <Link to={`/playlist/${playlist.id}`}>
-                                <img className='album-image' src={playlist.playlist_img} />
+                                <img className='playlist-image' src={playlist.playlist_img} />
                             </Link>
                             <p style={{ marginLeft: "15px", fontWeight: "700" }}>{playlist.name}</p>
                             <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>By {playlist.User.username}</span>

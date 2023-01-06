@@ -6,7 +6,7 @@ body{
     overflow-x: hidden;
 }
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 2px;
   }
 
   /* Track */
@@ -34,7 +34,7 @@ body{
     right: -7.5px;
     background-color: #111111;
     margin-top: -10px;
-    width: 100.6%;
+    width: 108%;
     /* z-index: 999; */
 }
 
@@ -44,7 +44,7 @@ body{
     justify-content: center;
     position: relative;
     height: 80px;
-    border-bottom: 1px #d9dadc solid;
+    /* border-bottom: 1px #d9dadc solid; */
 }
 
 .logo-img{

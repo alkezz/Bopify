@@ -65,7 +65,7 @@ class User(db.Model, UserMixin):
             user["Playlists"] = [playlistList.to_dict(image=True) for playlistList in self.playlist_users]
 
         if followed_playlists:
-            user["followedPlaylists"] = [playlist.to_dict() for playlist in self.playlist_following]
+            user["followedPlaylists"] = [playlist.to_dict(user=True) for playlist in self.playlist_following]
         if likes:
             user["likedSongs"] = [song.to_dict() for song in self.user_likes]
 

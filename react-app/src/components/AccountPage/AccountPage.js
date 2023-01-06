@@ -171,15 +171,12 @@ const AccountPage = () => {
                         <div className="profile-playlists-container">
                             {userPlaylistList && (
                                 userPlaylistList.map((playlist) => {
-                                    return <div style={{ color: "white" }}>
-                                        <div className="playlist-image">
-                                            <Link to={`/playlist/${playlist.id}`}>
-                                                <img className="playlist-image-profile" src={playlist.playlist_img} />
-                                            </Link>
-                                        </div>
-                                        <div className="playlist-name">
-                                            {playlist.name}
-                                        </div>
+                                    return <div className='album-image-container' onClick={(e) => history.push(`/playlist/${playlist.id}`)}>
+                                        <Link to={`/playlist/${playlist.id}`}>
+                                            <img className='playlist-image' src={playlist.playlist_img} />
+                                        </Link>
+                                        <p style={{ marginLeft: "15px", fontWeight: "700" }}>{playlist.name}</p>
+                                        <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>By {playlist.User.username}</span>
                                     </div>
                                 })
                             )}
@@ -188,15 +185,13 @@ const AccountPage = () => {
                         <div className="profile-followed-playlists-container">
                             {followingPlaylists && (
                                 followingPlaylists.map((playlist) => {
-                                    return <div style={{ color: "white" }}>
-                                        <div className="playlist-image">
-                                            <Link to={`/playlist/${playlist.id}`}>
-                                                <img className="playlist-image-profile" src={playlist.playlist_img} />
-                                            </Link>
-                                        </div>
-                                        <div className="playlist-name">
-                                            {playlist.name}
-                                        </div>
+                                    console.log("PLAYLIST", playlist)
+                                    return <div className='album-image-container' onClick={(e) => history.push(`/playlist/${playlist.id}`)}>
+                                        <Link to={`/playlist/${playlist.id}`}>
+                                            <img className='playlist-image' src={playlist.playlist_img} />
+                                        </Link>
+                                        <p style={{ marginLeft: "15px", fontWeight: "700" }}>{playlist.name}</p>
+                                        <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>By {playlist.User.username}</span>
                                     </div>
                                 })
                             )}
@@ -264,15 +259,12 @@ const AccountPage = () => {
                         <div className="profile-playlists-container">
                             {userPlaylistList && (
                                 userPlaylistList.map((playlist) => {
-                                    return <div style={{ color: "white" }}>
-                                        <div className="playlist-image">
-                                            <Link to={`/playlist/${playlist.id}`}>
-                                                <img className="playlist-image-profile" src={playlist.playlist_img} />
-                                            </Link>
-                                        </div>
-                                        <div className="playlist-name">
-                                            {playlist.name}
-                                        </div>
+                                    return <div className='album-image-container' onClick={(e) => history.push(`/playlist/${playlist.id}`)}>
+                                        <Link to={`/playlist/${playlist.id}`}>
+                                            <img className='playlist-image' src={playlist.playlist_img} />
+                                        </Link>
+                                        <p style={{ marginLeft: "15px", fontWeight: "700" }}>{playlist.name}</p>
+                                        <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>By {playlist.User.username}</span>
                                     </div>
                                 })
                             )}
@@ -281,15 +273,12 @@ const AccountPage = () => {
                         <div className="profile-followed-playlists-container">
                             {followingPlaylists && (
                                 followingPlaylists.map((playlist) => {
-                                    return <div style={{ color: "white" }}>
-                                        <div className="playlist-image">
-                                            <Link to={`/playlist/${playlist.id}`}>
-                                                <img className="playlist-image-profile" src={playlist.playlist_img} />
-                                            </Link>
-                                        </div>
-                                        <div className="playlist-name">
-                                            {playlist.name}
-                                        </div>
+                                    return <div className='album-image-container' onClick={(e) => history.push(`/playlist/${playlist.id}`)}>
+                                        <Link to={`/playlist/${playlist.id}`}>
+                                            <img className='playlist-image' src={playlist.playlist_img} />
+                                        </Link>
+                                        <p style={{ marginLeft: "15px", fontWeight: "700" }}>{playlist.name}</p>
+                                        <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>By {playlist.User.username}</span>
                                     </div>
                                 })
                             )}

@@ -24,7 +24,7 @@ const DropDown = () => {
     }, [showMenu]);
     return (
         <div className='profile-dropdown-container'>
-            <button id="drop-down-button" onClick={openMenu}>{sessionUser.username}</button>
+            <button id="drop-down-button" onClick={openMenu}><i style={{ marginRight: "-15px", marginTop: "5px" }} class="fa-solid fa-user"></i><div style={{ marginTop: "5px" }}>{sessionUser.username}</div></button>
             {showMenu && (
                 <div className='drop-down'>
                     <div>

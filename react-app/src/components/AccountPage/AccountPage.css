@@ -8,6 +8,7 @@
     align-items: center;
     margin-left: 30px;
     margin-top: 20px;
+    background-color: gray;
 }
 
 .profile-header-container{
@@ -27,22 +28,28 @@
 
 .profile-playlists-container{
     display: grid;
-    grid-template-columns: repeat(auto-fill, 250px);
+    grid-template-columns: repeat(auto-fill, 270px);
     padding-left: 30px;
 }
 
-.playlist-image-profile{
-    width: 200px;
-    height: 190px;
-}
-.playlist-image{
+.playlist-image-container{
+    padding-bottom: 30px;
     width: 200px;
     height: 200px;
 }
 
+.playlist-image{
+    width: 220px;
+    height: 220px;
+    margin-top: 20px;
+    margin-left: 15px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 12px 5px black;
+}
+
 .profile-followed-playlists-container{
     display: grid;
-    grid-template-columns: repeat(auto-fill, 250px);
+    grid-template-columns: repeat(auto-fill, 270px);
     padding-left: 30px;
 }
 
@@ -75,16 +82,16 @@
     cursor: pointer;
     padding: 10px;
     border-radius: 10px;
-    border: 1px solid white;
     width: max-content;
     color: white;
-    margin-left: 20px;
+    background-color: #181818;
+    margin-left: 30px;
     width: 180px;
 }
 
 .follower-container:hover{
     transition: 0.5s;
-    background-color: gray;
+    background-color: rgb(40, 40, 40);
 }
 
 .follower-profile-pic{
@@ -96,7 +103,8 @@
     justify-content: center;
     align-items: center;
     margin-left: 15px;
-    margin-top: 20px;
+    margin-top: 10px;
     background-color: gray;
     box-shadow: 5px 5px 12px 5px black;
+    margin-bottom: 15px;
 }
