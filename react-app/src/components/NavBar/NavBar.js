@@ -133,6 +133,20 @@ const NavBar = () => {
     )
     navbar = (
       <nav id="top-navbar" style={{ backgroundColor: "#513a9e", backgroundImage: "none" }}>
+        <div style={{ marginRight: "30px" }}>
+          <Link to={{ pathname: "https://github.com/alkezz/aA2022-Spotify-Clone" }} target="_blank">
+            <i style={{ color: "white", marginTop: "20%" }} class="fa-brands fa-github fa-lg"></i>
+          </Link>
+          &nbsp;
+          &nbsp;
+          &nbsp;
+          <Link to={{ pathname: "https://www.linkedin.com/in/ali-ezzeddine-17b2b6248/" }} target="_blank">
+            <i style={{ color: "white", marginTop: "20%" }} class="fa-brands fa-linkedin fa-lg"></i>
+          </Link>
+          <Link to={{ pathname: "https://www.ali-ezzeddine.com" }} target="_blank">
+            <i style={{ color: "white", marginTop: "20%" }} class="fa-solid fa-star fa-lg"></i>
+          </Link>
+        </div>
         <div className='login-signup'>
           <DropDown />
         </div>

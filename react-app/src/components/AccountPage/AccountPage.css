@@ -61,15 +61,27 @@
 .follow-button{
     margin-top: 10px;
     background: none;
-    color: white;
-    border: 1px solid gray;
+    color: black;
+    border: none;
+    border-radius: 10px;
+    width: 90px;
+    height: 30px;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: #1ed760;
+}
+
+.unfollow-button{
+    margin-top: 10px;
+    background: none;
+    color: black;
+    border: none;
     border-radius: 5px;
     width: 90px;
     height: 30px;
     font-weight: 700;
-}
-.follow-button:hover{
-    border-color: white;
+    cursor: pointer;
+    background-color: white;
 }
 
 .followed-users-container{

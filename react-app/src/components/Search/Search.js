@@ -112,7 +112,7 @@ const Search = () => {
                     }).map((playlist, index) => (
                         searchShow === true && (
                             <div onClick={(e) => history.push(`/playlist/${playlist.id}`)} className='playlist-cards' key={index}>
-                                <img className='album-image' src={playlist.playlist_img} />
+                                <img className='playlist-search-image' src={playlist.playlist_img} />
                                 <p style={{ marginLeft: "15px", fontWeight: "700" }}>{playlist.name}</p>
                                 <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>By {playlist.User.username}</span>
                             </div>

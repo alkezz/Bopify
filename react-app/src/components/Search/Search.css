@@ -23,6 +23,7 @@
     color: white;
     width: 250px;
     cursor: pointer;
+    margin-bottom: 10px
 }
 
 .album-cards:hover{
@@ -54,6 +55,7 @@
     margin-top: 20px;
     margin-left: 15px;
     border-radius: 15px;
+    box-shadow: 5px 5px 12px 5px black;
 }
 
 .artist-image{
@@ -62,4 +64,13 @@
     margin-top: 20px;
     margin-left: 15px;
     border-radius: 200px;
+}
+
+.playlist-search-image{
+    width: 220px;
+    height: 220px;
+    margin-top: 20px;
+    margin-left: 15px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 12px 5px black;
 }
