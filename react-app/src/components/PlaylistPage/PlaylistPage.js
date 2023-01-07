@@ -205,7 +205,7 @@ const PlaylistPage = () => {
                         <EditPlaylistModal playlistId={playlistId} playlist={playlist} onePlaylist={onePlaylist} />
                     )}
                     {sessionUser?.id !== onePlaylist?.User?.id && (
-                        <div className='playlist-header-container' style={{ backgroundImage: `url(${playlist.playlist_img})`, backgroundSize: "0.5px 0.5px" }}>
+                        <div className='playlist-header-container' style={{ backgroundImage: `url(${playlist.playlist_img})`, backgroundSize: "0.5px 0.5px", width: "106.65%" }}>
                             <div id='picture-container' style={{ paddingLeft: "30px" }}>
                                 <img style={{ width: "200px", height: "210px" }} src={playlist.playlist_img} />
                                 {/* <EditPlaylistModal playlistId={playlistId} playlist={playlist} /> */}

@@ -117,7 +117,7 @@ const AccountPage = () => {
     if (sessionUser !== null) {
         if (followState.includes(user.id)) {
             followButton = (
-                <button className="follow-button" hidden={sessionUser.id === user.id} onClick={(e) => { unFollow(e); setUpdate(!update) }}>UNFOLLOW</button>
+                <button className="unfollow-button" hidden={sessionUser.id === user.id} onClick={(e) => { unFollow(e); setUpdate(!update) }}>UNFOLLOW</button>
             )
         } else {
             followButton = (

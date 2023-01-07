@@ -110,7 +110,7 @@ const ArtistPage = () => {
         await dispatch(songLikeActions.getLikesSongs(sessionUser.id))
     }
     return (
-        <div className='artist-container' style={{ overflowX: "hidden", paddingBottom: "80px" }}>
+        <div className='artist-container' style={{ overflowX: "hidden", paddingBottom: "80px", width: "106.65%" }}>
             <div className='header-container' style={{ backgroundImage: `url(${artist.artist_img})`, backgroundRepeat: "no-repeat", backgroundSize: "100% 500px" }}>
                 <h1 style={{ fontSize: "70px", marginLeft: "65px", color: "white", marginTop: "150px" }}>{artist.name}</h1>
             </div>
@@ -188,7 +188,7 @@ const ArtistPage = () => {
                 <div className='artist-album-list-container'>
                     {artist?.Albums && (
                         artist.Albums.map((album) => {
-                            return <div onClick={(e) => history.push(`/album/${album?.id}`)} className='album-card'>
+                            return <div onClick={(e) => history.push(`/album/${album?.id}`)} className='album-card' style={{ cursor: "pointer" }}>
                                 <div className='album-image-container'>
                                     <img className='album-image' src={songs[0]?.album?.albumPic} />
                                     <p style={{ marginLeft: "15px", fontWeight: "700" }}>{album.name}</p>
