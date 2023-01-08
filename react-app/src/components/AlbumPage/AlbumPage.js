@@ -115,8 +115,8 @@ const AlbumPage = () => {
             {!!album && (
                 <div className='album-page-container' style={{ color: "white", paddingBottom: "80px", marginRight: "30px", width: "103.5%" }}>
                     <div className='album-top-header' style={{ backgroundImage: `url(${album.albumPic})`, backgroundSize: "0.5px 0.5px", display: "flex", flexDirection: "row", width: "103.1%" }}>
-                        <div style={{ width: "250px", height: "250px", paddingLeft: "30px" }} className='album-image'>
-                            <img id='album-image' style={{ width: "250px", height: "250px" }} src={album?.albumPic}></img>
+                        <div style={{ width: "250px", height: "250px", paddingLeft: "30px", marginTop: "30px" }}>
+                            <img id='album-page-image' style={{ width: "250px", height: "250px" }} src={album?.albumPic}></img>
                         </div>
                         <div className='album-info' style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)", marginTop: "130px", marginLeft: "20px", display: "flex", flexDirection: "column" }}>
                             ALBUM
