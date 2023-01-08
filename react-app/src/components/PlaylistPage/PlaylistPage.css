@@ -7,18 +7,19 @@
 .playlist-header-container{
     display: flex;
     flex-direction: row;
-    border-bottom: 1px white solid;
     width: 103.12%;
 }
 
 #playlist-info-container{
     padding-left: 50px;
-    padding-top: 20px;
+    padding-top: 50px;
 }
 
 .play-like-container{
     display: flex;
     flex-direction: row;
+    margin-top:20px;
+    margin-bottom: -20px;
 }
 
 .song-list-header-container{
@@ -34,7 +35,7 @@
 }
 .delete-playlist-button{
     background-color: #1ed760;
-    color: white;
+    color: black;
     border-radius: 20px;
     margin-top: 20px;
     width: 100px;
@@ -52,4 +53,11 @@
     background-color: black;
     /* width: 300px; */
     left: 87%;
+}
+
+.playlist-page-image{
+    box-shadow: 5px 5px 12px 5px black;
+    width: 230px;
+    height: 230px;
+    margin-top: 5.5px;
 }
