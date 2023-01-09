@@ -112,7 +112,7 @@ const ArtistPage = () => {
     return (
         <div className='artist-container' style={{ overflowX: "hidden", paddingBottom: "80px", width: "106.65%" }}>
             <div className='header-container' style={{ backgroundImage: `url(${artist.artist_img})`, backgroundRepeat: "no-repeat", backgroundSize: "100% 500px" }}>
-                <h1 style={{ fontSize: "70px", marginLeft: "65px", color: "white", marginTop: "150px" }}>{artist.name}</h1>
+                <h1 style={{ fontSize: "70px", marginLeft: "65px", color: "white", marginTop: "150px", textShadow: "3px 3px 2px rgba(0, 0, 0, 1)" }}>{artist.name}</h1>
             </div>
             <div className='artist-info-container' style={{ marginLeft: "40px" }}>
                 <h2 style={{ color: "white" }}>Popular</h2>
@@ -121,7 +121,7 @@ const ArtistPage = () => {
                         topFive.map((song) => {
                             return <div className='one-song' style={{ color: 'white', display: "flex", justifyContent: "space-between", marginLeft: "20px" }}>
                                 <div>
-                                    {incrementSongNumber()}&nbsp;<img style={{ width: "40px" }} src={song.album.albumPic} />&nbsp;<button onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ background: "none", border: "none", color: "white" }}>{song.name}</button>
+                                    {incrementSongNumber()}&nbsp;<img style={{ width: "40px" }} src={song.album.albumPic} />&nbsp;<button onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ background: "none", border: "none", color: "white", cursor: "pointer" }}>{song.name}</button>
                                 </div>
                                 &nbsp;
                                 &nbsp;

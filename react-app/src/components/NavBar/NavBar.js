@@ -147,7 +147,7 @@ const NavBar = () => {
             <i style={{ color: "white", marginTop: "20%" }} class="fa-solid fa-star fa-lg"></i>
           </Link>
         </div>
-        <div className='login-signup'>
+        <div className='login-signup' style={{ marginRight: "80px" }}>
           <DropDown />
         </div>
       </nav>
@@ -229,7 +229,7 @@ const NavBar = () => {
             <i style={{ color: "white", marginTop: "20%" }} class="fa-solid fa-star fa-lg"></i>
           </Link>
         </div>
-        <div className='login-signup' style={{ display: "flex", marginRight: "40px" }}>
+        <div className='login-signup' style={{ display: "flex", marginRight: "60px" }}>
           <div style={{ paddingTop: "10px", marginRight: "10px" }}>
             <button style={{ fontSize: "18px", fontWeight: "700", background: "none" }} id='signup-nav-button' onClick={(e) => history.push("/sign-up")}>
               Sign Up
@@ -314,7 +314,7 @@ const NavBar = () => {
             <i style={{ color: "white", marginTop: "20%" }} class="fa-solid fa-star fa-lg"></i>
           </Link>
         </div>
-        <div className='login-signup' style={{ marginRight: "40px" }}>
+        <div className='login-signup' style={{ marginRight: "60px" }}>
           <DropDown />
         </div>
       </nav>
