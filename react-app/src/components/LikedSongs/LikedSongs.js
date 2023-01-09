@@ -79,7 +79,7 @@ const LikedSongs = () => {
     if (likedSongsList?.likedSongs?.length >= 1) {
         return (
             <div className='liked-songs-page-container' style={{ color: "white", paddingBottom: "80px", width: "100%" }}>
-                <div className='liked-songs-header' style={{ display: "flex", paddingLeft: "60px", paddingTop: "50px" }}>
+                <div className='liked-songs-header' style={{ display: "flex", paddingLeft: "60px", paddingTop: "50px", paddingBottom: "20px" }}>
                     <div className='image-container' style={{ marginBottom: "10px" }}>
                         <img src='https://ali-practice-aws-bucket.s3.amazonaws.com/likedSongsPicture.png' style={{ height: "100%" }}></img>
                     </div>
@@ -128,8 +128,8 @@ const LikedSongs = () => {
                         <div>
                             {likedSongsList.likedSongs.map((song) => {
                                 return <div className='playlist-song-container' style={{ paddingBottom: "10px", listStyle: "none", display: "flex", justifyContent: "space-between" }}>
-                                    <div style={{ width: "300px", marginLeft: "10px" }}>
-                                        {incrementSongNumber()}&nbsp;&nbsp;<img style={{ width: "30px" }} src={song.album.albumPic} />&nbsp;&nbsp;<Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
+                                    <div style={{ width: "300px", marginLeft: "10px", display: "flex", alignItems: "center" }}>
+                                        <div style={{ width: "10px" }}>{incrementSongNumber()}</div>&nbsp;&nbsp;<img style={{ width: "30px" }} src={song.album.albumPic} />&nbsp;&nbsp;<Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
                                     </div>
                                     <div style={{ marginLeft: "-70px" }}><Link style={{ textDecoration: "none", color: "white" }} to={`/album/${song.album.id}`}>{song.album.name}</Link></div>
                                     <div style={{ display: "flex", marginRight: "-75px" }}>
@@ -198,7 +198,7 @@ const LikedSongs = () => {
     } else {
         return (
             <div className='liked-songs-page-container' style={{ color: "white", paddingBottom: "80px", width: "100%" }}>
-                <div className='liked-songs-header' style={{ display: "flex", paddingLeft: "60px", paddingTop: "50px" }}>
+                <div className='liked-songs-header' style={{ display: "flex", paddingLeft: "60px", paddingTop: "50px", paddingBottom: "20px" }}>
                     <div className='image-container' style={{ marginBottom: "10px" }}>
                         <img src='https://ali-practice-aws-bucket.s3.amazonaws.com/likedSongsPicture.png' style={{ height: "100%" }}></img>
                     </div>
