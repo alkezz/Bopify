@@ -110,7 +110,7 @@ const ArtistPage = () => {
         await dispatch(songLikeActions.getLikesSongs(sessionUser.id))
     }
     return (
-        <div className='artist-container' style={{ overflowX: "hidden", paddingBottom: "80px", width: "106.65%" }}>
+        <div className='artist-container' style={{ overflowX: "hidden", paddingBottom: "80px", width: "108.95%" }}>
             <div className='header-container' style={{ backgroundImage: `url(${artist.artist_img})`, backgroundRepeat: "no-repeat", backgroundSize: "100% 500px" }}>
                 <h1 style={{ fontSize: "70px", marginLeft: "65px", color: "white", marginTop: "150px", textShadow: "3px 3px 2px rgba(0, 0, 0, 1)" }}>{artist.name}</h1>
             </div>
