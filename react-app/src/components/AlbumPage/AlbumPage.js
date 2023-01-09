@@ -114,7 +114,7 @@ const AlbumPage = () => {
         <>
             {!!album && (
                 <div className='album-page-container' style={{ color: "white", paddingBottom: "80px", marginRight: "30px", width: "103.5%" }}>
-                    <div className='album-top-header' style={{ backgroundImage: `url(${album.albumPic})`, backgroundSize: "0.5px 0.5px", display: "flex", flexDirection: "row", width: "103.1%" }}>
+                    <div className='album-top-header' style={{ backgroundImage: `url(${album.albumPic})`, backgroundSize: "0.5px 0.5px", display: "flex", flexDirection: "row", width: "108.95%", paddingBottom: "20px" }}>
                         <div style={{ width: "250px", height: "250px", paddingLeft: "30px", marginTop: "30px" }}>
                             <img id='album-page-image' style={{ width: "250px", height: "250px" }} src={album?.albumPic}></img>
                         </div>
@@ -137,7 +137,7 @@ const AlbumPage = () => {
                     </div>
                     <br />
                     <br />
-                    <div className='song-list-header-container' style={{ marginBottom: "10px", marginLeft: "30px" }}>
+                    <div className='song-list-header-container' style={{ paddingLeft: "30px", marginRight: "-95px", paddingRight: "90px" }}>
                         <div className='number-icon'>
                             <div>
                                 #
@@ -150,7 +150,7 @@ const AlbumPage = () => {
                             <i class="fa-regular fa-clock"></i>
                         </div>
                     </div>
-                    <div style={{ paddingLeft: "30px" }}>
+                    <div style={{ paddingLeft: "30px", paddingTop: "1.5vh" }}>
                         {/* {onePlaylist.Songs.map((song) => {
                                 return <div style={{ paddingBottom: "10px", listStyle: "none", display: "flex", justifyContent: "space-between" }}>
                                     <div style={{ width: "300px" }}>
@@ -170,7 +170,7 @@ const AlbumPage = () => {
                                         <Link style={{ textDecoration: "none", color: "white", marginTop: "8px" }} to={`/artist/${album.artist.id}`}>{album.artist.name}</Link>
                                     </div>
                                 </div>
-                                <div style={{ display: "flex" }}>
+                                <div style={{ display: "flex", marginRight: "-40px" }}>
                                     {sessionUser && (
                                         likedSongsList?.likedSongs?.some(e => e.id === song.id) ? <i onClick={(e) => { unlikeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#1ed760", cursor: "pointer" }} class="fa-solid fa-heart"></i> : <i onClick={(e) => { likeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#babbbb", cursor: "pointer" }} class="fa-regular fa-heart"></i>
                                     )}
@@ -180,7 +180,7 @@ const AlbumPage = () => {
                                     {likedSongsList?.likedSongs?.some(likedSong => likedSong.id !== song.id) && (
                                         <i onClick={(e) => { likeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-regular fa-heart"></i>
                                     )} */}
-                                    {song.song_length}
+                                    <span style={{ width: "50px" }}>{song.song_length}</span>
                                     <div>
                                         <button style={{ background: "none" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
                                         {activeMenu === song.id && (

@@ -205,12 +205,12 @@ const PlaylistPage = () => {
                         <EditPlaylistModal playlistId={playlistId} playlist={playlist} onePlaylist={onePlaylist} />
                     )}
                     {sessionUser?.id !== onePlaylist?.User?.id && (
-                        <div className='playlist-header-container' style={{ backgroundImage: `url(${playlist.playlist_img})`, backgroundSize: "0.5px 0.5px", width: "106.65%", paddingBottom: "38px" }}>
+                        <div className='playlist-header-container' style={{ backgroundImage: `url(${playlist.playlist_img})`, backgroundSize: "0.5px 0.5px", width: "108.95%", paddingBottom: "38px" }}>
                             <div id='picture-container' style={{ paddingLeft: "30px" }}>
                                 <img className="playlist-page-image" src={playlist.playlist_img} />
                                 {/* <EditPlaylistModal playlistId={playlistId} playlist={playlist} /> */}
                             </div>
-                            <div id='playlist-info-container'>
+                            <div id='playlist-info-container' style={{ marginTop: "50px" }}>
                                 <div id='playlist-word-container' style={{ fontSize: "12px" }}>
                                     PLAYLIST
                                 </div>
@@ -258,7 +258,7 @@ const PlaylistPage = () => {
                     </div>
                     <br />
                     <br />
-                    <div className='song-list-header-container' style={{ paddingLeft: "30px" }}>
+                    <div className='song-list-header-container' style={{ paddingLeft: "30px", marginRight: "-95px" }}>
                         <div className='number-icon'>
                             <div>
                                 #
@@ -289,15 +289,15 @@ const PlaylistPage = () => {
                         <div style={{ marginTop: "1.5vh", paddingLeft: "30px" }}>
                             {onePlaylist.Songs.map((song) => {
                                 return <div className='playlist-song-container' style={{ paddingBottom: "10px", listStyle: "none", display: "flex", justifyContent: "space-between" }}>
-                                    <div style={{ width: "300px" }}>
+                                    <div style={{ width: "305px" }}>
                                         {incrementSongNumber()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
                                     </div>
-                                    <div style={{ marginLeft: "-60px" }}><Link style={{ textDecoration: "none", color: "white" }} to={`/album/${song.album.id}`}>{song.album.name}</Link></div>
-                                    <div style={{ display: "flex" }}>
+                                    <div style={{ marginLeft: "-95px" }}><Link style={{ textDecoration: "none", color: "white" }} to={`/album/${song.album.id}`}>{song.album.name}</Link></div>
+                                    <div style={{ display: "flex", marginRight: "-75px" }}>
                                         {sessionUser && (
-                                            likedSongsList?.likedSongs?.some(e => e.id === song.id) ? <i onClick={(e) => { unlikeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#1ed760", cursor: "pointer" }} class="fa-solid fa-heart"></i> : <i onClick={(e) => { likeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#babbbb", cursor: "pointer" }} class="fa-regular fa-heart"></i>
+                                            likedSongsList?.likedSongs?.some(e => e.id === song.id) ? <i onClick={(e) => { unlikeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#1ed760", cursor: "pointer", marginLeft: "-1px" }} class="fa-solid fa-heart"></i> : <i onClick={(e) => { likeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#babbbb", cursor: "pointer" }} class="fa-regular fa-heart"></i>
                                         )}
-                                        <span>{song.song_length}</span>
+                                        <span style={{ width: "50px" }}>{song.song_length}</span>
                                         {sessionUser && (
                                             <button style={{ background: "none" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
                                         )}

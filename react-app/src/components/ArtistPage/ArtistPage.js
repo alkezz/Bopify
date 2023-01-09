@@ -110,9 +110,9 @@ const ArtistPage = () => {
         await dispatch(songLikeActions.getLikesSongs(sessionUser.id))
     }
     return (
-        <div className='artist-container' style={{ overflowX: "hidden", paddingBottom: "80px", width: "106.65%" }}>
+        <div className='artist-container' style={{ overflowX: "hidden", paddingBottom: "80px", width: "108.95%" }}>
             <div className='header-container' style={{ backgroundImage: `url(${artist.artist_img})`, backgroundRepeat: "no-repeat", backgroundSize: "100% 500px" }}>
-                <h1 style={{ fontSize: "70px", marginLeft: "65px", color: "white", marginTop: "150px" }}>{artist.name}</h1>
+                <h1 style={{ fontSize: "70px", marginLeft: "65px", color: "white", marginTop: "150px", textShadow: "3px 3px 2px rgba(0, 0, 0, 1)" }}>{artist.name}</h1>
             </div>
             <div className='artist-info-container' style={{ marginLeft: "40px" }}>
                 <h2 style={{ color: "white" }}>Popular</h2>
@@ -120,8 +120,8 @@ const ArtistPage = () => {
                     {!!songs && (
                         topFive.map((song) => {
                             return <div className='one-song' style={{ color: 'white', display: "flex", justifyContent: "space-between", marginLeft: "20px" }}>
-                                <div>
-                                    {incrementSongNumber()}&nbsp;<img style={{ width: "40px" }} src={song.album.albumPic} />&nbsp;<button onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ background: "none", border: "none", color: "white" }}>{song.name}</button>
+                                <div style={{ display: "flex", alignItems: "center" }}>
+                                    <div style={{ width: "10px" }}>{incrementSongNumber()}</div>&nbsp;<img style={{ width: "40px" }} src={song.album.albumPic} />&nbsp;<button onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ background: "none", border: "none", color: "white", cursor: "pointer" }}>{song.name}</button>
                                 </div>
                                 &nbsp;
                                 &nbsp;
@@ -129,7 +129,7 @@ const ArtistPage = () => {
                                     {sessionUser && (
                                         likedSongsList?.likedSongs?.some(e => e.id === song.id) ? <i onClick={(e) => { unlikeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#1ed760", cursor: "pointer" }} class="fa-solid fa-heart"></i> : <i onClick={(e) => { likeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#babbbb", cursor: "pointer" }} class="fa-regular fa-heart"></i>
                                     )}
-                                    {song.song_length}
+                                    <span style={{ width: "40px" }}>{song.song_length}</span>
                                     <div>
                                         <button style={{ background: "none" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
                                         {activeMenu === song.id && (
@@ -188,7 +188,7 @@ const ArtistPage = () => {
                 <div className='artist-album-list-container'>
                     {artist?.Albums && (
                         artist.Albums.map((album) => {
-                            return <div onClick={(e) => history.push(`/album/${album?.id}`)} className='album-card' style={{ cursor: "pointer" }}>
+                            return <div onClick={(e) => history.push(`/album/${album?.id}`)} className='album-card' style={{ cursor: "pointer", width: "fit-content" }}>
                                 <div className='album-image-container'>
                                     <img className='album-image' src={songs[0]?.album?.albumPic} />
                                     <p style={{ marginLeft: "15px", fontWeight: "700" }}>{album.name}</p>
@@ -201,37 +201,8 @@ const ArtistPage = () => {
             </div>
             <div className='artist-biography-container' style={{ marginLeft: "40px" }}>
                 <h2 style={{ color: "white" }}>About</h2>
-                <div className='artist-image-bio' style={{ color: "white", height: "750px", backgroundImage: `url(${artist.artist_img})`, backgroundRepeat: "no-repeat", backgroundSize: "1000px 600px" }}>
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <div style={{ backgroundColor: "#1e1e1e", marginLeft: "10%", width: "750px", textShadow: "1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000" }}>
-                        {artist.bio}
-                    </div>
+                <div className='artist-image-bio' style={{ color: "white", marginRight: "500px", fontSize: "18px" }}>
+                    {artist.bio}
                 </div>
             </div>
         </div>
