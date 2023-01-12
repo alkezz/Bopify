@@ -24,7 +24,10 @@ const DropDown = () => {
     }, [showMenu]);
     return (
         <div className='profile-dropdown-container'>
-            <button id="drop-down-button" onClick={openMenu}><i style={{ marginRight: "-15px", marginTop: "5px" }} class="fa-solid fa-user"></i><div style={{ marginTop: "5px" }}>{sessionUser.username}</div></button>
+            <button id="drop-down-button" onClick={openMenu}>
+                <i style={{ marginTop: "5px", marginRight: "18px", fontSize: "20px" }} class="fa-solid fa-circle-user"></i>
+                <div style={{ marginTop: "5px", width: "fit-content", marginRight: "20px", marginLeft: "-10px" }}>{sessionUser.username}</div>
+            </button>
             {showMenu && (
                 <div className='drop-down'>
                     <div>
