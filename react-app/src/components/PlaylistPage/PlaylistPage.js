@@ -31,7 +31,7 @@ const PlaylistPage = () => {
     let i = 0
     useEffect(async () => {
         if (!playlistId) {
-            return null
+            return <FourZeroFourPage />
         }
         if (!playlistState) {
             return null
@@ -68,7 +68,7 @@ const PlaylistPage = () => {
     }, [showMenu]);
     const playlistArray = Object.values(playlistState)
     const playlist = playlistArray.filter(playlist => Number(playlist.id) === Number(playlistId))[0]
-    if (playlistId > playlistArray.length) {
+    if (!playlist) {
         return (
             <FourZeroFourPage />
         )
