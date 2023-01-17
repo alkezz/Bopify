@@ -67,36 +67,36 @@ As a logged in user, you get to use all the features that are currently implemen
 
 ## Screenshots
 ### Landing Page (logged out)
-![image](https://user-images.githubusercontent.com/105993056/210889845-911b03a8-05d6-40e9-8885-69d49cb30f06.png)
+![image](https://user-images.githubusercontent.com/105993056/212988771-4b58eb21-5ee5-4bcc-9b59-76d2a5ae305b.png)
 
 ### Landing Page (logged in)
-![image](https://user-images.githubusercontent.com/105993056/210889917-12267714-7860-4765-bc80-a9e39264c4f6.png)
+![image](https://user-images.githubusercontent.com/105993056/212988840-b32c653e-ce1f-427d-b95e-50e7f2dfaf67.png)
 
 ### Login Page
-![image](https://user-images.githubusercontent.com/105993056/205544787-7839e34c-f41a-430d-a469-e09f62611b01.png)
+![image](https://user-images.githubusercontent.com/105993056/212988892-846f153e-013a-4254-a2cb-cce23d548ee9.png)
 Three users are provided to you to test out functionality of the website, just give them a click and you're good to go!
 
 ### Signup Page
-![image](https://user-images.githubusercontent.com/105993056/205544931-4ab5e662-8b75-41db-9b91-f9898c4641af.png)
+![image](https://user-images.githubusercontent.com/105993056/212988947-2b2ca748-0943-4f83-9fab-01b72b63518b.png)
 Two users are provided for you as well here, just like before give them a click and you'll be logged in as one of those users!
 
 ### Artist Page
-![image](https://user-images.githubusercontent.com/105993056/210890006-6026ec9c-f850-49a6-acc2-15097a76e1f4.png)
+![image](https://user-images.githubusercontent.com/105993056/212989065-6b8e2d72-f302-4e0b-bf2f-8a357228409d.png)
 
 ### Album Page
-![image](https://user-images.githubusercontent.com/105993056/210269572-eea48a14-3a3d-4e65-baa9-f3598910a3a8.png)
+![image](https://user-images.githubusercontent.com/105993056/212989135-0c050a93-512a-476e-ae05-5bb2e11bfcc0.png)
 
 ### Playlist Page
-![image](https://user-images.githubusercontent.com/105993056/210269670-c71c5e7d-cac4-45e0-bd04-fdb50b6f8ca0.png)
+![image](https://user-images.githubusercontent.com/105993056/212989252-070f5696-c439-44db-8fef-90c3c72b061a.png)
 
 ### Editing A Playlist
-![image](https://user-images.githubusercontent.com/105993056/205545238-633fded3-b23a-430c-80ed-b4077479dbdd.png)
+![image](https://user-images.githubusercontent.com/105993056/212989307-3c015e2f-25d4-416f-8c5b-1a148e960ba4.png)
 
 ### Liked Songs
-![image](https://user-images.githubusercontent.com/105993056/210890161-1c514a1d-2cbd-442e-91ff-1f43d45bd738.png)
+![image](https://user-images.githubusercontent.com/105993056/212989576-12632f6c-5402-4ae1-a9c1-a39b39111eb5.png)
 
 ### Search Page
-![image](https://user-images.githubusercontent.com/105993056/210890432-04ca73fa-3368-4540-8ec3-474003ea6c8f.png)
+![image](https://user-images.githubusercontent.com/105993056/212989625-3cf7d90e-aea5-40e5-aa27-b525c5f13d5d.png)
 
 ### Bottom NavBar Showing Music Playing
 ![image](https://user-images.githubusercontent.com/105993056/205545340-11003316-e21f-49cc-bfc9-c3d283a9bbcd.png)
