@@ -172,3 +172,15 @@ body{
     text-decoration: underline;
     color: white;
 }
+
+/* style={{ border: "none", background: "none", color: "#b3b3b3", cursor: "pointer" }} */
+
+.create-playlist-button{
+    border: none;
+    background: none;
+    color: #b3b3b3;
+    cursor: pointer;
+    margin-left: -5px;
+    font-size: 16px;
+    margin-top: -1px;
+}

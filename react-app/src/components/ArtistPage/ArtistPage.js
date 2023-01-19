@@ -116,7 +116,7 @@ const ArtistPage = () => {
             </div>
             <div className='artist-info-container' style={{ marginLeft: "40px" }}>
                 <h2 style={{ color: "white" }}>Popular</h2>
-                <div className='popular-songs-div' style={{ marginRight: "40px" }}>
+                <div className='popular-songs-div' style={{ marginRight: "50px" }}>
                     {!!songs && (
                         topFive.map((song) => {
                             return <div className='one-song' style={{ color: 'white', display: "flex", justifyContent: "space-between", marginLeft: "20px" }}>
@@ -137,7 +137,13 @@ const ArtistPage = () => {
                                                 <div>
                                                     <Link style={{ textDecoration: "none", color: "gray" }} to={`/album/${song.album.id}`}>Album Page</Link>
                                                     {sessionUser && (
-                                                        <button onClick={async (e) => await dispatch(audioActions.nextSong(song.id))} style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }}>Add to queue</button>
+                                                        <button onClick={async (e) => {
+                                                            await dispatch(audioActions.nextSong(song.id));
+                                                            setAddedToQueue(true)
+                                                            setTimeout(() => {
+                                                                setAddedToQueue(false)
+                                                            }, 1500)
+                                                        }} style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }}>Add to queue</button>
                                                     )}
                                                 </div>
                                                 <div>
@@ -178,7 +184,7 @@ const ArtistPage = () => {
                     )}
                     {addedToQueue && (
                         <div id='song-added-div' hidden>
-                            <div style={{ display: "flex", alignItems: "center", fontWeight: "700" }}>Added to Queue</div>
+                            <div style={{ display: "flex", alignItems: "center", fontWeight: "700", zIndex: "999" }}>Added to Queue</div>
                         </div>
                     )}
                 </div>

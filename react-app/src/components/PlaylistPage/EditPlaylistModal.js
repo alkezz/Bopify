@@ -5,7 +5,7 @@ import EditPlaylistForm from "./EditPlaylist";
 
 const EditPlaylistModal = ({ playlistId, playlist, onePlaylist }) => {
     const [showModal, setShowModal] = useState(false);
-
+    // document?.getElementById("submit-edit-button")?.addEventListener("click", setShowModal(false))
     return (
         <>
             <div onClick={() => setShowModal(true)}>
@@ -38,7 +38,7 @@ const EditPlaylistModal = ({ playlistId, playlist, onePlaylist }) => {
             </div>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <EditPlaylistForm playlistId={playlistId} onClick={() => setShowModal(false)} />
+                    <EditPlaylistForm setShowModal={setShowModal} playlistId={playlistId} onClick={() => setShowModal(false)} />
                 </Modal>
             )}
         </>

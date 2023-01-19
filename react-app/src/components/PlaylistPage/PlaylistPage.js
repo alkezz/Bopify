@@ -234,7 +234,7 @@ const PlaylistPage = () => {
                     )}
                     <div className='play-like-container' style={{ paddingLeft: "30px" }}>
                         <div>
-                            <button hidden={!sessionUser || onePlaylist?.Songs?.length === 0} onClick={listenToPlaylist} style={{ backgroundColor: "#1e1e1e", border: "none" }}>
+                            <button hidden={!sessionUser || onePlaylist?.Songs?.length === 0} onClick={listenToPlaylist} style={{ backgroundColor: "#1e1e1e", border: "none", cursor: "pointer" }}>
                                 <i style={{ color: "#1ed760" }} class="fa-solid fa-circle-play fa-4x"></i>
                             </button>
                         </div>
