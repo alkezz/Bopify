@@ -42,11 +42,6 @@ const Search = () => {
             setUsers(allUsers)
         })();
     }, [dispatch, fetch, setPlaylists, setAlbums, setArtists, setSongs, setUsers, searchShow])
-    console.log("users", users)
-    console.log("playlists", playlists)
-    console.log("albums", albums)
-    console.log("artists", artists)
-    console.log("songs", songs)
     const handleInput = (e) => {
         setSearchInput(e.target.value)
         if (e.target.value === "") {

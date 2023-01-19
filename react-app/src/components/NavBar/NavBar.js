@@ -24,14 +24,11 @@ const NavBar = () => {
   const playlistState = useSelector((state) => state.playlist)
   const audioState = useSelector((state) => state.audioPlayer)
   const followedPlaylistState = useSelector((state) => state.followedPlaylists)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [currentTime, setCurrentTime] = useState(0)
-  const [duration, setDuration] = useState(0)
+  const [isDisabled, setIsDisabled] = useState(false)
   const [userPlaylists, setUserPlaylists] = useState([])
   const [followingPlaylists, setFollowingPlaylists] = useState([])
   let allPlaylists
   let followedPlaylists
-  console.log(location.pathname === "/", "Location")
   useEffect(async () => {
     allPlaylists = await dispatch(playlistActions.getAllPlaylists())
     await dispatch(followedPlaylistActions.getFollowedPlaylists(sessionUser?.id))
@@ -86,6 +83,8 @@ const NavBar = () => {
     let new_playlist = await dispatch(playlistActions.createPlaylist(newPlaylist))
     if (new_playlist) {
       history.push(`/playlist/${new_playlist.id}`)
+      setIsDisabled(true)
+      setTimeout(() => setIsDisabled(false), 500)
     }
   }
   if (location.pathname === "/likes") {
@@ -107,10 +106,11 @@ const NavBar = () => {
           &nbsp;
           Your Library</Link>
         <br />
-        <Link onClick={createPlaylist} className='create-playlist-button'>
+        <button className='create-playlist-button' onClick={createPlaylist} disabled={isDisabled}>
           <i class="fa-solid fa-square-plus"></i>
           &nbsp;
-          Create playlist</Link>
+          Create playlist
+        </button>
         <Link to="/likes">
           <i class="fa-solid fa-heart"></i>
           &nbsp;
@@ -274,10 +274,11 @@ const NavBar = () => {
           &nbsp;
           Your Library</Link>
         <br />
-        <Link onClick={createPlaylist} className='create-playlist-button'>
+        <button className='create-playlist-button' onClick={createPlaylist} disabled={isDisabled}>
           <i class="fa-solid fa-square-plus"></i>
           &nbsp;
-          Create playlist</Link>
+          Create playlist
+        </button>
         <Link to="/likes">
           <i class="fa-solid fa-heart"></i>
           &nbsp;

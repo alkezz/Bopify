@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import "./EditPlaylist.css"
 import * as playlistActions from "../../store/playlist"
-const EditPlaylistForm = ({ playlistId }) => {
+const EditPlaylistForm = ({ playlistId, setShowModal }) => {
     const history = useHistory()
     const dispatch = useDispatch()
     const sessionUser = useSelector((state) => state.session.user)
@@ -66,6 +66,7 @@ const EditPlaylistForm = ({ playlistId }) => {
             if (newPlaylist) {
                 await dispatch(playlistActions.getOnePlaylist(playlistId))
                 await dispatch(playlistActions.getAllPlaylists())
+                await setShowModal(false)
             }
         } else if (img === undefined && description) {
             const editedPlaylist = {
@@ -77,6 +78,7 @@ const EditPlaylistForm = ({ playlistId }) => {
             if (newPlaylist) {
                 await dispatch(playlistActions.getOnePlaylist(playlistId))
                 await dispatch(playlistActions.getAllPlaylists())
+                await setShowModal(false)
             }
         } else if (img !== undefined && !description) {
             const picture = await fetch("/api/playlists/images/upload", {
@@ -93,6 +95,7 @@ const EditPlaylistForm = ({ playlistId }) => {
             if (newPlaylist) {
                 await dispatch(playlistActions.getOnePlaylist(playlistId))
                 await dispatch(playlistActions.getAllPlaylists())
+                await setShowModal(false)
             }
         } else {
             const picture = await fetch("/api/playlists/images/upload", {
@@ -109,6 +112,7 @@ const EditPlaylistForm = ({ playlistId }) => {
             if (newPlaylist) {
                 await dispatch(playlistActions.getOnePlaylist(playlistId))
                 await dispatch(playlistActions.getAllPlaylists())
+                await setShowModal(false)
             }
         }
     }
@@ -138,7 +142,7 @@ const EditPlaylistForm = ({ playlistId }) => {
                     </div>
                 </div>
                 <div id='submit-edit-button-div'>
-                    <button id='submit-edit-button' type='submit'>Save</button>
+                    <button style={{ cursor: "pointer" }} id='submit-edit-button' type='submit'>Save</button>
                 </div>
             </form>
             <div style={{ fontSize: "11.5px", marginTop: "10px", marginLeft: "10px" }}>

@@ -185,7 +185,6 @@ const AccountPage = () => {
                         <div className="profile-followed-playlists-container">
                             {followingPlaylists && (
                                 followingPlaylists.map((playlist) => {
-                                    console.log("PLAYLIST", playlist)
                                     return <div className='album-image-container' onClick={(e) => history.push(`/playlist/${playlist.id}`)}>
                                         <Link to={`/playlist/${playlist.id}`}>
                                             <img className='playlist-image' src={playlist.playlist_img} />

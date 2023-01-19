@@ -17,7 +17,7 @@ const AudioPlayer = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [current_track, setCurrentTrack] = useState(0);
     const [trackProgress, setTrackProgress] = useState()
-    const [volume, setVolume] = useState(0)
+    const [volume, setVolume] = useState(0.1)
     const history = useHistory()
     const location = useLocation()
     const dispatch = useDispatch()
@@ -29,6 +29,9 @@ const AudioPlayer = () => {
     const isReady = useRef(false);
     const { duration } = audioRef.current;
     useEffect(() => {
+        if (audioState?.current_song_playing[0]) {
+            setIsPlaying(true)
+        }
         if (isPlaying) {
             audioRef.current.play();
             audioRef.current.volume = volume
@@ -37,10 +40,11 @@ const AudioPlayer = () => {
             clearInterval(intervalRef.current);
             audioRef.current.pause();
         }
-    }, [isPlaying]);
+    }, [isPlaying, audioState?.current_song_playing[0]]);
     useEffect(() => {
         return () => {
             audioRef.current.pause();
+            audioRef.current.volume = volume
             clearInterval(intervalRef.current);
         }
     }, []);
@@ -48,11 +52,11 @@ const AudioPlayer = () => {
         audioRef.current.pause()
         audioRef.current = new Audio(audioState?.current_song_playing[0]?.song_url)
         setTrackProgress(audioRef.current.currentTime)
-        setVolume(0.01)
+        audioRef.current.volume = volume
         if (isReady.current) {
             audioRef.current.play()
             setIsPlaying(true)
-            setVolume(0.01)
+            audioRef.current.volume = volume
             startTimer()
         } else {
             isReady.current = true
@@ -104,20 +108,20 @@ const AudioPlayer = () => {
         if (audioState.queue.length > 0) {
             await dispatch(audioActions.skipSong())
             setCurrentTrack(audioState.current_song_playing[0].song_url)
-            setVolume(volume)
-            audioRef.current.volume = volume
+            setIsPlaying(true)
         } else {
             await dispatch(audioActions.skipSong())
         }
     }
 
     const goBack = () => {
-        setIsPlaying(false)
-        setCurrentTrack(audioState.current_song_playing[0].song_url)
-        setTrackProgress(0)
-        audioRef.current.currentTime = 0
-        setVolume(volume)
-        audioRef.current.volume = volume
+        if (audioState?.current_song_playing[0]?.song_url) {
+            setIsPlaying(false)
+            setCurrentTrack(audioState.current_song_playing[0].song_url)
+            setTrackProgress(0)
+            audioRef.current.currentTime = 0
+            audioRef.current.volume = volume
+        }
     }
 
     let skipSongButton
@@ -136,7 +140,11 @@ const AudioPlayer = () => {
             </button>
         )
     }
-    let playPauseButton
+    let playPauseButton = (
+        <button style={{ cursor: "pointer", background: "none", border: "none" }} onClick={() => setIsPlaying(true)}>
+            <i class="fa-solid fa-circle-play fa-3x"></i>
+        </button>
+    )
     if (isPlaying === true) {
         playPauseButton = (
             <button style={{ cursor: "pointer", background: "none", border: "none" }} onClick={() => setIsPlaying(false)}>
@@ -153,15 +161,21 @@ const AudioPlayer = () => {
     }
 
     let volumeButton
-    if (audioRef.current.volume !== 0) {
+    if (audioRef.current.volume !== 0 && audioRef.current.volume <= 0.3) {
         volumeButton = (
-            <button style={{ marginTop: "20px", display: "flex", alignItems: "center", background: "none", border: "none" }} onClick={(e) => audioRef.current.volume = 0}>
+            <button style={{ cursor: "pointer", marginTop: "20px", display: "flex", alignItems: "center", background: "none", border: "none", width: "50px" }} onClick={(e) => audioRef.current.volume = 0}>
                 <i class="fa-solid fa-volume-low"></i>
+            </button>
+        )
+    } else if (audioRef.current.volume !== 0 && audioRef.current.volume > 0.3) {
+        volumeButton = (
+            <button style={{ cursor: "pointer", marginTop: "20px", display: "flex", alignItems: "center", background: "none", border: "none", width: "50px" }} onClick={(e) => audioRef.current.volume = 0}>
+                <i class="fa-solid fa-volume-high"></i>
             </button>
         )
     } else {
         volumeButton = (
-            <button style={{ marginTop: "20px", display: "flex", alignItems: "center", background: "none", border: "none" }} onClick={(e) => { setVolume(volume); audioRef.current.volume = volume; }}>
+            <button style={{ cursor: "pointer", marginTop: "20px", display: "flex", alignItems: "center", background: "none", border: "none", width: "50px" }} onClick={(e) => { setVolume(volume); audioRef.current.volume = volume; }}>
                 <i class="fa-solid fa-volume-xmark"></i>
             </button>
         )
@@ -177,7 +191,7 @@ const AudioPlayer = () => {
                     {skipSongButton}
                 </div>
                 <div style={{ marginTop: "-10px", marginLeft: "250px", display: "flex" }}>
-                    <span style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>{trackProgress ? calculateTime(trackProgress) : "--:--"}</span>
+                    <span style={{ display: "flex", alignItems: "center", marginTop: "20px", width: "50px" }}>{trackProgress ? calculateTime(trackProgress) : "--:--"}</span>
                     &nbsp;
                     <div className='track-length-range'>
                         <input
@@ -193,7 +207,7 @@ const AudioPlayer = () => {
                         />
                     </div>
                     &nbsp;
-                    <span style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>{audioState?.current_song_playing[0]?.song_length ? audioState?.current_song_playing[0]?.song_length : "--:--"}</span>
+                    <span style={{ display: "flex", alignItems: "center", marginTop: "20px", width: "50px", marginLeft: "5px" }}>{audioState?.current_song_playing[0]?.song_length ? audioState?.current_song_playing[0]?.song_length : "--:--"}</span>
                     {/* <span style={{ display: "flex", alignItems: "center" }}><i class="fa-solid fa-volume-low"></i></span> */}
                     {volumeButton}
                     &nbsp;
