@@ -166,7 +166,12 @@ const AlbumPage = () => {
                                     &nbsp;
                                     &nbsp;
                                     <div style={{ display: "flex", flexDirection: "column" }}>
-                                        <Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
+                                        {sessionUser && (
+                                            <Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
+                                        )}
+                                        {!sessionUser && (
+                                            <Link to="/login" style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
+                                        )}
                                         <Link style={{ textDecoration: "none", color: "white", marginTop: "8px" }} to={`/artist/${album.artist.id}`}>{album.artist.name}</Link>
                                     </div>
                                 </div>

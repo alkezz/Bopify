@@ -121,7 +121,16 @@ const ArtistPage = () => {
                         topFive.map((song) => {
                             return <div className='one-song' style={{ color: 'white', display: "flex", justifyContent: "space-between", marginLeft: "20px" }}>
                                 <div style={{ display: "flex", alignItems: "center" }}>
-                                    <div style={{ width: "10px" }}>{incrementSongNumber()}</div>&nbsp;<img style={{ width: "40px" }} src={song.album.albumPic} />&nbsp;<button onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ background: "none", border: "none", color: "white", cursor: "pointer" }}>{song.name}</button>
+                                    {sessionUser && (
+                                        <>
+                                            <div style={{ width: "10px" }}>{incrementSongNumber()}</div>&nbsp;<img style={{ width: "40px" }} src={song.album.albumPic} />&nbsp;<button onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ background: "none", border: "none", color: "white", cursor: "pointer" }}>{song.name}</button>
+                                        </>
+                                    )}
+                                    {!sessionUser && (
+                                        <>
+                                            <div style={{ width: "10px" }}>{incrementSongNumber()}</div>&nbsp;<img style={{ width: "40px" }} src={song.album.albumPic} />&nbsp;<button onClick={(e) => history.push("/login")} style={{ background: "none", border: "none", color: "white", cursor: "pointer" }}>{song.name}</button>
+                                        </>
+                                    )}
                                 </div>
                                 &nbsp;
                                 &nbsp;

@@ -290,7 +290,16 @@ const PlaylistPage = () => {
                             {onePlaylist.Songs.map((song) => {
                                 return <div className='playlist-song-container' style={{ paddingBottom: "10px", listStyle: "none", display: "flex", justifyContent: "space-between" }}>
                                     <div style={{ width: "305px" }}>
-                                        {incrementSongNumber()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
+                                        {sessionUser && (
+                                            <>
+                                                {incrementSongNumber()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link onClick={async (e) => await dispatch(audioActions.addSong(song.id))} style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
+                                            </>
+                                        )}
+                                        {!sessionUser && (
+                                            <>
+                                                {incrementSongNumber()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link to="/login" style={{ textDecoration: "none", color: "white" }}>{song.name}</Link>
+                                            </>
+                                        )}
                                     </div>
                                     <div style={{ marginLeft: "-95px" }}><Link style={{ textDecoration: "none", color: "white" }} to={`/album/${song.album.id}`}>{song.album.name}</Link></div>
                                     <div style={{ display: "flex", marginRight: "-75px" }}>
