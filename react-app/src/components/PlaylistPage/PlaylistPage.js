@@ -306,24 +306,30 @@ const PlaylistPage = () => {
                                         {sessionUser && (
                                             likedSongsList?.likedSongs?.some(e => e.id === song.id) ? <i onClick={(e) => { unlikeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#1ed760", cursor: "pointer", marginLeft: "-1px" }} class="fa-solid fa-heart"></i> : <i onClick={(e) => { likeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#babbbb", cursor: "pointer" }} class="fa-regular fa-heart"></i>
                                         )}
-                                        <span style={{ width: "50px" }}>{song.song_length}</span>
-                                        {sessionUser && (
-                                            <button style={{ background: "none" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
+                                        {!sessionUser && (
+                                            <i onClick={(e) => history.push("/login")} style={{ paddingRight: "20px", color: "#babbbb", cursor: "pointer", marginLeft: "-1px" }} class="fa-regular fa-heart"></i>
                                         )}
+                                        <span style={{ width: "50px" }}>{song.song_length}</span>
+                                        <button style={{ background: "none" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>
                                         {activeMenu === song.id && (
                                             <div className='active-playlist-song-dropdown'>
                                                 <div>
-                                                    <Link style={{ textDecoration: "none", color: "gray" }} to={`/album/${song.album.id}`}>Album Page</Link>
+                                                    {sessionUser && (
+                                                        <Link className="yes" to={`/album/${song.album.id}`}>Album Page</Link>
+                                                    )}
+                                                    {!sessionUser && (
+                                                        <Link className="logged-out-album-page" to={`/album/${song.album.id}`}>Album Page</Link>
+                                                    )}
                                                     <br />
                                                     {sessionUser && (
-                                                        <button onClick={async (e) => {
+                                                        <button className="add-to-queue-button" onClick={async (e) => {
                                                             await dispatch(audioActions.nextSong(song.id)); setAddedToQueue(true); setTimeout(() => {
                                                                 setAddedToQueue(false)
                                                             }, 1500)
-                                                        }} style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }}>Add to queue</button>
+                                                        }}>Add to queue</button>
                                                     )}
                                                 </div>
-                                                <button hidden={sessionUser.id !== onePlaylist.User.id} style={{ background: 'none', color: "gray", cursor: "pointer" }} onClick={async (e) => {
+                                                <button className="remove-song-button" hidden={!sessionUser || sessionUser.id !== onePlaylist.User.id} onClick={async (e) => {
                                                     {
                                                         deleteSong(e, song.id);
                                                         setUpdate(!update);
@@ -331,15 +337,15 @@ const PlaylistPage = () => {
                                                 }}>Remove song</button>
                                                 <div>
                                                     {sessionUser && (
-                                                        <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={openMenu}>Add song to playlist</button>
+                                                        <button className='add-song-to-playlist-button' onClick={openMenu}>Add song to playlist</button>
                                                     )}
                                                     {showMenu && (
                                                         <div className='add-song-dropdown'>
-                                                            <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={createPlaylist}>Create Playlist</button>
-                                                            <div style={{ borderBottom: "1px solid white" }}></div>
+                                                            <button className="create-playlist-button-dropdown" onClick={createPlaylist}>Create Playlist</button>
+                                                            <div style={{ borderBottom: "1px solid #808080", marginBottom: "5px" }}></div>
                                                             {userPlaylistListNoDuplicate.map((playlist) => {
                                                                 return <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                                                                    <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={async (e) => {
+                                                                    <button className="create-playlist-button-dropdown" onClick={async (e) => {
                                                                         await fetch(`/api/playlists/${playlist.id}/add_song/${song.id}`, {
                                                                             method: "POST"
                                                                         });

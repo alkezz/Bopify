@@ -20,3 +20,13 @@
     box-shadow: 5px 5px 12px 5px black;
     margin-top: -15px;
 }
+
+.active-song-dropdown{
+    position: absolute;
+    z-index: 99999;
+    background-color: black;
+    /* width: 300px; */
+    /* margin-left: -10px; */
+    /* margin-top: 20px; */
+    margin-left: 4%;
+}

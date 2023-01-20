@@ -53,7 +53,8 @@
     z-index: 99999;
     background-color: black;
     /* width: 300px; */
-    left: 87%;
+    margin-left: -30px;
+    margin-top: 20px;
 }
 
 .playlist-page-image{
@@ -61,4 +62,67 @@
     width: 230px;
     height: 230px;
     margin-top: 5.5px;
+}
+
+.yes{
+    text-decoration: none;
+    color: gray;
+    font-size: 13px;
+    margin-left: 6px;
+}
+.yes:hover{
+    color: white;
+}
+
+.logged-out-album-page{
+    text-decoration: none;
+    color: gray;
+    font-size: 13px;
+    margin-left: 20px;
+    padding-right: 10px;
+    margin-right: 20px;
+}
+.logged-out-album-page:hover{
+    color: white;
+}
+
+.add-to-queue-button{
+    color: gray;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.add-to-queue-button:hover{
+    color: white;
+}
+
+
+.remove-song-button{
+    color: gray;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.remove-song-button:hover{
+    color: white
+}
+
+.add-song-to-playlist-button{
+    color: gray;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.add-song-to-playlist-button:hover{
+    color: white;
+}
+
+.create-playlist-button-dropdown{
+    color: gray;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.create-playlist-button-dropdown:hover{
+    color: white;
 }
