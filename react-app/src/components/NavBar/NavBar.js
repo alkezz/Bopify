@@ -33,31 +33,13 @@ const NavBar = () => {
     allPlaylists = await dispatch(playlistActions.getAllPlaylists())
     await dispatch(followedPlaylistActions.getFollowedPlaylists(sessionUser?.id))
   }, [dispatch, sessionUser?.id])
-  // useEffect(() => {
-  //   const seconds = Math.floor(audioPlayer?.current?.duration)
-  //   if (!isNaN(seconds)) {
-  //     setDuration(seconds)
-  //     progressBar.current.max = seconds
-  //   }
-  //   // (async () => {
-  //   //   if (sessionUser) {
-  //   //     const playlistFollowRes = await fetch(`/api/users/${sessionUser.id}/followed-playlists`)
-  //   //     const playlistFollowsData = await playlistFollowRes.json()
-  //   //     setFollowingPlaylists(playlistFollowsData.followedPlaylists)
-  //   //   }
-  //   // })();
-  // }, [setFollowingPlaylists, isPlaying, audioPlayer?.current?.loadedmetadata, audioPlayer?.current?.readyState])
   if (location.pathname === "/" && topNav) {
-    topNav.style.backgroundColor = "#111111"
+    topNav.style.background = "#111111"
     topNav.style.backgroundImage = "none"
   }
   if (location.pathname === "/login" && topNav) {
-    topNav.style.backgroundColor = "white"
+    topNav.style.background = "white"
   }
-  // if (location.pathname.includes("playlist") && topNav) {
-  //   topNav.style.backgroundColor = "#111111"
-  //   topNav.style.backgroundImage = "none"
-  // }
   const playlistArray = Object.values(playlistState)
   const followedPlaylistArray = Object.values(followedPlaylistState)
   let userPlaylistList
@@ -246,7 +228,7 @@ const NavBar = () => {
         <div className='logged-out-text'>
           &nbsp;
           <div style={{ fontSize: "13px", marginLeft: "12px", marginBottom: "5px" }}>
-            PREVIEW OF SPOTIFY
+            PREVIEW OF BOPIFY
           </div>
           <div style={{ marginLeft: "12px", fontWeight: "550" }}>
             Sign up to get unlimited songs and podcasts with occasional ads. No credit card needed.
