@@ -13,7 +13,7 @@ input[type=range] {
     display: none;
 } */
 input[type=range]:hover {
-    background: #1ed760;
+  background: #1ed760;
 	transition: background 0.2s ease;
 }
 input[type="range"]::-webkit-slider-thumb {

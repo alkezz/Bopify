@@ -14,10 +14,11 @@ import ReactAudioPlayer from 'react-audio-player';
 import "./AudioPlayer.css"
 
 const AudioPlayer = () => {
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(true);
     const [current_track, setCurrentTrack] = useState(0);
     const [trackProgress, setTrackProgress] = useState()
     const [volume, setVolume] = useState(0.1)
+    const [update, setUpdate] = useState(false)
     const history = useHistory()
     const location = useLocation()
     const dispatch = useDispatch()
@@ -29,10 +30,8 @@ const AudioPlayer = () => {
     const isReady = useRef(false);
     const { duration } = audioRef.current;
     useEffect(() => {
-        if (audioState?.current_song_playing[0]) {
-            setIsPlaying(true)
-        }
         if (isPlaying) {
+            isReady.current = true
             audioRef.current.play();
             audioRef.current.volume = volume
             startTimer()
@@ -40,7 +39,7 @@ const AudioPlayer = () => {
             clearInterval(intervalRef.current);
             audioRef.current.pause();
         }
-    }, [isPlaying, audioState?.current_song_playing[0]]);
+    }, [isPlaying, update, setUpdate]);
     useEffect(() => {
         return () => {
             audioRef.current.pause();
@@ -62,7 +61,6 @@ const AudioPlayer = () => {
             isReady.current = true
         }
     }, [audioState?.current_song_playing[0]?.song_url])
-
     const currentPercentage = duration ? `${(trackProgress / duration) * 100}%` : '0%';
     const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))`;
 
@@ -119,6 +117,7 @@ const AudioPlayer = () => {
             setIsPlaying(false)
             setCurrentTrack(audioState.current_song_playing[0].song_url)
             setTrackProgress(0)
+            setIsPlaying(true)
             audioRef.current.currentTime = 0
             audioRef.current.volume = volume
         }
@@ -145,7 +144,7 @@ const AudioPlayer = () => {
             <i class="fa-solid fa-circle-play fa-3x"></i>
         </button>
     )
-    if (isPlaying === true) {
+    if (isPlaying && audioState?.current_song_playing[0]?.song_url) {
         playPauseButton = (
             <button style={{ cursor: "pointer", background: "none", border: "none" }} onClick={() => setIsPlaying(false)}>
                 <i class="fa-solid fa-circle-pause fa-3x"></i>
@@ -180,7 +179,6 @@ const AudioPlayer = () => {
             </button>
         )
     }
-
     return (
         <>
 
