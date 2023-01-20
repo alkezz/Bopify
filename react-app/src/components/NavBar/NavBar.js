@@ -147,7 +147,9 @@ const NavBar = () => {
                   <Link id='bottom-nav-artist-link' to={`/artist/${audioState.current_song_playing[0].album.artist.id}`}>{audioState.current_song_playing[0].album.artist.name}</Link>
                 </div>
               </div>
-              <AudioPlayer />
+              <div style={{ marginLeft: "50px" }}>
+                <AudioPlayer />
+              </div>
             </div>
           </div>
         )
@@ -155,7 +157,7 @@ const NavBar = () => {
     } else {
       bottomnav = (
         <div className='bottom-div-container'>
-          <div style={{ marginLeft: "290px" }}>
+          <div style={{ marginLeft: "470px" }}>
             <AudioPlayer />
           </div>
         </div>
@@ -315,7 +317,9 @@ const NavBar = () => {
                   <Link id='bottom-nav-artist-link' to={`/artist/${audioState.current_song_playing[0].album.artist.id}`}>{audioState.current_song_playing[0].album.artist.name}</Link>
                 </div>
               </div>
-              <AudioPlayer />
+              <div style={{ marginLeft: "50px" }}>
+                <AudioPlayer />
+              </div>
             </div>
           </div>
         )
@@ -323,7 +327,7 @@ const NavBar = () => {
     } else {
       bottomnav = (
         <div className='bottom-div-container'>
-          <div style={{ marginLeft: "420px" }}>
+          <div style={{ marginLeft: "470px" }}>
             <AudioPlayer />
           </div>
         </div>

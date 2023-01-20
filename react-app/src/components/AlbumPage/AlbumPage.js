@@ -191,29 +191,35 @@ const AlbumPage = () => {
                                         {activeMenu === song.id && (
                                             <div className='active-song-dropdown'>
                                                 <div>
-                                                    <Link style={{ textDecoration: "none", color: "gray" }} to={`/album/${song.album.id}`}>Album Page</Link>
                                                     {sessionUser && (
-                                                        <button onClick={async (e) => {
+                                                        <Link className="yes" to={`/album/${song.album.id}`}>Album Page</Link>
+                                                    )}
+                                                    {!sessionUser && (
+                                                        <Link className="logged-out-album-page" to={`/album/${song.album.id}`}>Album Page</Link>
+                                                    )}
+                                                    <br />
+                                                    {sessionUser && (
+                                                        <button className="add-to-queue-button" onClick={async (e) => {
                                                             await dispatch(audioActions.nextSong(song.id));
                                                             setAddedToQueue(true)
                                                             setTimeout(() => {
                                                                 setAddedToQueue(false)
                                                             }, 1500)
 
-                                                        }} style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }}>Add to queue</button>
+                                                        }}>Add to queue</button>
                                                     )}
                                                 </div>
                                                 <div>
                                                     {sessionUser && (
-                                                        <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={openMenu}>Add song to playlist</button>
+                                                        <button className='add-song-to-playlist-button' onClick={openMenu}>Add song to playlist</button>
                                                     )}
                                                     {showMenu && (
                                                         <div className='add-song-dropdown'>
-                                                            <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={createPlaylist}>Create Playlist</button>
+                                                            <button className="create-playlist-button-dropdown" onClick={createPlaylist}>Create Playlist</button>
                                                             <div style={{ borderBottom: "1px solid white" }}></div>
                                                             {userPlaylistList.map((playlist) => {
                                                                 return <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                                                                    <button style={{ color: "gray", background: 'none', border: "none", cursor: "pointer" }} onClick={async (e) => {
+                                                                    <button className="create-playlist-button-dropdown" onClick={async (e) => {
                                                                         await fetch(`/api/playlists/${playlist.id}/add_song/${song.id}`, {
                                                                             method: "POST"
                                                                         });
