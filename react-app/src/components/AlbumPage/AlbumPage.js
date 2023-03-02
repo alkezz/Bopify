@@ -93,10 +93,6 @@ const AlbumPage = () => {
         await dispatch(audioActions.addAlbum(albumId))
     }
 
-    // if (sessionUser) {
-    //     if (likedSongReducer)
-    // }
-
     const likeSong = async (e, id) => {
         e.preventDefault()
         setUpdate(true)
@@ -179,12 +175,6 @@ const AlbumPage = () => {
                                     {sessionUser && (
                                         likedSongsList?.likedSongs?.some(e => e.id === song.id) ? <i onClick={(e) => { unlikeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#1ed760", cursor: "pointer" }} class="fa-solid fa-heart"></i> : <i onClick={(e) => { likeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#babbbb", cursor: "pointer" }} class="fa-regular fa-heart"></i>
                                     )}
-                                    {/* {likedSongsList?.likedSongs?.some(likedSong => likedSong.id === song.id) && (
-                                        <i onClick={(e) => { unlikeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-solid fa-heart"></i>
-                                    )}
-                                    {likedSongsList?.likedSongs?.some(likedSong => likedSong.id !== song.id) && (
-                                        <i onClick={(e) => { likeSong(e, song.id); setUpdate(!update) }} style={{ paddingRight: "20px", color: "#babbbb" }} class="fa-regular fa-heart"></i>
-                                    )} */}
                                     <span style={{ width: "50px" }}>{song.song_length}</span>
                                     <div>
                                         <button style={{ background: "none" }} id='song-dropdown' onClick={(e) => activeMenu === song.id ? setActiveMenu(null) : setActiveMenu(song.id)}>...</button>

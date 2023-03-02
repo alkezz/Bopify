@@ -108,6 +108,8 @@ body{
 
 .user-playlist-div{
     margin-left: 20px;
+    height: 500px;
+    overflow-y: auto;
 }
 
 .fa-solid:hover{

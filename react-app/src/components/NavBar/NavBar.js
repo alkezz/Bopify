@@ -52,10 +52,17 @@ const NavBar = () => {
   let navbar
   let bottomnav
   let playPauseButton
+  const onHover = () => {
+    document.getElementById("test").style.color = "yellow"
+  }
+  const onMouseLeave = () => {
+    document.getElementById("test").style.color = "white"
+  }
+
   const createPlaylist = async (e) => {
-    if (userPlaylistLength > 5) {
-      return window.alert("You can only create 5 playlists max!")
-    }
+    // if (userPlaylistLength > 5) {
+    //   return window.alert("You can only create 5 playlists max!")
+    // }
     e.preventDefault()
     const newPlaylist = {
       "name": `My Playlist #${userPlaylistLength}`,
@@ -99,17 +106,17 @@ const NavBar = () => {
           Liked Songs</Link>
         <div style={{ borderBottom: "1px solid gray" }}><br /></div>
         <br />
-        <div className='user-playlist-div'>
-          <UserPlaylist />
-        </div>
-        <div className='user-playlist-div'>
-          {followedPlaylistArray && (
-            followedPlaylistArray.map((playlist) => {
-              return <div>
-                <Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link>
-              </div>
-            })
-          )}
+        <div style={{ overflowY: "scroll" }}>
+          <div className='user-playlist-div'>
+            <UserPlaylist />
+            {followedPlaylistArray && (
+              followedPlaylistArray.map((playlist) => {
+                return <div>
+                  <Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link>
+                </div>
+              })
+            )}
+          </div>
         </div>
       </div>
     )
@@ -117,7 +124,7 @@ const NavBar = () => {
       <nav id="top-navbar" style={{ backgroundColor: "#513a9e", backgroundImage: "none" }}>
         <div style={{ marginRight: "30px" }}>
           <Link to={{ pathname: "https://github.com/alkezz/aA2022-Spotify-Clone" }} target="_blank">
-            <i style={{ color: "white", marginTop: "20%" }} class="fa-brands fa-github fa-lg"></i>
+            <i style={{ color: "white", marginTop: "20%" }} className="fa-brands fa-github fa-lg"></i>
           </Link>
           &nbsp;
           &nbsp;
@@ -269,17 +276,17 @@ const NavBar = () => {
           Liked Songs</Link>
         <div style={{ borderBottom: "1px solid gray" }}><br /></div>
         <br />
-        <div className='user-playlist-div'>
-          <UserPlaylist />
-        </div>
-        <div className='user-playlist-div'>
-          {followedPlaylistArray && (
-            followedPlaylistArray.map((playlist) => {
-              return <div>
-                <Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link>
-              </div>
-            })
-          )}
+        <div style={{ overflowY: "scroll" }}>
+          <div className='user-playlist-div'>
+            <UserPlaylist />
+            {followedPlaylistArray && (
+              followedPlaylistArray.map((playlist) => {
+                return <div>
+                  <Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link>
+                </div>
+              })
+            )}
+          </div>
         </div>
       </div>
     )
