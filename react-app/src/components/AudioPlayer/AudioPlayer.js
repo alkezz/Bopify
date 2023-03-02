@@ -10,7 +10,7 @@ import greenLogo from "../../assets/new_bopify_logo-removebg-preview.png"
 import * as playlistActions from "../../store/playlist"
 import * as audioActions from "../../store/audioplayer"
 import * as followedPlaylistActions from "../../store/followedplaylists"
-import ReactAudioPlayer from 'react-audio-player';
+import Slider from '@mui/material/Slider';
 import "./AudioPlayer.css"
 
 const AudioPlayer = () => {
@@ -211,6 +211,7 @@ const AudioPlayer = () => {
                     &nbsp;
                     &nbsp;
                     <div className='volume-range'>
+                        {/*<Slider aria-label="Volume" value={volume} onChange={(e) => onVolumeChange(e.target.value)} step={0.1} min={0} max={1} />*/}
                         <input
                             type='range'
                             value={volume}

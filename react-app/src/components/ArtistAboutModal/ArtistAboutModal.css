@@ -1,0 +1,7 @@
+.growImage{
+    transition: all .5s ease-in-out;
+    margin-bottom: 20px;
+}
+.growImage:hover{
+    transform: scale(1.01);
+}
