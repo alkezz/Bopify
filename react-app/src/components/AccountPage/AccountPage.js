@@ -6,6 +6,7 @@ import ProfilePagePlaylists from "../ProfilePagePlaylists/ProfilePagePlaylists";
 import ProfilePageFollowedPlaylists from "../ProfilePageFollowedPlaylists/ProfilePageFollowedPlaylists";
 import ProfilePageFollowing from "../ProfilePageFollowing/ProfilePageFollowing";
 import ProfilePageFollowers from "../ProfilePageFollowers/ProfilePageFollowers";
+import FourZeroFourPage from '../404Page/404Page';
 import "./AccountPage.css"
 
 const AccountPage = () => {
@@ -62,6 +63,7 @@ const AccountPage = () => {
         const data = await res.json()
         userFollowing.push(data)
     })
+    if (userId > allUsers?.users?.length) return <FourZeroFourPage />
     let userFollowingList = []
     let userFollowerList = []
     for (let i = 0; i < allUsers?.users?.length; i++) {
