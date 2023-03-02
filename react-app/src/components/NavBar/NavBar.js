@@ -52,6 +52,13 @@ const NavBar = () => {
   let navbar
   let bottomnav
   let playPauseButton
+  const onHover = () => {
+    document.getElementById("test").style.color = "yellow"
+  }
+  const onMouseLeave = () => {
+    document.getElementById("test").style.color = "white"
+  }
+
   const createPlaylist = async (e) => {
     if (userPlaylistLength > 5) {
       return window.alert("You can only create 5 playlists max!")
@@ -117,7 +124,7 @@ const NavBar = () => {
       <nav id="top-navbar" style={{ backgroundColor: "#513a9e", backgroundImage: "none" }}>
         <div style={{ marginRight: "30px" }}>
           <Link to={{ pathname: "https://github.com/alkezz/aA2022-Spotify-Clone" }} target="_blank">
-            <i style={{ color: "white", marginTop: "20%" }} class="fa-brands fa-github fa-lg"></i>
+            <i style={{ color: "white", marginTop: "20%" }} className="fa-brands fa-github fa-lg"></i>
           </Link>
           &nbsp;
           &nbsp;

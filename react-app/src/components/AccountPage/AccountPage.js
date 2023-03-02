@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useDeferredValue } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useHistory } from "react-router-dom";
-import { followPlaylist } from "../../store/followedplaylists";
 import * as followActions from "../../store/follower"
+import ProfilePagePlaylists from "../ProfilePagePlaylists/ProfilePagePlaylists";
+import ProfilePageFollowedPlaylists from "../ProfilePageFollowedPlaylists/ProfilePageFollowedPlaylists";
+import ProfilePageFollowing from "../ProfilePageFollowing/ProfilePageFollowing";
+import ProfilePageFollowers from "../ProfilePageFollowers/ProfilePageFollowers";
 import "./AccountPage.css"
 
 const AccountPage = () => {
     const sessionUser = useSelector((state) => state.session.user)
     const playlistState = useSelector((state) => state.playlist)
     const followState = useSelector((state) => state.follows.current_followed_user_ids)
-    const Dstate = useSelector((state) => state)
     const dispatch = useDispatch()
     let { userId } = useParams()
     const history = useHistory()
@@ -20,8 +21,6 @@ const AccountPage = () => {
     const [profileFollowers, setProfileFollowers] = useState([])
     const [sessionUserFollowing, setSessionUserFollowing] = useState([])
     const [followingPlaylists, setFollowingPlaylists] = useState([])
-    const [following, setFollowing] = useState([])
-    const [isFollowing, setIsFollowing] = useState()
     const [update, setUpdate] = useState(true)
     document.body.style = 'background: #1e1e1e';
     const userFollowing = []
@@ -40,12 +39,6 @@ const AccountPage = () => {
             if (sessionUser) {
                 const userFollowersArray = []
                 await dispatch(followActions.userFollowList(sessionUser.id))
-                // followData.current_followed_user_ids.forEach(async (id) => {
-                //     const user = await fetch(`/api/users/${id}`)
-                //     const data = await user.json()
-                //     await userFollowersArray.push(data.username)
-                //     setFollowing(userFollowersArray)
-                // })
             }
         })();
         (async () => {
@@ -57,11 +50,6 @@ const AccountPage = () => {
             const playlistFollowsData = await playlistFollowRes.json()
             setFollowingPlaylists(playlistFollowsData.followedPlaylists)
         })();
-        // followState.forEach(async (id) => {
-        //     const response = await fetch(`/api/users/${id}`)
-        //     const data = await response.json()
-        //     userFollowing.push(data.username)
-        // })
         (async () => {
             if (sessionUser) {
                 const data = await dispatch(followActions.userFollowList(sessionUser?.id))
@@ -69,13 +57,11 @@ const AccountPage = () => {
             }
         })();
     }, [sessionUser?.id, setSessionUserFollowing, userId, setUser, dispatch, setCurrentUserFollowers, setProfileFollowers, update, setFollowingPlaylists])
-    // setFollowing(userFollowing)
     profileFollowers?.current_followed_user_ids?.map(async (id) => {
         const res = await fetch(`/api/users/${id}`)
         const data = await res.json()
         userFollowing.push(data)
     })
-    // allUsers.users.filter((id) => )
     let userFollowingList = []
     let userFollowerList = []
     for (let i = 0; i < allUsers?.users?.length; i++) {
@@ -169,62 +155,20 @@ const AccountPage = () => {
                     <div className="profile-content">
                         <h2 style={{ color: "white" }}>Playlists</h2>
                         <div className="profile-playlists-container">
-                            {userPlaylistList && (
-                                userPlaylistList.map((playlist) => {
-                                    return <div className='album-image-container' onClick={(e) => history.push(`/playlist/${playlist.id}`)}>
-                                        <Link to={`/playlist/${playlist.id}`}>
-                                            <img className='playlist-image' src={playlist.playlist_img} />
-                                        </Link>
-                                        <p style={{ marginLeft: "15px", fontWeight: "700" }}>{playlist.name}</p>
-                                        <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>By {playlist.User.username}</span>
-                                    </div>
-                                })
-                            )}
+                            <ProfilePagePlaylists userPlaylistList={userPlaylistList} />
                         </div>
                         <h2 style={{ color: "white" }}>Followed Playlists</h2>
                         <div className="profile-followed-playlists-container">
-                            {followingPlaylists && (
-                                followingPlaylists.map((playlist) => {
-                                    return <div className='album-image-container' onClick={(e) => history.push(`/playlist/${playlist.id}`)}>
-                                        <Link to={`/playlist/${playlist.id}`}>
-                                            <img className='playlist-image' src={playlist.playlist_img} />
-                                        </Link>
-                                        <p style={{ marginLeft: "15px", fontWeight: "700" }}>{playlist.name}</p>
-                                        <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>By {playlist.User.username}</span>
-                                    </div>
-                                })
-                            )}
+                            <ProfilePageFollowedPlaylists followingPlaylists={followingPlaylists} />
                         </div>
                     </div>
                     <h2 style={{ color: "white" }}>Following</h2>
                     <div className="followed-users-container" style={{ display: "flex", flexDirection: "row" }}>
-                        {userFollowingList?.map((follower) => {
-                            return <div className="follower-container" onClick={(e) => history.push(`/user/${follower.id}`)}>
-                                <div className="follower-profile-pic">
-                                    {profilePic}
-                                </div>
-                                {follower.username}
-                                <div>
-                                    <br />
-                                    Profile
-                                </div>
-                            </div>
-                        })}
+                        <ProfilePageFollowing userFollowingList={userFollowingList} profilePic={profilePic} />
                     </div>
                     <h2 style={{ color: "white" }}>Followers</h2>
                     <div className="followed-users-container" style={{ display: "flex", flexDirection: "row" }}>
-                        {userFollowerList?.map((follower) => {
-                            return <div className="follower-container" onClick={(e) => history.push(`/user/${follower.id}`)}>
-                                <div className="follower-profile-pic">
-                                    {profilePic}
-                                </div>
-                                {follower.username}
-                                <div>
-                                    <br />
-                                    Profile
-                                </div>
-                            </div>
-                        })}
+                        <ProfilePageFollowers userFollowerList={userFollowerList} profilePic={profilePic} />
                     </div>
                 </div>)
         } else {
@@ -256,61 +200,19 @@ const AccountPage = () => {
                     <div className="profile-content">
                         <h2 style={{ color: "white" }}>Playlists</h2>
                         <div className="profile-playlists-container">
-                            {userPlaylistList && (
-                                userPlaylistList.map((playlist) => {
-                                    return <div className='album-image-container' onClick={(e) => history.push(`/playlist/${playlist.id}`)}>
-                                        <Link to={`/playlist/${playlist.id}`}>
-                                            <img className='playlist-image' src={playlist.playlist_img} />
-                                        </Link>
-                                        <p style={{ marginLeft: "15px", fontWeight: "700" }}>{playlist.name}</p>
-                                        <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>By {playlist.User.username}</span>
-                                    </div>
-                                })
-                            )}
+                            <ProfilePagePlaylists userPlaylistList={userPlaylistList} />
                         </div>
                         <h2 style={{ color: "white" }}>Followed Playlists</h2>
                         <div className="profile-followed-playlists-container">
-                            {followingPlaylists && (
-                                followingPlaylists.map((playlist) => {
-                                    return <div className='album-image-container' onClick={(e) => history.push(`/playlist/${playlist.id}`)}>
-                                        <Link to={`/playlist/${playlist.id}`}>
-                                            <img className='playlist-image' src={playlist.playlist_img} />
-                                        </Link>
-                                        <p style={{ marginLeft: "15px", fontWeight: "700" }}>{playlist.name}</p>
-                                        <span style={{ marginLeft: "15px", paddingBottom: "20px" }}>By {playlist.User.username}</span>
-                                    </div>
-                                })
-                            )}
+                            <ProfilePageFollowedPlaylists followingPlaylists={followingPlaylists} />
                         </div>
                         <h2 style={{ color: "white" }}>Following</h2>
                         <div className="followed-users-container">
-                            {userFollowingList?.map((follower) => {
-                                return <div className="follower-container" onClick={(e) => history.push(`/user/${follower.id}`)}>
-                                    <div className="follower-profile-pic">
-                                        {profilePic}
-                                    </div>
-                                    {follower.username}
-                                    <div>
-                                        <br />
-                                        Profile
-                                    </div>
-                                </div>
-                            })}
+                            <ProfilePageFollowing userFollowingList={userFollowingList} profilePic={profilePic} />
                         </div>
                         <h2 style={{ color: "white" }}>Followers</h2>
                         <div className="followed-users-container">
-                            {userFollowerList?.map((follower) => {
-                                return <div className="follower-container" onClick={(e) => history.push(`/user/${follower.id}`)}>
-                                    <div className="follower-profile-pic">
-                                        {profilePic}
-                                    </div>
-                                    <span>{follower.username}</span>
-                                    <div>
-                                        <br />
-                                        Profile
-                                    </div>
-                                </div>
-                            })}
+                            <ProfilePageFollowers userFollowerList={userFollowerList} profilePic={profilePic} />
                         </div>
                     </div>
                 </div>
@@ -345,67 +247,19 @@ const AccountPage = () => {
                 <div className="profile-content">
                     <h2 style={{ color: "white" }}>Playlists</h2>
                     <div className="profile-playlists-container">
-                        {userPlaylistList && (
-                            userPlaylistList.map((playlist) => {
-                                return <div style={{ color: "white" }}>
-                                    <div className="playlist-image">
-                                        <Link to={`/playlist/${playlist?.id}`}>
-                                            <img className="playlist-image-profile" src={playlist?.playlist_img} />
-                                        </Link>
-                                    </div>
-                                    <div className="playlist-name">
-                                        {playlist?.name}
-                                    </div>
-                                </div>
-                            })
-                        )}
+                        <ProfilePagePlaylists userPlaylistList={userPlaylistList} />
                     </div>
                     <h2 style={{ color: "white" }}>Followed Playlists</h2>
                     <div className="profile-followed-playlists-container">
-                        {followingPlaylists && (
-                            followingPlaylists.map((playlist) => {
-                                return <div style={{ color: "white" }}>
-                                    <div className="playlist-image">
-                                        <Link to={`/playlist/${playlist?.id}`}>
-                                            <img className="playlist-image-profile" src={playlist?.playlist_img} />
-                                        </Link>
-                                    </div>
-                                    <div className="playlist-name">
-                                        {playlist?.name}
-                                    </div>
-                                </div>
-                            })
-                        )}
+                        <ProfilePageFollowedPlaylists followingPlaylists={followingPlaylists} />
                     </div>
                     <h2 style={{ color: "white" }}>Following</h2>
                     <div className="followed-users-container">
-                        {userFollowingList?.map((follower) => {
-                            return <div className="follower-container" onClick={(e) => history.push(`/user/${follower?.id}`)}>
-                                <div className="follower-profile-pic">
-                                    {profilePic}
-                                </div>
-                                {follower?.username}
-                                <div>
-                                    <br />
-                                    Profile
-                                </div>
-                            </div>
-                        })}
+                        <ProfilePageFollowing userFollowingList={userFollowingList} profilePic={profilePic} />
                     </div>
                     <h2 style={{ color: "white" }}>Followers</h2>
                     <div className="followed-users-container">
-                        {userFollowerList?.map((follower) => {
-                            return <div className="follower-container" onClick={(e) => history.push(`/user/${follower?.id}`)}>
-                                <div className="follower-profile-pic">
-                                    {profilePic}
-                                </div>
-                                <span>{follower?.username}</span>
-                                <div>
-                                    <br />
-                                    Profile
-                                </div>
-                            </div>
-                        })}
+                        <ProfilePageFollowers userFollowerList={userFollowerList} profilePic={profilePic} />
                     </div>
                 </div>
             </div>
