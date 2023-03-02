@@ -5,6 +5,7 @@ import * as playlistActions from "../../store/playlist"
 import * as audioActions from "../../store/audioplayer"
 import * as songLikeActions from '../../store/songlikes';
 import FourZeroFourPage from '../404Page/404Page';
+import ArtistAboutModal from '../ArtistAboutModal/ArtistAboutModal';
 import "./ArtistPage.css"
 
 
@@ -220,12 +221,7 @@ const ArtistPage = () => {
                     )}
                 </div>
             </div>
-            <div className='artist-biography-container' style={{ marginLeft: "40px" }}>
-                <h2 style={{ color: "white" }}>About</h2>
-                <div className='artist-image-bio' style={{ color: "white", marginRight: "500px", fontSize: "18px" }}>
-                    {artist.bio}
-                </div>
-            </div>
+            <ArtistAboutModal artistBio={artist.bio} artistImg={artist.artist_img} />
         </div>
     )
 }
