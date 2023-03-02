@@ -60,9 +60,9 @@ const NavBar = () => {
   }
 
   const createPlaylist = async (e) => {
-    if (userPlaylistLength > 5) {
-      return window.alert("You can only create 5 playlists max!")
-    }
+    // if (userPlaylistLength > 5) {
+    //   return window.alert("You can only create 5 playlists max!")
+    // }
     e.preventDefault()
     const newPlaylist = {
       "name": `My Playlist #${userPlaylistLength}`,
@@ -106,17 +106,17 @@ const NavBar = () => {
           Liked Songs</Link>
         <div style={{ borderBottom: "1px solid gray" }}><br /></div>
         <br />
-        <div className='user-playlist-div'>
-          <UserPlaylist />
-        </div>
-        <div className='user-playlist-div'>
-          {followedPlaylistArray && (
-            followedPlaylistArray.map((playlist) => {
-              return <div>
-                <Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link>
-              </div>
-            })
-          )}
+        <div style={{ overflowY: "scroll" }}>
+          <div className='user-playlist-div'>
+            <UserPlaylist />
+            {followedPlaylistArray && (
+              followedPlaylistArray.map((playlist) => {
+                return <div>
+                  <Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link>
+                </div>
+              })
+            )}
+          </div>
         </div>
       </div>
     )
@@ -276,17 +276,17 @@ const NavBar = () => {
           Liked Songs</Link>
         <div style={{ borderBottom: "1px solid gray" }}><br /></div>
         <br />
-        <div className='user-playlist-div'>
-          <UserPlaylist />
-        </div>
-        <div className='user-playlist-div'>
-          {followedPlaylistArray && (
-            followedPlaylistArray.map((playlist) => {
-              return <div>
-                <Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link>
-              </div>
-            })
-          )}
+        <div style={{ overflowY: "scroll" }}>
+          <div className='user-playlist-div'>
+            <UserPlaylist />
+            {followedPlaylistArray && (
+              followedPlaylistArray.map((playlist) => {
+                return <div>
+                  <Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link>
+                </div>
+              })
+            )}
+          </div>
         </div>
       </div>
     )
