@@ -13,7 +13,7 @@ const ArtistAboutModal = ({ artistBio, artistImg }) => {
     return (
         <div className='artist-biography-container' style={{ marginLeft: "40px" }}>
             <h2 style={{ color: "white" }}>About</h2>
-            <div onClick={handleOpen} className="growImage" style={{ borderRadius: "10px", backgroundSize: "1000px 550px", display: "flex", alignItems: "flex-end", color: "white", marginRight: "500px", fontSize: "18px", cursor: "pointer", backgroundImage: `url(${artistImg})`, height: "550px", backgroundRepeat: "no-repeat" }}>
+            <div onClick={handleOpen} className="growImage" style={{ borderRadius: "10px", backgroundSize: "850px 550px", display: "flex", alignItems: "flex-end", color: "white", marginRight: "500px", fontSize: "18px", cursor: "pointer", backgroundImage: `url(${artistImg})`, height: "550px", backgroundRepeat: "no-repeat" }}>
                 <div style={{ width: "75%", marginBottom: "50px", marginLeft: "60px", textShadow: "2px 2px 2px rgba(0, 0, 0, 1)" }}>{artistBio?.slice(0, 208)}...</div>
             </div>
             <Modal open={open}
