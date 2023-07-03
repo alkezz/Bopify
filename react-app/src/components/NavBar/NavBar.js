@@ -129,7 +129,7 @@ const NavBar = () => {
           &nbsp;
           &nbsp;
           &nbsp;
-          <Link to={{ pathname: "https://www.linkedin.com/in/ali-ezzeddine-17b2b6248/" }} target="_blank">
+          <Link to={{ pathname: "https://www.linkedin.com/in/ali-k-ezzeddine" }} target="_blank">
             <i style={{ color: "white", marginTop: "20%" }} class="fa-brands fa-linkedin fa-lg"></i>
           </Link>
           <Link to={{ pathname: "https://www.ali-ezzeddine.com" }} target="_blank">
@@ -213,7 +213,7 @@ const NavBar = () => {
           &nbsp;
           &nbsp;
           &nbsp;
-          <Link to={{ pathname: "https://www.linkedin.com/in/ali-ezzeddine-17b2b6248/" }} target="_blank">
+          <Link to={{ pathname: "https://www.linkedin.com/in/ali-k-ezzeddine" }} target="_blank">
             <i style={{ color: "white", marginTop: "20%" }} class="fa-brands fa-linkedin fa-lg"></i>
           </Link>
           <Link to={{ pathname: "https://www.ali-ezzeddine.com" }} target="_blank">
@@ -299,7 +299,7 @@ const NavBar = () => {
           &nbsp;
           &nbsp;
           &nbsp;
-          <Link to={{ pathname: "https://www.linkedin.com/in/ali-ezzeddine-17b2b6248/" }} target="_blank">
+          <Link to={{ pathname: "https://www.linkedin.com/in/ali-k-ezzeddine" }} target="_blank">
             <i style={{ color: "white", marginTop: "20%" }} class="fa-brands fa-linkedin fa-lg"></i>
           </Link>
           <Link to={{ pathname: "https://www.ali-ezzeddine.com" }} target="_blank">
