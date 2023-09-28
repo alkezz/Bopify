@@ -205,7 +205,7 @@ const LikedSongs = () => {
                     <div className='liked-songs-info-container' style={{ marginLeft: "20px", display: "flex", flexDirection: "column" }}>
                         <h1 style={{ color: "white", fontSize: "13px", marginBottom: "-50px", marginTop: "70px" }}>PLAYLIST</h1>
                         <h1 style={{ fontSize: "75px", fontWeight: "700" }}>Liked Songs</h1>
-                        <Link onClick={(e) => history.push(`/user/${sessionUser.id}`)}>{sessionUser.username}</Link>
+                        <Link style={{ textDecoration: "none", color: "white" }} onClick={(e) => history.push(`/user/${sessionUser.id}`)}>{sessionUser.username}</Link>
                     </div>
                 </div>
                 <div className='play-button-container' style={{ paddingLeft: "60px", height: "100px" }}>
